@@ -62,7 +62,7 @@ if (isset($_POST['submit-signup'])) {
 						$sql = "INSERT INTO profile_images(user_id, status) VALUES ('$usersID', 1);";
 						mysqli_query($conn, $sql) or die("d na nalagay sa profile images");
 
-						echo "<script>alert('please consult the librarian for the approval of your registration!');window.location='home.php?signup_success'</script>";
+						echo "<script>alert('please consult the librarian for the approval of your registration!');window.location='index.php?signup_success'</script>";
 
 						exit();
 					}

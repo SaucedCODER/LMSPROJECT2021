@@ -1,0 +1,8 @@
+.book-item{
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+}
+.book-item:hover{
+    outline: 3px solid rgba(22, 22, 248, 0.6);
+    opacity: 0.7;
+}

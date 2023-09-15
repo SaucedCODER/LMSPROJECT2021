@@ -283,7 +283,7 @@ include './partials/header.php'
             <!-- search field -->
         </div>
         <div class="container-4categories"></div>
-        <div class="books-collection"></div>
+        <div id="books-collection"></div>
     </section>
     <style>
         table {
@@ -489,11 +489,6 @@ include './partials/header.php'
     .show-modal {
         transform: scale(1);
         transition: all 200ms;
-    }
-
-    .donthidemodal {
-        transform: scale(1);
-
     }
 
     /* modal view books */
@@ -801,95 +796,6 @@ include './partials/header.php'
 
 
 
-    //SEARCH AREA
-    const tracat = document.querySelector(".trackcat");
-    const select = document.querySelector("#select");
-    const searchform = document.querySelector(".filter-search");
-
-    const input = document.querySelector("#search");
-    const droplistcontainer = document.querySelector(".searchdroplist");
-
-    input.addEventListener('keyup', search);
-    droplistcontainer.addEventListener('click', autocomplete);
-    searchform.addEventListener('submit', submitsearch);
-
-    function submitsearch(e) {
-
-        e.preventDefault();
-        console.log(tracat.textContent);
-        if (input.value.length >= 0) {
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "trysearch2.php", true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    collection.innerHTML = res;
-                    console.log(res);
-
-                } else {
-                    console.log("failed");
-                }
-            }
-
-            xhr.send(`search=${input.value}&select=${select.value}&category=${tracat.textContent}`);
-
-
-        }
-
-    }
-
-    function search(e) {
-
-        if (input.value.length >= 0) {
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "trysearch.php", true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-
-                    droplistcontainer.innerHTML = res;
-                    droplistcontainer.style.display = "block";
-                } else {
-                    console.log("failed");
-                }
-            }
-            console.log(tracat.textContent);
-            xhr.send(`search=${input.value}&select=${select.value}&category=${tracat.textContent}`);
-
-
-        }
-
-
-    }
-
-    function autocomplete(e) {
-        if (e.target.dataset.listid) {
-            input.value = e.target.textContent;
-            droplistcontainer.style.display = "none";
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "trysearch2.php", true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    collection.innerHTML = res;
-                    console.log(res);
-
-                } else {
-                    console.log("failed");
-                }
-            }
-            xhr.send(`search=${input.value}&select=${select.value}&category=${tracat.textContent}`);
-
-        }
-
-
-    }
-    //end of search area
     //variable declaration
 
     const links = document.querySelector(".links-container");
@@ -897,7 +803,6 @@ include './partials/header.php'
     const searchandreserve = document.querySelector(".search-reserve");
     const categoriescontainer = document.querySelector(".container-4categories");
     const trec = document.querySelector(".transaction-record");
-    const collection = document.querySelector(".books-collection");
     const cartcontainer = document.querySelector(".e-cart");
 
     const cartcheckbox = document.querySelectorAll(".selectcheck");

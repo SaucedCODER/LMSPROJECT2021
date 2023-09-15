@@ -37,15 +37,7 @@ include './partials/nav.php'
 
 <script src="./js/jsLoginFunc.js" defer></script>
 
-<script>
-    <?php
-    if (!empty($_GET['action'])) {
-        echo "stuckmodal();";
-    } else if (isset($_SESSION['message'])) {
-        echo "stuckmodal();";
-    }
-    ?>
-</script>
+
 <?php
 include './partials/footer.php'
 ?>

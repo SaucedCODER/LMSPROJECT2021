@@ -20,18 +20,17 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         if ($row['status'] == 0) {
             $sqlupdatestatus = "UPDATE accounts SET status = 0 WHERE user_id = $userid";
             $conn->query($sqlupdatestatus) or die("Fatal error");
-
-            $redirectURL = ($row["type"] == "ADMIN") ? "admins.php" : "members.php";
-            header("Location: $redirectURL?userid=$userid&username=$username");
-            exit;
+            $redirectfile = ($row["type"] == "ADMIN") ? "admins.php" : "members.php";
+            $redirectPath = "$redirectfile?userid=$userid&username=$username";
+            $response = array("success" => true, "message" => "Authentication successful", "redirect" => $redirectPath);
         } else {
-            $_SESSION['message'] = "Your account is not yet approved.";
-            header('Location: /');
-            exit;
+            $response = array("success" => false, "message" => "Your account is not yet approved.");
         }
     } else {
-        $_SESSION['message'] = "Don't have an account? Just click the link below!";
-        header('Location: /');
-        exit;
+        $response = array("success" => false, "message" => "Don't have an account? Just click the link below!");
     }
+
+    header("Content-Type: application/json");
+    echo json_encode($response);
+    exit;
 }

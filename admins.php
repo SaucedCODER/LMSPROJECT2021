@@ -1,6 +1,5 @@
     <?php
     include './partials/header.php'
-
     ?>
 
     <style>
@@ -38,7 +37,7 @@
             background-color: whitesmoke;
             color: #333;
             text-align: center;
-            font-size: 1em;
+            font-size: 1rem;
         }
 
 
@@ -397,8 +396,9 @@
                     <?php include './partials/Filterform.php'; ?>
                     <!-- search field -->
                 </div>
-                <div class="container-4categories"></div>
-                <div class="books-collection"></div>
+                <div class="btn-group container position-relative md-outline my-3 container-4categories overflow-hidden overflow-x-auto" role="group" aria-label="Basic radio toggle button group">
+                </div>
+                <div id="books-collection"></div>
             </section>
             <!-- end of Manual Entry HTML -->
             <!-- Reservations area -->
@@ -755,85 +755,6 @@
     <p class="trackcat" style="visibility:hidden;">All</p>
 
 
-    <!-- bookmodal -->
-    <style>
-        /* show modal */
-        .show-modal {
-            transform: scale(1);
-            transition: all 200ms;
-        }
-
-        .donthidemodal {
-            transform: scale(1);
-
-        }
-
-        /* modal view books */
-        .viewbookcontainer {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            place-items: center;
-            z-index: 100000;
-        }
-
-        .bookdata {
-            background-color: whitesmoke;
-            height: 90%;
-            width: 95%;
-            overflow: auto;
-            padding: 1em;
-            box-sizing: border-box;
-        }
-
-        .bookdata h5 {
-            display: inline;
-            font-size: 24px;
-            font-family: sans-serif;
-        }
-
-        .bookdata span {
-            font-size: 22px;
-
-        }
-
-        .bookdata img {
-            width: 300px;
-            height: 320px;
-            background: burlywood;
-        }
-
-        .bookdata .intro {
-            display: flex;
-            gap: 1em;
-        }
-
-        .bookdata a {
-            font-size: 23px;
-            color: navy;
-            background: rgba(0, 0, 0, 0.2);
-            padding: .5em;
-            border-radius: 10px;
-        }
-
-        .showmodalbk {
-            display: grid;
-        }
-
-        #view {
-            font-size: 17px;
-            color: green;
-        }
-    </style>
-    <div class="viewbookcontainer">
-
-
-    </div>
-    <script src="./js/search.js"></script>
     <script>
         //image upload show once choose  
         function readURL(input) {
@@ -1079,10 +1000,7 @@
         const btnbt = document.querySelectorAll(".btnbt");
         const sections = document.querySelectorAll("section");
         const searchandreserve = document.querySelector(".search-reserve");
-
-        const categoriescontainer = document.querySelector(".container-4categories");
         const trec = document.querySelector(".reservation");
-        const collection = document.querySelector(".books-collection");
         const cartcontainer = document.querySelector(".e-cart");
         const reservecontainer = document.querySelector(".reserve-container");
         const userid = document.querySelector(".userid").dataset.userid;
@@ -1214,7 +1132,7 @@
                 e.target.classList.add("active");
                 if (e.target.dataset.nav == "btrans") {
                     showAllCollection();
-                    showCategories();
+                    showcategories();
                     borrowtrans.classList.add("activ");
                 } else if (e.target.dataset.nav == "rtrans") {
                     returntrans.classList.add("activ");
@@ -1440,7 +1358,7 @@
                 if (el.target.dataset.link == "sandr") {
                     console.log(el.target.dataset.link);
                     showAllCollection();
-                    showCategories();
+                    showcategories();
 
                     searchandreserve.classList.add("activ");
                     el.target.classList.add("active4btn");
@@ -1475,90 +1393,6 @@
         }
         showAllCollection();
 
-        //for filter category buttons
-        function showCategories() {
-            const xhrs = new XMLHttpRequest();
-            xhrs.open("GET", "methods/getcollectionjson.php", true);
-
-            xhrs.onload = function() {
-                if (xhrs.status == 200) {
-                    const res = JSON.parse(xhrs.responseText);
-                    console.log(res);
-
-                    const categories = getcategories(res);
-
-                    let outputcat = categories.map(e => {
-                        if (e == "All") {
-                            return `<button data-cat="${e}"class="btncatactive">${e}</button>`
-                        } else {
-                            return `<button data-cat="${e}">${e}</button>`
-                        }
-
-                    }).join("");
-                    categoriescontainer.innerHTML = outputcat;
-
-
-                } else {
-                    console.log("failed");
-                }
-
-            }
-            xhrs.send();
-        }
-        showCategories();
-
-
-        //click events for categories
-        categoriescontainer.addEventListener("click", filtercat)
-
-        function filtercat(e) {
-
-            console.log(e.target.dataset.cat);
-            tracat.innerHTML = e.target.dataset.cat;
-            if (e.target.dataset.cat) {
-                const allbtncat = categoriescontainer.querySelectorAll("button");
-                allbtncat.forEach(e => {
-                    e.classList.remove("btncatactive");
-                })
-                if (e.target.dataset.cat !== "All") {
-                    e.target.classList.add("btncatactive");
-                    const param = `category=${e.target.dataset.cat}`;
-                    const xhrs = new XMLHttpRequest();
-                    xhrs.open("POST", "methods/filtercategories.php", true);
-
-                    xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                    xhrs.onload = function() {
-                        if (xhrs.status == 200) {
-                            const res = xhrs.responseText;
-                            collection.innerHTML = res;
-
-                        } else {
-
-                            console.log("failed");
-                        }
-
-                    }
-                    xhrs.send(param);
-                } else {
-                    e.target.classList.add("btncatactive");
-                    showAllCollection();
-                }
-            }
-        }
-        //show button category
-        function getcategories(items) {
-            const categorylist = items.reduce((total, item) => {
-                if (!total.includes(item.category)) {
-                    total.push(item.category);
-                }
-                return total;
-            }, ["All"])
-
-            return categorylist;
-        }
-        //add evetlisteners to addtocartbtns
-        collection.addEventListener("click", addtocart);
 
         //removing selected items from cart function
         function getallchecks() {
@@ -1599,82 +1433,7 @@
             }
 
         }
-        //function of addtocartbtns
-
-        function addtocart(e) {
-
-            if (e.target.dataset.isbn) {
-                const bookid = e.target.dataset.isbn;
-                console.log(bookid);
-                const param = `bookid=${bookid}&userid=${userid}`;
-                const xhrs = new XMLHttpRequest();
-                xhrs.open("POST", "methods/addtocart1.php", true);
-
-                xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                xhrs.onload = function() {
-                    if (xhrs.status == 200) {
-                        const res = xhrs.responseText;
-
-                        cartcontainer.innerHTML = res;
-                        const checkbox = Array.from(document.querySelectorAll(".selectcheck"));
-                        showAllCollection();
-                        const titles = document.querySelector(".currerror");
-                        if (titles) {
-                            alert("System Message:" + titles.innerText);
-                        } else {
-                            const title = document.querySelector(".currtitle");
-
-                            alert("System Message: Book:" + title.innerText + " ... successfully added to your cart, Total of " + checkbox.length + " book/s");
-                        }
-                    } else {
-                        console.log("failed");
-                    }
-
-                }
-                xhrs.send(param);
-
-            }
-
-
-
-        }
-        //book modal area
-
-        const modalbook = document.querySelector(".viewbookcontainer");
-
-        function viewbookev(e) {
-
-            if (e.currentTarget.dataset.bookuniq && !e.target.dataset.isbn) {
-                const abc = e.currentTarget.dataset.bookuniq;
-                console.log(abc);
-                openbookmodal();
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "methods2/viewbookdetail.php", true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.onload = function() {
-                    if (xhr.status == 200) {
-                        const res = xhr.responseText;
-                        modalbook.innerHTML = res;
-                    } else {
-                        console.log("failed");
-                    }
-                }
-                xhr.send(`isbn=${abc}`);
-            }
-        }
-
-        function openbookmodal() {
-            modalbook.classList.add("showmodalbk");
-        }
-
-        function closebookmodal(e) {
-            e.preventDefault();
-            modalbook.classList.remove("showmodalbk");
-        }
     </script>
-
-
     </body>
 
     </html>

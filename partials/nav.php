@@ -123,14 +123,34 @@
     </nav>
 
 
+    <style>
+        /* Define your custom CSS styles here */
+        .alert {
+            display: none;
+            background-color: #f44336;
+            outline: 1px solid #fc8e95;
+            /* Red background color */
+            color: white;
+            /* White text color */
+            padding: 10px;
+            margin: 1rem;
+            /* Padding around the alert */
+            border-radius: 4px;
+            /* Rounded corners */
+        }
 
+        /* Style the span element inside the alert */
+        .alert span {
+            font-weight: bold;
+            font-size: .8rem;
+            /* Bold text */
+        }
+    </style>
     <div class="modal-login">
 
-        <form action="loginlogic.php" method="post">
-            <div style="color:yellowgreen;width:200px;"><span style="color:white;margin-right:2px;font-size:20px;">*</span><?php if (isset($_SESSION['message'])) {
-
-                                                                                                                                echo $_SESSION['message'];
-                                                                                                                            } ?></div>
+        <form onsubmit="return onLogin(event)" id="login-form">
+            <div class="alert"><span id="errorMess"></span>
+            </div>
             <p><span class="fletter">L</span>ogIn</p>
             <div class="form-floating  mb-3">
                 <input type="text" autocomplete="off" name="username" class="form-control" id="floatingInput" placeholder="ex. 190123, 199999, 19****, etc." required pattern="^\S{5,}$" title="Username must be at least 5 characters long and should not contain spaces">
@@ -143,7 +163,7 @@
 
 
             <div class="mt-3">
-                <button type="submit" class="btn btn-primary" name="submit-btn">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-secondary" id="close-login">Close</button>
             </div>
 

@@ -1,5 +1,7 @@
 <?php
 include "../connection/oopconnection.php";
+$currentPage = basename($_SERVER['PHP_SELF']);
+$isUser = ($currentPage == 'admins.php' || $currentPage == 'members.php');
 
 if (isset($_POST['isbn'])) {
 
@@ -13,8 +15,13 @@ if (isset($_POST['isbn'])) {
   $res = $conn->query($sql);
   $row = $res->fetch_assoc();
 
-  echo " <div class='bookdata'>   
-     <div class='d-flex flex-wrap gap-3'>";
+  echo "  
+  <div class='modal-header'>
+        <h1 class='modal-title fs-5' id='staticBackdropLabel'>View Details</h1>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+     <div class='modal-body text-center gap-1' >   
+    ";
 
   if ($row['available'] > 0) {
     $avail = "In Stock: [ " . $row['available'] . " out of " . $row['quantity'] . " ]";
@@ -30,30 +37,29 @@ if (isset($_POST['isbn'])) {
     $fileext = explode(".", $fileInfo[0]);
 
     $fileActualExt1 = strtolower(end($fileext));
-    echo "<img src='booksimg/book" . $row['ISBN'] . ".$fileActualExt1?" . mt_rand() . "'" . $row['ISBN'] . "'>
+    echo "<img style='width:200px;height:200px;' src='booksimg/book" . $row['ISBN'] . ".$fileActualExt1?" . mt_rand() . "'" . $row['ISBN'] . "'>
                ";
   } else {
-    echo "<img src='booksimg/bookdefault.png'>
+    echo "<img style='width:200px;height:200px;' src='booksimg/bookdefault.png'>
                ";
   }
-  echo "<div>
-  <h5>ISBN:</h5><span> $row[ISBN]</span>  <br><br>
-  <h5>Title:</h5> <span> $row[title]</span> <br><br>
-  <h5>Author:</h5> <span> $row[author]</span> <br><br>
-  <h5>Year Published:</h5><span>  $row[year_published]</span> <br><br>
-  <h5>Publisher:</h5> <span> $row[publisher]</span> 
-           
-
-        </div>
-    </div>
-    <hr>
+  echo "
+  <br>
+  <div class='text-start my-2'>
+    <b>ISBN:</b><span> $row[ISBN]</span>  <br><br>
+    <b>Title:</b> <span> $row[title]</span> <br><br>
+    <b>Author:</b> <span> $row[author]</span> <br><br>
+    <b>Year Published:</b><span>$row[year_published]</span> <br><br>
+    <b>Publisher:</b> <span> $row[publisher]</span> 
+    <p><b>Abstract:</b>$row[abstract] </p>
+    <span class='badge text-bg-warning'>Book price: ₱$row[book_price]</span>
+    <span class='badge text-bg-warning'>$avail</span>
+  </div>
+  </div>
+  <div class='modal-footer'>
+    <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
     
-    <p><b>Abstract:</b>$row[abstract] Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste autem natus amet cumque dolorem, earum labore numquam molestias itaque non!</p>
-    <br>
-    <br>
-    <h5>Book price:  ₱$row[book_price]</h5> </>
-    <br>
-    <h5>$avail</h5> <br><br>
-    <button type='button' onclick='closebookmodal(event)' class='btn btn-danger'>Close</button>
-    </div>";
+    <button onclick='addtocart(event)' id='addcartbtn' " . ($isUser ? "data-isUser='true'" : "") . " data-isbn='" . $row['ISBN'] . "' type='button' class='btn btn-primary'><i class='bi bi-cart-plus fs-6'></i> Add to cart</button>
+  </div>
+   ";
 }

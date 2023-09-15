@@ -1,12 +1,10 @@
 //book modal area
 
-const modalbook = document.querySelector(".modal-body");
-
 function viewbookev(e) {
+  const modalbook = document.querySelector(".modal-content");
+  console.log("");
   if (e.currentTarget.dataset.bookuniq) {
     const abc = e.currentTarget.dataset.bookuniq;
-    console.log(abc);
-    openbookmodal();
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "methods2/viewbookdetail.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -20,15 +18,5 @@ function viewbookev(e) {
     };
     xhr.send(`isbn=${abc}`);
   }
-}
-
-function openbookmodal() {
-  modalbook.classList.add("showmodalbk");
-}
-
-function closebookmodal(e) {
-  e.preventDefault();
-  document.body.style.overflow = "auto";
-
-  modalbook.classList.remove("showmodalbk");
+  console.log(e);
 }
