@@ -23,6 +23,7 @@ function fetch_data()
   $stmt->close();
   $conn->close();
 }
+
 include "../rendersviaphp/renderbook.php";
 $fetchData = fetch_data();
 if ($fetchData) {

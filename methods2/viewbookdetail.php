@@ -1,6 +1,9 @@
 <?php
+session_start();
 include "../connection/oopconnection.php";
-$currentPage = basename($_SERVER['PHP_SELF']);
+$currentPage = $_SESSION['userRole'];
+
+
 $isUser = ($currentPage == 'admins.php' || $currentPage == 'members.php') ? 'true' : 'false';
 if (isset($_POST['isbn'])) {
 

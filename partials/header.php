@@ -1,14 +1,11 @@
 <?php
-session_start();
 $currentPage = basename($_SERVER['PHP_SELF']);
+
 $_SESSION['isAdminMem'] = $isUser = ($currentPage == 'admins.php' || $currentPage == 'members.php');
 if ($isUser) {
-
-
     $UID = $_SESSION['userid'] = $_GET["userid"];
     $username = $_SESSION['username'] = $_GET["username"];
 }
-
 
 ?>
 <!DOCTYPE html>

@@ -381,7 +381,7 @@
                 <div class="e-cart">
 
                 </div>
-                <h1 class="cartno" style="padding:1em 0em;padding-left:2em; margin:0;">BOOK COLLECTION</h1>
+                <h1 style="padding:1em 0em;padding-left:2em; margin:0;color:black;">BOOK COLLECTION</h1>
                 <div class="filtercontainer">
                     <?php include './partials/Filterform.php'; ?>
                     <!-- search field -->
@@ -1062,7 +1062,7 @@
                     cartcontainer.innerHTML = res;
                     confrmcontainer.classList.remove("lendshowmodal");
                     console.log(res);
-                    showAllCollection();
+                    showallcollection();
 
                 } else {
                     console.log("failed");
@@ -1123,7 +1123,7 @@
                 })
                 e.target.classList.add("active");
                 if (e.target.dataset.nav == "btrans") {
-                    showAllCollection();
+                    showallcollection();
                     showcategories();
                     borrowtrans.classList.add("activ");
                 } else if (e.target.dataset.nav == "rtrans") {
@@ -1349,7 +1349,7 @@
 
                 if (el.target.dataset.link == "sandr") {
                     console.log(el.target.dataset.link);
-                    showAllCollection();
+                    showallcollection();
                     showcategories();
 
                     searchandreserve.classList.add("activ");
@@ -1367,25 +1367,6 @@
             }
         });
 
-        //collection
-        function showAllCollection() {
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "methods/showallbooks.php", true);
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    collection.innerHTML = res;
-
-                } else {
-                    console.log("failed");
-                }
-            }
-            xhr.send();
-        }
-        showAllCollection();
-
-
         //removing selected items from cart function
         function getallchecks() {
 
@@ -1400,11 +1381,7 @@
                 return total;
             }, [])
 
-            if (newarray.length > 0) {
-                console.log(checkbox.length + "true");
-
-                console.log(newarray);
-
+            const multiDelFunc = (newarray, userid) => {
                 const params = `deleteitemsfromcart=${JSON.stringify(newarray)}&userid=${userid}`;
                 const xhrs = new XMLHttpRequest();
                 xhrs.open("POST", "methods/deletemultiple.php", true);
@@ -1414,7 +1391,7 @@
                 xhrs.onload = function() {
                     if (xhrs.status == 200) {
                         const res = xhrs.responseText;
-                        alert("System Message:" + newarray.length + "book/s successfully removed");
+
                         cartcontainer.innerHTML = res;
 
                     } else {
@@ -1423,6 +1400,22 @@
                 }
                 xhrs.send(params);
             }
+
+            if (newarray.length > 0) {
+                console.log(checkbox.length + "true");
+
+                console.log(newarray);
+                showAlert2(true, "System Message: Items Removed: " + newarray.length + " books have been successfully removed from your cart.", "multiDelete", {
+                    multiDelFunc,
+                    params: {
+                        newarray,
+                        userid
+                    }
+                });
+
+            }
+
+
 
         }
     </script>

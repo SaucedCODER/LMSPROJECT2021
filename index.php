@@ -36,13 +36,13 @@ include './partials/header.php'
 <!-- bookmodal -->
 
 <div class="viewbookcontainer"></div>
-
 <script src="./js/jsLoginFunc.js" defer></script>
 
 
 <?php
 include './partials/footer.php'
 ?>
+
 
 </body>
 
