@@ -246,12 +246,8 @@
             width: 40px;
             border-radius: 50%;
             margin: 0em 1em;
-
         }
 
-        .container:hover {
-            background-color: #333;
-        }
 
         /* navigation styles */
         nav {
@@ -549,106 +545,7 @@
             <!-- CLOSE manage books ui modals -->
 
             <!-- lend modal html codes -->
-            <style>
-                .lend-modal-container {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: rgba(0, 0, 0, 0.4);
-                    z-index: 1000;
-                    display: grid;
-                    place-items: center;
-                    display: none;
 
-                }
-
-                .modal-lend-items {
-                    background-color: rgba(0, 100, 140, 0.9);
-                    height: auto;
-                    width: 50vh;
-                    display: flex;
-                    align-items: center;
-                    flex-direction: column;
-                    border: 1px white solid;
-                    padding: 4px;
-                }
-
-                .modal-lend-items p {
-                    color: white;
-                    font-weight: bold;
-                    font-size: 20px;
-                    margin: 7px;
-                    align-items: center;
-                }
-
-                .modal-lend-items h5 {
-                    margin: 5px 0px;
-                    color: tomato;
-                    font-weight: normal;
-                    font-size: 16px;
-                    width: 100%;
-                    background-color: #222;
-                    text-align: center;
-                }
-
-                .inputcontainer {
-                    width: 85%;
-                    padding: .4em;
-                    border: 3px #222 solid;
-
-                }
-
-                .lendto-id {
-                    margin: 5px 0px;
-                    padding: .4em;
-                    width: 100%;
-                    margin: 0px auto;
-                    background-color: whitesmoke;
-                    font-size: 15px;
-                    color: black;
-                    border: none;
-
-                }
-
-                .btnlendcontainer {
-                    display: flex;
-                    width: 100%;
-                }
-
-                .btnlendcontainer button {
-                    width: 50%;
-                    margin: 0;
-                    margin: 4px auto;
-                }
-
-                .lendshowmodal {
-                    display: grid;
-
-                }
-            </style>
-            <div class="lend-modal-container">
-                <div class="modal-lend-items">
-                    <p>Lend listed items</p>
-                    <h5 class="errorhandler"></h5>
-                    <div class="inputcontainer">
-                        <input type="search" onsearch="lendgetid(event)" class="lendto-id" placeholder="Enter member's id">
-                    </div>
-                    <div class="btnlendcontainer">
-                        <a style="width:50%;" href="#"><button onclick="lendgetid(event)" style="width:100%">OK</button></a>
-
-                        <button onclick="lendcancelmodal()">Cancel</button>
-                    </div>
-
-                </div>
-            </div>
-            <style>
-
-            </style>
-            <div class='lend-modal-container confirmationmodal'>
-
-            </div>
 
 
             <!-- end of lend modal -->
@@ -1001,14 +898,9 @@
         const findvalue = document.querySelector("#filterdata");
         const formfind = document.querySelector(".findcontainer");
         const editimg = document.querySelector(".editimg");
-        const lendmodalcontainer = document.querySelector(".lend-modal-container");
-        const lendto = document.querySelector(".lendto-id");
-        const errorhandler = document.querySelector(".errorhandler");
         const linkscontainer = document.querySelector(".links-container");
         const returntrans = document.querySelector(".returntrans");
         const mains = document.querySelectorAll("main");
-
-        const confrmcontainer = document.querySelector(".confirmationmodal");
         console.log(userid);
 
         //checks if the borrowed book is  overdue 
@@ -1035,23 +927,126 @@
         //modal manual entry lend to book user
 
         function lendshowmodal() {
-            lendmodalcontainer.classList.add("lendshowmodal");
 
+            Swal.fire({
+                title: 'Lookup User',
+                text: 'Please enter the user System ID:',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Lookup',
+                cancelButtonText: 'Cancel',
+                showLoaderOnConfirm: true,
+                preConfirm: (lendtoid) => {
+                    // You can add input validation here if needed
+                    const userId = <?php echo $UID; ?>;
+                    const formData = new FormData();
+                    formData.append('lendtouserid', lendtoid);
+                    formData.append('userid', userId);
+                    return fetch(`methods/manualentrylend.php`, {
+                            method: 'POST',
+                            body: formData,
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            }
+                            return response.json(); // Assuming the response is JSON
+                        }).then(response => {
+                            console.log(response);
+                            if (response.error !== null) {
+                                throw new Error(response.error);
+                            }
+                            return response
+                        })
+                        .catch(error => {
+                            Swal.showValidationMessage(`Lookup failed: ${error.message}`);
+                        });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    const {
+                        data,
+                        cart_count,
+                        toLendId
+                    } = result.value;
+
+                    Swal.fire({
+                        title: 'Confirm User',
+                        html: `
+                        Found User:<br>
+                        Full Name: ${data.full_name}<br>
+                        Student ID: ${data.student_id}<br>
+                        <br>
+                        Do you want to lend (${cart_count}) book(s) to this user?`,
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Lend Books',
+                        cancelButtonText: 'Cancel'
+                    }).then((confirmation) => {
+                        if (confirmation.isConfirmed) {
+                            const userId = <?php echo $UID; ?>;
+                            const formData = new FormData();
+                            formData.append('lendtouserid', toLendId);
+                            formData.append('userid', userId);
+                            fetch('methods/confirmationlend.php', {
+                                    method: 'POST',
+                                    body: formData,
+                                })
+                                .then((response) => {
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.json(); // Assuming the response is plain text
+                                })
+                                .then(response => {
+                                    console.log(response);
+                                    if (response.error !== null) {
+                                        throw new Error(response.error);
+                                    }
+                                    return response
+                                })
+                                .then((res) => {
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Your work has been saved',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    showallcollection();
+                                })
+                                .catch((error) => {
+                                    console.error('Fetch error:', error);
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: error.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                });
+
+                        }
+                    });
+                }
+            });
 
         }
 
-        function lendcancelmodal() {
-            lendmodalcontainer.classList.remove("lendshowmodal");
-            confrmcontainer.classList.remove("lendshowmodal");
-        }
 
 
         //lend the books by getting the id of user then pass it to the borrowers transactions 
         function lendgetidconfirm(e) {
+            console.log('confirming');
             e.preventDefault();
-            const lendtoid = confrmcontainer.dataset.uuserid;
-            console.log(lendtoid);
-
+            const userSysId = confrmcontainer.dataset.uuserid;
+            console.log(userSysId);
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "methods/confirmationlend.php", true);
 
@@ -1068,42 +1063,49 @@
                     console.log("failed");
                 }
             }
-            xhr.send(`lendtouserid=${lendtoid}&userid=<?php echo $UID ?>&confirm=ok`);
+            xhr.send(`lendtouserid=${userSysId}&userid=<?php echo $UID ?>&confirm=ok`);
 
         }
-        //confirm btn
+        //searrching 
         function lendgetid(e) {
-            e.preventDefault();
-            const lendtoid = lendto.value;
-            console.log(lendtoid);
+            console.log('searching');
+            const userSysId = input;
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "methods/manualentrylend.php", true);
+            function sendLendingRequest(userSysId) {
+                fetch(`methods/manualentrylend.php?lendtouserid=${userSysId}&userid=<?php echo $UID ?>`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Request failed with status: ${response.status}`);
+                        }
 
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    confrmcontainer.innerHTML = res;
-                    setTimeout(() => {
-                        errorhandler.innerHTML = '';
-                    }, 3000);
-                    console.log(res);
-                    const lenderror = document.querySelector(".lenderror");
-                    errorhandler.innerHTML = lenderror.dataset.lenderr;
-                    errval = lenderror.dataset.lenderr;
-                    if (errval == "*") {
-                        confrmcontainer.dataset.uuserid = lendtoid;
-                        confrmcontainer.classList.add("lendshowmodal");
-                        lendmodalcontainer.classList.remove("lendshowmodal");
-                    }
+                        confrmcontainer.innerHTML = response.text();
+                        setTimeout(() => {
+                            errorhandler.innerHTML = '';
+                        }, 3000);
+                        console.log(response.text());
 
-                    lendto.value = "";
-                } else {
-                    console.log("failed");
-                }
+                        const lenderror = document.querySelector(".lenderror");
+                        errorhandler.innerHTML = lenderror.dataset.lenderr;
+                        errval = lenderror.dataset.lenderr;
+
+                        if (errval == "*") {
+                            confrmcontainer.dataset.uuserid = userSysId;
+                            confrmcontainer.classList.add("lendshowmodal");
+                            lendmodalcontainer.classList.remove("lendshowmodal");
+                        }
+
+                        lendto.value = "";
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             }
-            xhr.send(`lendtouserid=${lendtoid}&userid=<?php echo $UID ?>`);
+
 
         }
 

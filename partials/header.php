@@ -56,6 +56,11 @@ if ($isUser) {
             margin: 0;
             background: #eee;
         }
+
+        .swal2-popup {
+            font-size: 14px !important;
+            width: 400px !important;
+        }
     </style>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
