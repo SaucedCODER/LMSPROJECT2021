@@ -1,17 +1,21 @@
 //function of addtocartbtns
-
 function addtocart(e) {
-  if (!e.target.dataset.isUser) {
+  if (!e.target.dataset.isuser) {
+    console.log(e.currentTarget);
     const myModalEl = document.getElementById("exampleModal");
     const modal = bootstrap.Modal.getInstance(myModalEl);
     modal.hide();
-    alertLogin(true, "Oops! It looks like you're not logged in yet.");
-    document.querySelector(".modal-login").classList.add("show-modal");
+
+    if (typeof alertLogin !== "undefined" && alertLogin !== null) {
+      alertLogin(true, "Oops! It looks like you're not logged in yet.");
+      document.querySelector(".modal-login").classList.add("show-modal");
+    }
+
     return;
   }
-  if (e.target.dataset.isbn) {
+  if (e.currentTarget.dataset.isbn) {
     const bookid = e.target.dataset.isbn;
-    console.log(bookid);
+    console.log(bookid, clicked);
     const param = `bookid=${bookid}&userid=${userid}`;
     const xhrs = new XMLHttpRequest();
     xhrs.open("POST", "methods/addtocart1.php", true);

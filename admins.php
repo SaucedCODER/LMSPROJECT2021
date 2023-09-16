@@ -152,16 +152,6 @@
             font-size: 1rem;
         }
 
-        .show {
-            padding: 0.5em;
-            width: 80px;
-            font-size: 1rem;
-            border-radius: 50px;
-            outline: none;
-            border: none;
-
-        }
-
         .container-4categories {
             margin-left: .4em;
         }
@@ -753,7 +743,9 @@
     </div>
 
     <p class="trackcat" style="visibility:hidden;">All</p>
-
+    <?php
+    include './partials/footer.php'
+    ?>
 
     <script>
         //image upload show once choose  

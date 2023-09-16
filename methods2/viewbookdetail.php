@@ -1,8 +1,7 @@
 <?php
 include "../connection/oopconnection.php";
 $currentPage = basename($_SERVER['PHP_SELF']);
-$isUser = ($currentPage == 'admins.php' || $currentPage == 'members.php');
-
+$isUser = ($currentPage == 'admins.php' || $currentPage == 'members.php') ? 'true' : 'false';
 if (isset($_POST['isbn'])) {
 
   $isbn = $_POST['isbn'];
@@ -59,7 +58,7 @@ if (isset($_POST['isbn'])) {
   <div class='modal-footer'>
     <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
     
-    <button onclick='addtocart(event)' id='addcartbtn' " . ($isUser ? "data-isUser='true'" : "") . " data-isbn='" . $row['ISBN'] . "' type='button' class='btn btn-primary'><i class='bi bi-cart-plus fs-6'></i> Add to cart</button>
+    <button onclick='addtocart(event)' id='addcartbtn' data-isuser='" . $isUser . "' data-isbn='" . $row['ISBN'] . "' type='button' class='btn btn-primary'><i class='bi bi-cart-plus fs-6'></i> Add to cart</button>
   </div>
    ";
 }
