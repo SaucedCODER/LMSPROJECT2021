@@ -1,7 +1,10 @@
 <?php
-$currentPage = basename($_SERVER['PHP_SELF']);
+session_start();
+if (!isset($_SESSION['userRole'])) {
+    $_SESSION['userRole'] = 'index.php';
+}
 
-$_SESSION['isAdminMem'] = $isUser = ($currentPage == 'admins.php' || $currentPage == 'members.php');
+$isUser = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] == 'members.php');
 if ($isUser) {
     $UID = $_SESSION['userid'] = $_GET["userid"];
     $username = $_SESSION['username'] = $_GET["username"];

@@ -46,62 +46,10 @@
             z-index: 99;
         }
 
-        .e-cart {
-            color: black;
-            background: whitesmoke;
-            display: none;
-            grid-template-columns: 1fr 1fr;
-            padding: 0em 1em 1em 1em;
-            grid-gap: 1em;
-
-
-        }
 
         .filtercontainer {
             display: flex;
             justify-content: center;
-        }
-
-        .selectcheck {
-            display: block;
-            cursor: pointer;
-        }
-
-
-
-
-        button {
-            padding: .6em;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 13px;
-            margin: 3px 1px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            background-color: whitesmoke;
-            color: black;
-            border: 2px solid lightblue;
-        }
-
-        button:hover {
-            background-color: lightblue;
-            color: black;
-        }
-
-        .buttondel {
-            display: flex;
-            flex-direction: column;
-
-            justify-content: center;
-        }
-
-        .tablecart {
-
-            width: 40vw;
-            border: 2px lightblue solid;
-            overflow: auto;
-            height: 300px;
         }
 
         .reservetable {
@@ -109,47 +57,6 @@
             height: 250px;
             overflow: auto;
             border: 2px solid black;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-
-            font-size: 12px;
-
-        }
-
-
-        td,
-        th {
-            color: #222;
-            text-align: left;
-            padding: .3em;
-        }
-
-        tr:nth-child(even) {
-            background-color: lightblue;
-        }
-
-        .selectcheck {
-            margin: auto;
-        }
-
-        .cart-toggle-container {
-            margin-top: 1rem;
-            display: flex;
-            gap: 1rem;
-            justify-content: space-between;
-            align-items: center;
-            background: black;
-            padding: 0 1rem;
-            /* color: rgb(161, 0, 9); */
-            color: #eee;
-            border-top: 1px solid lightblue;
-        }
-
-        .cart-toggle-container h2 {
-            font-size: 1rem;
         }
 
         .container-4categories {
@@ -248,7 +155,6 @@
             margin: 0em 1em;
         }
 
-
         /* navigation styles */
         nav {
             /* background-color: #4D0404; */
@@ -346,7 +252,7 @@
         $res = $conn->query($sqll);
         $rowww = $res->fetch_assoc();
 
-        echo "<h1 style='color:whitesmoke';>Welcome " . strtoupper($rowww['Fname']) . "
+        echo "<h1 style='color:whitesmoke;' class='fs-5 '>Welcome " . strtoupper($rowww['Fname']) . "
             </h1>";
 
         $conn->close(); ?>
@@ -369,13 +275,17 @@
             </div>
             <!-- manual Entry AREA -->
             <section class="search-reserve activ">
-                <div class="cart-toggle-container">
-                    <h2>Book Cart | </h2>
-                    <button class="show">View</button>
-                </div>
 
-                <div class="e-cart">
+                <!-- Shopping cart icon to open the off-canvas cart -->
+                <button type="button" id='showCart' class="btn btn-primary position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
+                    <i class="bi bi-cart-fill"></i> View Cart
+                    <!-- <span id="cartItemCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        99+
+                        <span class="visually-hidden">unread messages</span>
+                    </span> -->
+                </button>
 
+                <div class="offcanvas offcanvas-end e-cart" id="cartCanvas" aria-labelledby="cartCanvasLabel">
                 </div>
                 <h1 style="padding:1em 0em;padding-left:2em; margin:0;color:black;">BOOK COLLECTION</h1>
                 <div class="filtercontainer">
@@ -543,12 +453,6 @@
 
 
             <!-- CLOSE manage books ui modals -->
-
-            <!-- lend modal html codes -->
-
-
-
-            <!-- end of lend modal -->
 
 
         </main>
@@ -921,6 +825,9 @@
         }
 
         updateRecordStatus();
+        document.addEventListener('DOMContentLoaded', function() {
+
+        });
 
 
 
@@ -928,10 +835,15 @@
 
         function lendshowmodal() {
 
+            console.log(bootstrap.Offcanvas.prototype._initializeFocusTrap);
+            document.removeEventListener('focusin', () => {
+                console.log('removed focus');
+            });
             Swal.fire({
                 title: 'Lookup User',
                 text: 'Please enter the user System ID:',
                 input: 'text',
+                inputAutoTrim: false,
                 inputAttributes: {
                     autocapitalize: 'off'
                 },
@@ -939,8 +851,13 @@
                 confirmButtonText: 'Lookup',
                 cancelButtonText: 'Cancel',
                 showLoaderOnConfirm: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Please enter a System ID';
+                    }
+                },
+
                 preConfirm: (lendtoid) => {
-                    // You can add input validation here if needed
                     const userId = <?php echo $UID; ?>;
                     const formData = new FormData();
                     formData.append('lendtouserid', lendtoid);
@@ -1299,39 +1216,52 @@
         }
 
         //hide and show btn
-        const showandhide = document.querySelector(".show");
-        showandhide.addEventListener("click", showhide);
-
-        function showhide() {
-
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "methods/getbookfromcart.php", true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-            xhr.onload = function() {
-
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    cartcontainer.innerHTML = res;
-                    if (showandhide.innerText == 'View') {
-                        showandhide.innerText = `Hide`;
-                        cartcontainer.style.display = `grid`;
-
-                    } else {
-                        showandhide.innerText = `View`;
-                        cartcontainer.style.display = `none`;
-
-                    }
-
-                } else {
-                    console.log("failed");
+        const showCartBtn = document.querySelector("#showCart");
+        // Disable the focus trap for the offcanvas
+        document.addEventListener('shown.bs.offcanvas', function(e) {
+            bootstrap.Modal.prototype._initializeFocusTrap = function() {
+                return {
+                    activate: function() {},
+                    deactivate: function() {}
                 }
+            };
+        });
+        // remove the focus on offcanvas cart it a must 
+        bootstrap.Offcanvas.prototype._initializeFocusTrap = function() {
+            return {
+                activate: function() {},
+                deactivate: function() {}
             }
-            xhr.send(`userid=${userid}`);
+        };
+        showCartBtn.addEventListener("click", getbookFromCartReq);
+
+        function getbookFromCartReq() {
+
+            fetch("methods/getbookfromcart.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/x-www-form-urlencoded"
+                    },
+                    body: `userid=${userid}`
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.text();
+                    } else {
+                        throw new Error("Request failed");
+                    }
+                })
+                .then(res => {
+                    cartcontainer.innerHTML = res;
+                })
+                .catch(error => {
+                    console.log("failed", error);
+                });
+        };
 
 
-        }
+
+
         //click outside other events function for closing of modals
         window.addEventListener('click', () => {
             droplistcontainer.style.display = "none";

@@ -114,10 +114,6 @@ include './partials/header.php'
         justify-content: center;
     }
 
-    .selectcheck {
-        display: block;
-        cursor: pointer;
-    }
 
     .cartno {
         grid-column: 1 / 3;
@@ -183,9 +179,6 @@ include './partials/header.php'
         background-color: #dddddd;
     }
 
-    .selectcheck {
-        margin: auto;
-    }
 
     .show {
         padding: .2em .5em;

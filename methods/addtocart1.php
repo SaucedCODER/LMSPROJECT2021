@@ -52,7 +52,7 @@ if (isset($_POST['bookid'])) {
               $conn->query($sql24);
               echo "<span class='currtitle' style='display:none;'>" . $row['title'] . "</span>";
 
-              include 'getbookfromcart.php';
+              // include 'getbookfromcart.php';
             } else {
               echo "<span class='currerror' style='display:none;'>You exceed the maximum number of books to be reserved</span>";
             }
