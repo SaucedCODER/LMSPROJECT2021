@@ -7,7 +7,6 @@ function showcategories() {
   xhrs.onload = function () {
     if (xhrs.status == 200) {
       const res = JSON.parse(xhrs.responseText);
-      console.log(res);
 
       const categories = getcategories(res);
 

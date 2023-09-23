@@ -1,0 +1,81 @@
+/* Define CSS variables for colors */
+:root {
+    --primary-color:  #00ADB5; 
+    --secondary-color: #364255; 
+    --accent-color: #19396e; 
+    --background-color: #EEEEEE; 
+    --text-color: #333333; 
+    --button-text-color: #ffffff; 
+}
+
+/* Modal header */
+.modal-header {
+    background-color: var(--primary-color);
+    color: var(--button-text-color);
+}
+
+/* Modal body */
+.modal-body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--button-text-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+
+}
+
+.btn-secondary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--button-text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #666;
+}
+
+/* Input fields */
+.form-control {
+    border: 1px solid var(--background-color);
+}
+
+/* Optional: Add box shadow to the modal */
+.modal-content {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Offcanvas header */
+.offcanvas-header {
+    background-color: var(--primary-color); /* Teal */
+    color: var(--button-text-color); /* White */
+}
+
+/* Offcanvas body */
+.offcanvas-body {
+    background-color: var(--background-color); /* Light Gray */
+    color: var(--text-color); /* Dark Gray */
+}
+
+/* Offcanvas links */
+.offcanvas-body ul.list-unstyled li a {
+    color: var(--text-color); /* Dark Gray */
+}
+
+/* Optional: Hover effect for links */
+.offcanvas-body ul.list-unstyled li a:hover {
+    color: var(--primary-color); /* Teal */
+}
+
+/* Close button */
+.btn-close {
+    color: var(--button-text-color); /* White */
+}

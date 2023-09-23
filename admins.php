@@ -4,27 +4,21 @@
 
     <style>
         main {
-            max-width: 900px;
+            max-width: 1120px;
             width: 100%;
             height: auto;
-            margin: 1em auto;
-            box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+            margin: 1rem auto;
             position: relative;
 
         }
 
         section {
-            width: 100%;
-            height: auto;
-            padding-top: 2em;
             position: absolute;
-            top: 0;
             background: whitesmoke;
             color: white;
             display: none;
-
-            border-radius: 10px;
-            box-shadow: 0px 1px 4px grey;
+            inset: 0;
+            top: 3rem;
         }
 
         .btncatactive {
@@ -40,10 +34,9 @@
             font-size: 1rem;
         }
 
-
         .activ {
             display: block;
-            z-index: 99;
+            z-index: auto;
         }
 
 
@@ -128,32 +121,8 @@
             margin: 1em;
         }
 
-        /* list users design */
-        .main-container {
-            display: flex;
-            border: 3px solid lightblue;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 1em;
-            height: 400px;
 
-        }
 
-        .container {
-            display: flex;
-            width: 100%;
-            border-bottom: 1px solid grey;
-            height: 40px;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .container img {
-            height: 30px;
-            width: 40px;
-            border-radius: 50%;
-            margin: 0em 1em;
-        }
 
         /* navigation styles */
         nav {
@@ -240,6 +209,12 @@
         .linkbtn {
             cursor: pointer;
         }
+
+        .list-group-item:hover {
+            background-color: #f5f5f5;
+            /* Change to your desired hover color */
+            cursor: pointer;
+        }
     </style>
 
 
@@ -279,10 +254,9 @@
                 <!-- Shopping cart icon to open the off-canvas cart -->
                 <button type="button" id='showCart' class="btn btn-primary position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
                     <i class="bi bi-cart-fill"></i> View Cart
-                    <!-- <span id="cartItemCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        99+
+                    <span id="cartItemCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         <span class="visually-hidden">unread messages</span>
-                    </span> -->
+                    </span>
                 </button>
 
                 <div class="offcanvas offcanvas-end e-cart" id="cartCanvas" aria-labelledby="cartCanvasLabel">
@@ -326,133 +300,138 @@
             <!-- ENd of REASERVATION AREa -->
             <!-- manage books -->
             <section class="managebook">
-                <h1>manage books</h1>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookModal"><i class="bi bi-plus-circle"></i> Create Book</button>
+                <table id='tableManageBooks' class="table table-striped" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Isbn</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Image</th>
+                            <th>Isbn</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
 
             </section>
             <!-- manage books ui modals -->
             <style>
                 .managebook {
-                    padding: 1em;
+                    position: static;
+                    padding: 1rem;
+                    color: #333;
                 }
 
                 #addnewbook {
                     display: flex;
                     margin-left: auto;
-                    margin-right: 2em;
-                    background-color: #1664e0;
-                    color: #eee;
+                    margin-right: 2rem;
 
                 }
 
-                #addnewbook:hover {
-                    background-color: #003282;
-
-
+                #bookModal .img-container {
+                    max-width: 100%;
+                    max-height: 18em;
+                    overflow: hidden;
+                    text-align: center;
+                    /* Optional: Center the image horizontally */
                 }
 
-                .managemodal {
-                    position: fixed;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background: rgba(0, 0, 0, 0.8);
-                    display: grid;
-                    place-items: center;
-                    transform: scale(0);
-                    transition: transform 100ms;
-                    z-index: 1000;
-
-                }
-
-                .managemodalitem {
-                    position: relative;
-                    width: 85%;
-                    height: 80%;
-                    display: grid;
-                    place-items: center;
-                    grid-template-columns: 2fr 1fr;
-                    background-color: #eee;
-                    color: grey;
-                    padding: 1em;
-                    padding: 2em;
-                    box-sizing: border-box;
-                }
-
-                .managemodalitem form {
-                    display: flex;
-                    align-items: center;
-                    flex-direction: column;
-                    width: 90%;
-                }
-
-                .managemodalitem input {
-                    padding: .5em;
-                    border: none;
-                    margin: .3rem;
-                    width: 100%;
-                }
-
-                .managemodalitem button {
-                    width: 7em;
-                    margin: .3em auto;
-                }
-
-                .modalofdel {
-                    background: whitesmoke;
-                    padding: 1em;
-                }
-
-                .managebookrows img {
-                    width: 50px;
+                #bookModal .img-container img {
+                    max-width: 100%;
+                    height: auto;
                 }
             </style>
             <!-- add book modal -->
-            <div class="managemodal addmanagemodal">
-                <div class="managemodalitem addmanagemodalitem">
 
-                    <form id="addnewbk" onsubmit="addnewbookfunc(event)" method="POST">
-                        <h2>ADD NEW BOOK</h2>
-                        <hr>
-                        <input type="text" name="isbn" placeholder="Enter Isbn" autocomplete="off" required>
-                        <input type="text" name="title" placeholder="Enter Title" autocomplete="off" required>
-                        <input type="text" name="author" placeholder="Enter Author" autocomplete="off" required>
-                        <input type="text" name="abstract" placeholder="Enter Abstract" autocomplete="off" required>
-                        <input type="text" name="category" placeholder="Enter category" autocomplete="off" required>
-                        <input type="text" name="bookprice" placeholder="Enter Book Price" autocomplete="off" required>
-                        <input type="text" name="yearpublished" placeholder="Enter Year Published" autocomplete="off" required>
-                        <input type="text" name="publisher" placeholder="Enter Publisher" autocomplete="off" required>
-                        <input type="text" name="quantity" placeholder="quantity" autocomplete="off" required>
-                        <button type="submit" name="insert">SAVE</button>
-                        <input type='hidden' name='bookinsert' value='addthisbook'>
-                        <button onclick="closeaddmodalbk()">CLOSE</button>
-                    </form>
-
-                    <form class="imgbbookcontainer">
-                        <img id='chimg' style="height:18em;" src="booksimg/bookdefault.png" alt="book">
-                        <input id='filebdata' onchange="readURL(this)" type='file' name='file'>
-                    </form>
-
-
+            <!-- Modal Create/update Book-->
+            <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addBookModalLabel">ADD NEW BOOK</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addnewbk" onsubmit="addnewbookfunc(event)" method="POST">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <form class="imgbbookcontainer">
+                                                <div class="img-container">
+                                                    <img id="chimg" src="booksimg/bookdefault.png" alt="book">
+                                                </div>
+                                                <input id="filebdata" onchange="readURL(this)" type="file" name="file">
+                                            </form>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="mb-3">
+                                                <label for="isbn" class="form-label">ISBN</label>
+                                                <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Enter ISBN" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="title" class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="author" class="form-label">Author</label>
+                                                <input type="text" class="form-control" id="author" name="author" placeholder="Enter Author" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="category" class="form-label">Category</label>
+                                                <input type="text" class="form-control" id="category" name="category" placeholder="Enter Category" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="bookprice" class="form-label">Book Price (in Pesos)</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text">₱</span>
+                                                    <input type="text" class="form-control" id="bookprice" name="bookprice" placeholder="Enter Book Price" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="mb-3">
+                                                <label for="yearpublished" class="form-label">Year Published</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                                    <input type="text" class="form-control" id="yearpublished" name="yearpublished" data-toggle="datepicker" placeholder="Select Year Published" required>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="publisher" class="form-label">Publisher</label>
+                                                <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Enter Publisher" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="quantity" class="form-label">Quantity</label>
+                                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter Quantity" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="abstract" class="form-label">Abstract</label>
+                                                <textarea class="form-control" id="abstract" name="abstract" placeholder="Enter Abstract" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" name="insert" class="btn btn-primary">SAVE</button>
+                                <input type='hidden' name='bookinsert' value='addthisbook'>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- update book modal -->
-            <div class="managemodal editmanagemodal">
-                <div class="managemodalitem editmanagemodalitem">
-
-                </div>
-            </div>
-            <!-- modal delete confirm modal-->
-            <div class="managemodal deletemodalmangebook">
-                <div class="modalofdel">
-                    <h3>Are you sure you want to delete this book?</h3>
-                    <button onclick="managebdel(event)" id="confirmationdelmb">Yes, Delete</button>
-                    <button onclick="closeconfirmdelmodal()">Cancel</button>
-                </div>
-            </div>
-
-
-            <!-- CLOSE manage books ui modals -->
 
 
         </main>
@@ -494,34 +473,6 @@
                 overflow: auto;
 
             }
-
-            .closebtn {
-                font-size: 40px;
-                color: black;
-                position: absolute;
-                right: 1em;
-                cursor: pointer;
-                transition: all 100ms;
-            }
-
-            .closebtn:hover {
-                transform: scale(1.3);
-            }
-
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            th,
-            td {
-                text-align: left;
-                padding: 8px;
-            }
-
-            tr:nth-child(even) {
-                background-color: lightblue;
-            }
         </style>
 
         <div class="modalacccontainer">
@@ -554,13 +505,10 @@
             if (input.files && input.files[0]) {
                 let reader = new FileReader();
                 reader.onload = function(er) {
-
                     document.querySelector("#chimg").src = er.target.result;
-
-
                 };
-
                 reader.readAsDataURL(input.files[0]);
+                console.log('workkkk');
             }
         }
 
@@ -576,13 +524,91 @@
         //manage books
         const managebook = document.querySelector(".managebook");
 
-        //show all in manage book
-        xttpreq("methods2/managebooks.php", "", managebook);
+        // Function to fetch and display book data
+        function reFetch(Route, method, callback) {
+            fetch(Route, {
+                    method,
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json(); // Parse the response as JSON
+                    } else {
+                        throw new Error("Request failed");
+                    }
+                })
+                .then((data) => {
+                    // Data contains an array of books
+                    callback(data);
+                })
+                .catch((error) => {
+                    console.error("Error:", error.message);
+                });
+        }
+        // reFetch("methods2/managebooks.php", displayManageBooks)
+
+        function displayManageBooks(data) {
+            // Destroy any existing DataTable (if applicable)
+            if ($.fn.dataTable.isDataTable('#tableManageBooks')) {
+                const table = $('#tableManageBooks').DataTable();
+                table.clear()
+                table.destroy()
+                console.log(table.table);
+
+
+                console.log('destroyed');
+            }
+            // Initialize DataTable
+            const table = $('#tableManageBooks').DataTable({
+                // DataTable options here
+                order: [
+                    [1, 'desc']
+                ],
+                columnDefs: [{
+                    orderable: false,
+                    targets: [0, -1] // Disables sorting for the first and last columns
+                }],
+                language: {
+                    paginate: {
+                        previous: '<i class="bi bi-chevron-left"></i>',
+                        next: '<i class="bi bi-chevron-right"></i>',
+                    },
+                    //customize number of elements to be displayed
+                    lengthMenu: 'Show <select class="form-control input-sm">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">All</option>' +
+                        "</select> Entries",
+                },
+            });
+            // Format data (assuming data is an array of objects)
+            const formattedData = data.map(item => [
+                `<img class='img-fluid img-thumbnail' style='height:100px;width:100px;' src='./${item.ImageURL}' alt='imgurl:${item.ImageURL}'>`,
+                item.ISBN,
+                item.Title,
+                item.Author,
+                // ... other columns as needed
+                `<div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="manageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="editBook('${item.ISBN}')">Edit</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="deleteBook('${item.ISBN}')">Delete</a></li>
+                    </ul>
+                </div>`
+            ]);
+
+            // Populate the DataTable with formatted data
+            table.rows.add(formattedData).draw();
+
+
+        }
 
 
         //add manage book 
-        const addmanagemodal = document.querySelector(".addmanagemodal");
-        const addmanagemodalitem = document.querySelector(".addmanagemodalitem");
         const confirmdelmb = document.querySelector(".deletemodalmangebook");
 
         function addnewbookfunc(e) {
@@ -610,30 +636,22 @@
 
 
             setTimeout(() => {
-                xttpreq("methods2/managebooks.php", "", managebook);
-                addmanagemodal.classList.remove("showmodalreg");
+                reFetch("methods2/managebooks.php", displayManageBooks)
 
             }, 1000);
 
         }
 
-        function addnewbookshowmodal() {
-            addmanagemodal.classList.add("showmodalreg");
-            document.querySelector("#chimg").src = "booksimg/bookdefault.png";
 
-        }
-
-        function closeaddmodalbk(e) {
-            addmanagemodal.classList.remove("showmodalreg");
-        }
 
 
         //edit manage book
         const editmanagemodal = document.querySelector(".editmanagemodal");
         const editmanagemodalitem = document.querySelector(".editmanagemodalitem");
 
-        function managebedit(e) {
-            let send = `mbkedit=${e.currentTarget.dataset.edit}`;
+        function editBook(e) {
+            console.log(e);
+            let send = `mbkedit=${e}`;
             xttpreq("methods2/managebookui.php", send, editmanagemodalitem);
             editmanagemodal.classList.add("showmodalreg");
         }
@@ -657,7 +675,7 @@
 
             xttpreqformdata("methods2/managebookui.php", formData, "alert")
             setTimeout(() => {
-                xttpreq("methods2/managebooks.php", "", managebook);
+                reFetch("methods2/managebooks.php", displayManageBooks)
                 editmanagemodal.classList.remove("showmodalreg");
             }, 1000);
 
@@ -669,9 +687,10 @@
         }
 
         //del manage book 
-        function delfstage(e) {
+        function deleteBook(e) {
+            console.log(e);
             const confirmdelmbput = document.querySelector("#confirmationdelmb");
-            let isbn = e.currentTarget.dataset.del;
+            let isbn = e;
             confirmdelmbput.dataset.del = isbn;
             confirmdelmb.classList.add("showmodalreg");
         }
@@ -687,7 +706,7 @@
 
             xttpreq("methods2/managebookui.php", send, "alert");
             setTimeout(() => {
-                xttpreq("methods2/managebooks.php", "", managebook);
+                reFetch("methods2/managebooks.php", displayManageBooks)
                 confirmdelmb.classList.remove("showmodalreg");
             }, 1000);
 
@@ -831,200 +850,6 @@
 
 
 
-        //modal manual entry lend to book user
-
-        function lendshowmodal() {
-
-            console.log(bootstrap.Offcanvas.prototype._initializeFocusTrap);
-            document.removeEventListener('focusin', () => {
-                console.log('removed focus');
-            });
-            Swal.fire({
-                title: 'Lookup User',
-                text: 'Please enter the user System ID:',
-                input: 'text',
-                inputAutoTrim: false,
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Lookup',
-                cancelButtonText: 'Cancel',
-                showLoaderOnConfirm: true,
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'Please enter a System ID';
-                    }
-                },
-
-                preConfirm: (lendtoid) => {
-                    const userId = <?php echo $UID; ?>;
-                    const formData = new FormData();
-                    formData.append('lendtouserid', lendtoid);
-                    formData.append('userid', userId);
-                    return fetch(`methods/manualentrylend.php`, {
-                            method: 'POST',
-                            body: formData,
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            }
-                            return response.json(); // Assuming the response is JSON
-                        }).then(response => {
-                            console.log(response);
-                            if (response.error !== null) {
-                                throw new Error(response.error);
-                            }
-                            return response
-                        })
-                        .catch(error => {
-                            Swal.showValidationMessage(`Lookup failed: ${error.message}`);
-                        });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                    const {
-                        data,
-                        cart_count,
-                        toLendId
-                    } = result.value;
-
-                    Swal.fire({
-                        title: 'Confirm User',
-                        html: `
-                        Found User:<br>
-                        Full Name: ${data.full_name}<br>
-                        Student ID: ${data.student_id}<br>
-                        <br>
-                        Do you want to lend (${cart_count}) book(s) to this user?`,
-                        icon: 'question',
-                        showCancelButton: true,
-                        confirmButtonText: 'Lend Books',
-                        cancelButtonText: 'Cancel'
-                    }).then((confirmation) => {
-                        if (confirmation.isConfirmed) {
-                            const userId = <?php echo $UID; ?>;
-                            const formData = new FormData();
-                            formData.append('lendtouserid', toLendId);
-                            formData.append('userid', userId);
-                            fetch('methods/confirmationlend.php', {
-                                    method: 'POST',
-                                    body: formData,
-                                })
-                                .then((response) => {
-                                    if (!response.ok) {
-                                        throw new Error('Network response was not ok');
-                                    }
-                                    return response.json(); // Assuming the response is plain text
-                                })
-                                .then(response => {
-                                    console.log(response);
-                                    if (response.error !== null) {
-                                        throw new Error(response.error);
-                                    }
-                                    return response
-                                })
-                                .then((res) => {
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        icon: 'success',
-                                        title: 'Your work has been saved',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                    showallcollection();
-                                })
-                                .catch((error) => {
-                                    console.error('Fetch error:', error);
-                                    Swal.fire({
-                                        position: 'top-end',
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: error.message,
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    })
-                                });
-
-                        }
-                    });
-                }
-            });
-
-        }
-
-
-
-        //lend the books by getting the id of user then pass it to the borrowers transactions 
-        function lendgetidconfirm(e) {
-            console.log('confirming');
-            e.preventDefault();
-            const userSysId = confrmcontainer.dataset.uuserid;
-            console.log(userSysId);
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "methods/confirmationlend.php", true);
-
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    cartcontainer.innerHTML = res;
-                    confrmcontainer.classList.remove("lendshowmodal");
-                    console.log(res);
-                    showallcollection();
-
-                } else {
-                    console.log("failed");
-                }
-            }
-            xhr.send(`lendtouserid=${userSysId}&userid=<?php echo $UID ?>&confirm=ok`);
-
-        }
-        //searrching 
-        function lendgetid(e) {
-            console.log('searching');
-            const userSysId = input;
-
-            function sendLendingRequest(userSysId) {
-                fetch(`methods/manualentrylend.php?lendtouserid=${userSysId}&userid=<?php echo $UID ?>`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Request failed with status: ${response.status}`);
-                        }
-
-                        confrmcontainer.innerHTML = response.text();
-                        setTimeout(() => {
-                            errorhandler.innerHTML = '';
-                        }, 3000);
-                        console.log(response.text());
-
-                        const lenderror = document.querySelector(".lenderror");
-                        errorhandler.innerHTML = lenderror.dataset.lenderr;
-                        errval = lenderror.dataset.lenderr;
-
-                        if (errval == "*") {
-                            confrmcontainer.dataset.uuserid = userSysId;
-                            confrmcontainer.classList.add("lendshowmodal");
-                            lendmodalcontainer.classList.remove("lendshowmodal");
-                        }
-
-                        lendto.value = "";
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            }
-
-
-        }
 
         //navigations btrans and rtrans
         linkscontainer.addEventListener("click", onwhatlink);
@@ -1217,15 +1042,6 @@
 
         //hide and show btn
         const showCartBtn = document.querySelector("#showCart");
-        // Disable the focus trap for the offcanvas
-        document.addEventListener('shown.bs.offcanvas', function(e) {
-            bootstrap.Modal.prototype._initializeFocusTrap = function() {
-                return {
-                    activate: function() {},
-                    deactivate: function() {}
-                }
-            };
-        });
         // remove the focus on offcanvas cart it a must 
         bootstrap.Offcanvas.prototype._initializeFocusTrap = function() {
             return {
@@ -1233,34 +1049,10 @@
                 deactivate: function() {}
             }
         };
-        showCartBtn.addEventListener("click", getbookFromCartReq);
+        document.addEventListener("DOMContentLoaded", () => {
+            showCartBtn.addEventListener("click", getbookFromCartReq);
 
-        function getbookFromCartReq() {
-
-            fetch("methods/getbookfromcart.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/x-www-form-urlencoded"
-                    },
-                    body: `userid=${userid}`
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        return response.text();
-                    } else {
-                        throw new Error("Request failed");
-                    }
-                })
-                .then(res => {
-                    cartcontainer.innerHTML = res;
-                })
-                .catch(error => {
-                    console.log("failed", error);
-                });
-        };
-
-
-
+        })
 
         //click outside other events function for closing of modals
         window.addEventListener('click', () => {
@@ -1295,61 +1087,10 @@
                 } else if (el.target.dataset.link == "mbook") {
                     managebook.classList.add("activ");
                     el.target.classList.add("active4btn");
+                    reFetch("methods2/managebooks.php", "GET", displayManageBooks)
                 }
             }
         });
-
-        //removing selected items from cart function
-        function getallchecks() {
-
-            const checkbox = Array.from(document.querySelectorAll(".selectcheck"));
-            console.log(checkbox);
-            console.log(checkbox.length);
-            //get all checked items
-            let newarray = checkbox.reduce((total, item) => {
-                if (item.checked) {
-                    total.push((item.value));
-                }
-                return total;
-            }, [])
-
-            const multiDelFunc = (newarray, userid) => {
-                const params = `deleteitemsfromcart=${JSON.stringify(newarray)}&userid=${userid}`;
-                const xhrs = new XMLHttpRequest();
-                xhrs.open("POST", "methods/deletemultiple.php", true);
-
-                xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                xhrs.onload = function() {
-                    if (xhrs.status == 200) {
-                        const res = xhrs.responseText;
-
-                        cartcontainer.innerHTML = res;
-
-                    } else {
-                        console.log("failed");
-                    }
-                }
-                xhrs.send(params);
-            }
-
-            if (newarray.length > 0) {
-                console.log(checkbox.length + "true");
-
-                console.log(newarray);
-                showAlert2(true, "System Message: Items Removed: " + newarray.length + " books have been successfully removed from your cart.", "multiDelete", {
-                    multiDelFunc,
-                    params: {
-                        newarray,
-                        userid
-                    }
-                });
-
-            }
-
-
-
-        }
     </script>
     </body>
 
