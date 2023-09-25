@@ -50,7 +50,7 @@ function deleteBook($conn, $isbn)
 //Get Data to Update
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['isbn'])) {
     $books = $_GET['isbn'];
-    $sqli = "SELECT * FROM book_collection WHERE ISBN = '$books' LIMIT 1";
+    $sqli = "SELECT * FROM book_collection bc,stocks st WHERE st.ISBN = '$books' and bc.ISBN = st.ISBN LIMIT 1";
     $res = $conn->query($sqli);
     $row = $res->fetch_assoc();
 
@@ -65,7 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['isbn'])) {
             'category' => $row['category'],
             'bookprice' => $row['book_price'],
             'yearpublished' => $row['year_published'],
-            'publisher' => $row['publisher']
+            'publisher' => $row['publisher'],
+            'quantity' => $row['quantity']
+
         );
 
         // Retrieve the book image status
@@ -111,15 +113,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['isbn'])) {
         echo json_encode(array('error' => 'Book data not found'));
     }
 }
-
+// if (isset($_GET['action'])) {
+//     echo json_encode(['haha' => false]);
+// }
 // refactored
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
     $response = [];
     if ($action === 'insert') {
+
+
         // Handle the insert operation
         $isbn = $conn->real_escape_string($_POST['isbn']);
+        $quantity = intval($_POST['quantity']);
         $insertData = [
+            'ISBN' => $conn->real_escape_string($_POST['isbn']),
             'title' => $conn->real_escape_string($_POST['title']),
             'author' => $conn->real_escape_string($_POST['author']),
             'abstract' => $conn->real_escape_string($_POST['abstract']),
@@ -127,10 +135,7 @@ if (isset($_POST['action'])) {
             'book_price' => floatval($_POST['bookprice']),
             'year_published' => intval($_POST['yearpublished']),
             'publisher' => $conn->real_escape_string($_POST['publisher']),
-            'quantity' => intval($_POST['quantity']),
         ];
-
-        // Add more fields as needed
 
         // Check if ISBN already exists (similar to your existing code)
         $duplicateCheck = "SELECT * FROM book_collection WHERE ISBN = ?";
@@ -145,27 +150,25 @@ if (isset($_POST['action'])) {
             $response['success'] = false;
             $response['message'] = 'ISBN already exists. Please choose a different ISBN.';
         } else {
-            // Insert the book into the database using your reusable function
-            $insertData = [
-                'title' => $title,
-                'author' => $author,
-                // Add more fields as needed
-            ];
+            //checking if image file  exists
+            $imagefile = !isset($_FILES['file']) ? false : $_FILES['file'];
+            //handle image file upload
+            $imageUploadResponse = handleFileUpload($imagefile, $isbn, $conn);
 
-            $insertResult = insertBook($conn, $isbn, $insertData);
+            $insertStocksResult = insertOrUpdateStockData($conn, $isbn, $quantity, true);
 
-            if ($insertResult) {
+            $insertResult = insertBook($conn, $insertData);
+
+            if ($insertResult && $insertStocksResult && $imageUploadResponse['success']) {
                 // Book inserted successfully
                 $response['success'] = true;
                 $response['message'] = 'New book added successfully.';
             } else {
                 // Error occurred during insertion
                 $response['success'] = false;
-                $response['message'] = 'Error adding new book.';
+                $response['message'] = "Error adding new book. error_specified: " . !$insertResult ? 'insert Book basic delails' : 'insert stock delails';
             }
 
-            // Handle image file upload using the reusable function
-            $imageUploadResponse = handleFileUpload($_FILES['file'], $isbn, $conn);
 
             if (!$imageUploadResponse['success']) {
                 // If image upload fails, update the main response
@@ -178,8 +181,11 @@ if (isset($_POST['action'])) {
         echo json_encode($response);
         exit;
     } elseif ($action === 'update') {
+
         // Handle the update operation
+
         $isbn = $conn->real_escape_string($_POST['isbn']);
+        $quantity = intval($_POST['quantity']);
         $updateData = [
             'title' => $conn->real_escape_string($_POST['title']),
             'author' => $conn->real_escape_string($_POST['author']),
@@ -188,23 +194,34 @@ if (isset($_POST['action'])) {
             'book_price' => floatval($_POST['bookprice']),
             'year_published' => intval($_POST['yearpublished']),
             'publisher' => $conn->real_escape_string($_POST['publisher']),
-            'quantity' => intval($_POST['quantity']),
+
         ];
+        //checking if image file  exists
+        $imagefile = !isset($_FILES['file']) ? false : $_FILES['file'];
+        //handle image file upload
+        $fileUploadResult = handleFileUpload($imagefile, $isbn, $conn);
+        $insertStocksResult = insertOrUpdateStockData($conn, $isbn, $quantity, false);
 
         // Call the updateBook function with the ISBN and update data
         $updateResult = updateBook($conn, $isbn, $updateData);
 
-        if ($updateResult) {
-            // Book updated successfully
+        if ($updateResult && $insertStocksResult && $fileUploadResult['success']) {
+
             $response['success'] = true;
             $response['message'] = 'Book updated successfully.';
+            // Book updated successfully
+            if ($updateResult === 3 && $fileUploadResult['success'] === 3 && $insertStocksResult === 3) {
+                $response['message'] = array(
+                    'title' => 'No Changes Detected',
+                    'text' => "Book Title: " . $updateData['title']
+                );
+            }
         } else {
             // Error occurred during update
             $response['success'] = false;
             $response['message'] = 'Error updating book.';
         }
-        //handle image file upload
-        $response = handleFileUpload($_FILES['file'], $isbn, $conn);
+
 
         // Return JSON response
         echo json_encode($response);
@@ -217,7 +234,7 @@ function handleFileUpload($file, $isbn, $conn)
 {
     $response = [];
 
-    if ($file['name']) {
+    if ($file && $file['name']) {
         $fileName = $file['name'];
         $fileTmpName = $file['tmp_name'];
 
@@ -228,14 +245,20 @@ function handleFileUpload($file, $isbn, $conn)
 
         // Check if the file was successfully moved to the target directory
         if (move_uploaded_file($fileTmpName, $fileDestination)) {
-            // File uploaded successfully, insert a record in the database
-            $sql = "INSERT INTO book_image(ISBN, status) VALUES ('$isbn', 0)";
-            $result = mysqli_query($conn, $sql);
 
+            if (!bookExists($conn, $isbn)) {
+
+                $sql = "INSERT INTO book_image(ISBN, status) VALUES ('$isbn', 0)";
+                $result = mysqli_query($conn, $sql);
+            } else {
+                // Assuming you have already retrieved $isbn and $status from somewhere
+                $sql = "UPDATE book_image SET status = 0 WHERE ISBN = '$isbn'";
+                $result = mysqli_query($conn, $sql);
+            }
             if ($result) {
                 // Image record inserted successfully
                 $response['success'] = true;
-                $response['message'] = 'Image uploaded and record inserted successfully.';
+                $response['message'] = 'Image uploaded and record inserted successfully.,';
             } else {
                 $response['success'] = false;
                 $response['message'] = 'Error inserting image record into the database.';
@@ -245,18 +268,54 @@ function handleFileUpload($file, $isbn, $conn)
             $response['message'] = 'Error moving the uploaded file to the destination directory.';
         }
     } else {
-        $response['success'] = false;
-        $response['message'] = 'No file was uploaded.';
+        //setting book image to default in the database
+
+        // SQL query to select the image record
+        $sqlImg = "SELECT * FROM book_image WHERE ISBN = '$isbn'";
+        // Execute the SQL query
+        $resultImg = mysqli_query($conn, $sqlImg);
+        // Check if the book is not exist set to default image
+        if ($resultImg && mysqli_num_rows($resultImg) <= 0) {
+            $sqlInsert = "INSERT INTO book_image (ISBN) VALUES ('$isbn')";
+            $result = mysqli_query($conn, $sqlInsert);
+
+            if ($result) {
+                $response['success'] = true;
+                $response['message'] = 'No file was uploaded. successfully set to Default image';
+            } else {
+                $response['success'] = false;
+                $response['message'] = "Error inserting ISBN: " . mysqli_error($conn);
+            }
+        }
+        // 'No file was uploaded. nothing happened'
+        $response['success'] = 3;
     }
 
     return $response;
+}
+function bookExists($conn, $isbn)
+{
+    $sqlImg = "SELECT COUNT(*) AS count FROM book_image WHERE ISBN = ?";
+    if ($stmt = $conn->prepare($sqlImg)) {
+        $stmt->bind_param("s", $isbn);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['count'] > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        $stmt->close();
+    }
 }
 // Function to insert book data
 
 function insertBook($conn, $data)
 {
     $fields = array_keys($data);
-    array_unshift($fields, 'ISBN');
 
     $placeholders = implode(", ", array_fill(0, count($fields), "?"));
 
@@ -274,8 +333,10 @@ function insertBook($conn, $data)
     $stmt->bind_param(...$bindParams);
 
     if ($stmt->execute()) {
+        $stmt->close();
         return true; // Insert successful
     } else {
+        $stmt->close();
         return false; // Insert failed
     }
 }
@@ -286,46 +347,84 @@ function updateBook($conn, $isbn, $updateData)
     $updateFields = [];
     $updateParams = [];
     $paramTypes = '';
-
     // Construct the SET clause for the SQL query dynamically
     foreach ($updateData as $field => $value) {
-        $updateFields[] = "$field = ?";
+        $updateFields[] = "`$field` = ?";
         $updateParams[] = $value;
-
         // Determine the data type and append to $paramTypes
-        $paramTypes .=  getTypeChar($value);
+        $paramTypes .=  getTypeChar($$field = $value);
     }
-
-    // Add ISBN as the last parameter for the WHERE clause
-    $updateParams[] = $isbn;
-
     $setClause = implode(", ", $updateFields);
-
+    array_push($updateParams, $isbn);
+    $paramTypes .=  's';
     $stmt = $conn->prepare("UPDATE book_collection SET $setClause WHERE ISBN = ?");
     $stmt->bind_param($paramTypes, ...$updateParams);
-
-    if ($stmt->execute() && $stmt->affected_rows > 0) {
-        return true;
+    if ($stmt->execute()) {
+        $rowsAffected = $stmt->affected_rows;
+        $stmt->close();
+        if ($rowsAffected > 0) {
+            // Changes were made
+            return true;
+        } else {
+            // No changes were made
+            return 3;
+        }
     } else {
+        $stmt->close();
         return false;
     }
 }
 
 
 
-// Function to insert stock data
-function insertStockData($conn, $isbn, $quantity)
+// Function to insert or update stock data
+function insertOrUpdateStockData($conn, $isbn, $quantity, $isInsert)
 {
-    $nbb = 0;
-    $stmtStocks = $conn->prepare("INSERT INTO stocks (ISBN, quantity, available, no_borrowed_books) VALUES (?, ?, ?, ?)");
-    $stmtStocks->bind_param("siii", $isbn, $quantity, $quantity, $nbb);
+    if ($isInsert) {
+        // Insert operation
+        $nbb = 0;
+        $stmtStocks = $conn->prepare("INSERT INTO stocks (ISBN, quantity, available, no_borrowed_books) VALUES (?, ?, ?, ?)");
+        $stmtStocks->bind_param("siii", $isbn, $quantity, $quantity, $nbb);
+    } else {
+        // Retrieve the current number of borrowed books from the database
+        $stmtCheckBorrowed = $conn->prepare("SELECT no_borrowed_books FROM stocks WHERE ISBN = ?");
+        $stmtCheckBorrowed->bind_param("s", $isbn);
+        $stmtCheckBorrowed->execute();
+
+        // Get the result set
+        $result = $stmtCheckBorrowed->get_result();
+
+        // Fetch the row as an associative array
+        $row = $result->fetch_assoc();
+        $stmtCheckBorrowed->close();
+        // Check if the update is allowed based on the number of borrowed books
+        if ($row['no_borrowed_books'] > $quantity) {
+            // Return a failure response
+            return false;
+        }
+        // Update operation
+        $stmtStocks = $conn->prepare("UPDATE stocks SET quantity = ? WHERE ISBN = ?");
+        $stmtStocks->bind_param("is", $quantity, $isbn);
+    }
 
     if ($stmtStocks->execute()) {
-        return true;
+        $rowsAffected = $stmtStocks->affected_rows;
+        $stmtStocks->close();
+        if ($rowsAffected > 0) {
+            // Changes were made
+            return true;
+        } else {
+            // No changes were made
+            return 3;
+        }
     } else {
-        return false;
+        $stmtStocks->close();
+        return $stmtStocks->error;;
     }
 }
+
+
+
 // Function to get parameter type character based on value type
 function getTypeChar($value)
 {

@@ -81,6 +81,16 @@ function showAlert2(isSuccess, message, purpose = "default", callback = null) {
       case "add":
         Swal.fire("Successfully Added", message, "success");
         break;
+      case "update":
+        Swal.fire("Successfully Updated", message, "success");
+        break;
+      case "noChanges":
+        Swal.fire({
+          icon: "info",
+          title: message.title,
+          text: message.text,
+        });
+        break;
       case "Delete":
         Swal.fire({
           title: "Are you sure?",

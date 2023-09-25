@@ -300,7 +300,7 @@
             <!-- ENd of REASERVATION AREa -->
             <!-- manage books -->
             <section class="managebook">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookModal"><i class="bi bi-plus-circle"></i> Create Book</button>
+                <button type="button" class="btn btn-primary" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')"><i class="bi bi-plus-circle"></i> Create Book</button>
                 <table id='tableManageBooks' class="table table-striped" style="width: 100%">
                     <thead>
                         <tr>
@@ -361,73 +361,117 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addBookModalLabel">ADD NEW BOOK</h5>
+                            <h5 class="modal-title" id="addBookModalLabel">Create BOOK</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="addnewbk" onsubmit="addnewbookfunc(event)" method="POST">
+                            <form id="addnewbk" class="needs-validation" novalidate>
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <form class="imgbbookcontainer">
+                                            <div class="imgbbookcontainer">
                                                 <div class="img-container">
                                                     <img id="chimg" src="booksimg/bookdefault.png" alt="book">
                                                 </div>
-                                                <input id="filebdata" onchange="readURL(this)" type="file" name="file">
-                                            </form>
+                                                <input id="filebdata" type="file" name="file" accept="image/*">
+                                            </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="isbn" class="form-label">ISBN</label>
                                                 <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Enter ISBN" required>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid ISBN.
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="title" class="form-label">Title</label>
                                                 <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid title.
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="author" class="form-label">Author</label>
                                                 <input type="text" class="form-control" id="author" name="author" placeholder="Enter Author" required>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid author name.
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="category" class="form-label">Category</label>
                                                 <input type="text" class="form-control" id="category" name="category" placeholder="Enter Category" required>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid category.
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 ">
                                                 <label for="bookprice" class="form-label">Book Price (in Pesos)</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text">₱</span>
                                                     <input type="text" class="form-control" id="bookprice" name="bookprice" placeholder="Enter Book Price" required>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <div class="col-md-8">
-                                            <div class="mb-3">
+                                            <!-- Add validation for other input fields -->
+                                            <div class="mb-3 ">
                                                 <label for="yearpublished" class="form-label">Year Published</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
                                                     <input type="text" class="form-control" id="yearpublished" name="yearpublished" data-toggle="datepicker" placeholder="Select Year Published" required>
                                                 </div>
+
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="publisher" class="form-label">Publisher</label>
                                                 <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Enter Publisher" required>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid publisher.
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="quantity" class="form-label">Quantity</label>
                                                 <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter Quantity" required>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid quantity.
+                                                </div>
                                             </div>
-                                            <div class="mb-3">
+                                            <div class="mb-3 position-relative">
                                                 <label for="abstract" class="form-label">Abstract</label>
                                                 <textarea class="form-control" id="abstract" name="abstract" placeholder="Enter Abstract" required></textarea>
+                                                <div class="valid-tooltip">
+                                                    Looks good!
+                                                </div>
+                                                <div class="invalid-tooltip">
+                                                    Please provide a valid abstract.
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <button type="submit" name="insert" class="btn btn-primary">SAVE</button>
-                                <input type='hidden' name='bookinsert' value='addthisbook'>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                                    <button type="button" id="bookSaveBtn" class="btn btn-primary">SAVE</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -508,7 +552,7 @@
                     document.querySelector("#chimg").src = er.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
-                console.log('workkkk');
+                console.log('workk');
             }
         }
 
@@ -525,10 +569,16 @@
         const managebook = document.querySelector(".managebook");
 
         // Function to fetch and display book data
-        function reFetch(Route, method, callback) {
-            fetch(Route, {
-                    method,
-                })
+        function reFetch(Route, method, callback, formData = null) {
+            const options = {
+                method,
+            };
+
+            if (formData) {
+                options.body = formData;
+            }
+
+            fetch(Route, options)
                 .then((response) => {
                     if (response.ok) {
                         return response.json(); // Parse the response as JSON
@@ -537,13 +587,14 @@
                     }
                 })
                 .then((data) => {
-                    // Data contains an array of books
+                    // Data contains the response data
                     callback(data);
                 })
                 .catch((error) => {
                     console.error("Error:", error.message);
                 });
         }
+
         // reFetch("methods2/managebooks.php", displayManageBooks)
 
         function displayManageBooks(data) {
@@ -560,9 +611,7 @@
             // Initialize DataTable
             const table = $('#tableManageBooks').DataTable({
                 // DataTable options here
-                order: [
-                    [1, 'desc']
-                ],
+                order: [],
                 columnDefs: [{
                     orderable: false,
                     targets: [0, -1] // Disables sorting for the first and last columns
@@ -608,139 +657,6 @@
         }
 
 
-        //add manage book 
-        const confirmdelmb = document.querySelector(".deletemodalmangebook");
-
-        function addnewbookfunc(e) {
-            e.preventDefault();
-            let uform = document.querySelector("#addnewbk");
-
-            const formInputs = uform.getElementsByTagName("input");
-            let formData = new FormData();
-            for (let input of formInputs) {
-                formData.append(input.name, input.value);
-            }
-
-            const bookfileform = document.querySelector(".imgbbookcontainer");
-            const bookimgfile = document.querySelector("#filebdata").files;
-
-            if (bookimgfile.length > 0) {
-                formData.append("file", bookimgfile[0]);
-            }
-
-            xttpreqformdata("methods2/managebookui.php", formData, "alert");
-            for (let input of formInputs) {
-                input.value = "";
-                bookfileform.reset();
-            }
-
-
-            setTimeout(() => {
-                reFetch("methods2/managebooks.php", displayManageBooks)
-
-            }, 1000);
-
-        }
-
-
-
-
-        //edit manage book
-        const editmanagemodal = document.querySelector(".editmanagemodal");
-        const editmanagemodalitem = document.querySelector(".editmanagemodalitem");
-
-        function editBook(e) {
-            console.log(e);
-            let send = `mbkedit=${e}`;
-            xttpreq("methods2/managebookui.php", send, editmanagemodalitem);
-            editmanagemodal.classList.add("showmodalreg");
-        }
-        //update book from database
-        function updatebook(e) {
-            e.preventDefault();
-            let uform = document.querySelector("#bookdataupdate");
-            const formInputs = uform.getElementsByTagName("input");
-
-
-            let formData = new FormData();
-            for (let input of formInputs) {
-                formData.append(input.name, input.value);
-            }
-            const bookimgfile = document.querySelector("#filebdataubook").files;
-
-            if (bookimgfile.length > 0) {
-                formData.append("file", bookimgfile[0]);
-
-            }
-
-            xttpreqformdata("methods2/managebookui.php", formData, "alert")
-            setTimeout(() => {
-                reFetch("methods2/managebooks.php", displayManageBooks)
-                editmanagemodal.classList.remove("showmodalreg");
-            }, 1000);
-
-        }
-        //close in update modal
-        function closeeditmodalbk(e) {
-            e.preventDefault();
-            editmanagemodal.classList.remove("showmodalreg");
-        }
-
-        //del manage book 
-        function deleteBook(e) {
-            console.log(e);
-            const confirmdelmbput = document.querySelector("#confirmationdelmb");
-            let isbn = e;
-            confirmdelmbput.dataset.del = isbn;
-            confirmdelmb.classList.add("showmodalreg");
-        }
-        //close modal delete
-        function closeconfirmdelmodal(e) {
-
-            confirmdelmb.classList.remove("showmodalreg");
-        }
-        //for confirmation of delete
-        function managebdel(e) {
-
-            let send = `mbkdel=${e.currentTarget.dataset.del}`;
-
-            xttpreq("methods2/managebookui.php", send, "alert");
-            setTimeout(() => {
-                reFetch("methods2/managebooks.php", displayManageBooks)
-                confirmdelmb.classList.remove("showmodalreg");
-            }, 1000);
-
-
-        }
-
-        //membership approval
-        const tabcon = document.querySelector(".tabcon");
-        //xttp request forms 
-        function xttpreqformdata(phpfilename, send, output) {
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", phpfilename, true);
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    const res = xhr.responseText;
-                    if (output) {
-                        output.innerHTML = res;
-
-                    } else {
-                        console.log(res);
-                    }
-
-                    if (output == "alert") {
-                        alert(res);
-                    }
-
-                } else {
-                    console.log("failed");
-                }
-            }
-
-            xhr.send(send);
-        }
-
         //function xttprequest 
         function xttpreq(phpfilename, send, output) {
             const xhr = new XMLHttpRequest();
@@ -768,6 +684,8 @@
             xhr.send(send);
 
         }
+        //membership approval
+        const tabcon = document.querySelector(".tabcon");
 
         function approve(e) {
             const id = e.currentTarget.dataset.userid;
@@ -788,8 +706,6 @@
             }, 200);
 
         }
-
-
         //show and close modal events
         const reg = document.querySelector(".reg");
         const closebtn = document.querySelector(".closebtn");
@@ -803,9 +719,6 @@
         closebtn.addEventListener("click", () => {
             modalacccontainer.classList.remove("showmodalreg");
         })
-
-
-
         //variable declarations
         const links = document.querySelector(".links");
         const borrowtrans = document.querySelector(".borrowtrans");
@@ -827,7 +740,6 @@
         console.log(userid);
 
         //checks if the borrowed book is  overdue 
-
         function updateRecordStatus() {
             const xhr = new XMLHttpRequest();
             xhr.open("GET", "methods/updaterecords.php", true);
@@ -840,16 +752,11 @@
                 }
             }
             xhr.send();
-
         }
-
         updateRecordStatus();
         document.addEventListener('DOMContentLoaded', function() {
 
         });
-
-
-
 
         //navigations btrans and rtrans
         linkscontainer.addEventListener("click", onwhatlink);
@@ -957,15 +864,12 @@
             } else {
 
             }
-
-
         }
         //making click events for user list in reservations and show specific user reservations
         function uniquserreserve(e) {
             const targetedid = e.currentTarget.dataset.userid;
             const targetname = e.currentTarget.innerText;
             const imgtarget = e.currentTarget.children[0].dataset.imgsrc;
-
             console.log(targetedid);
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "methods/filterUserReserve.php", true);
@@ -977,22 +881,14 @@
 
                     profilen.innerHTML = targetname;
                     editimg.src = imgtarget + `?${Math.floor(Math.random() * 1000)}`;
-
                 } else {
                     console.log("failed");
                 }
             }
             xhr.send(`userid=${targetedid}`);
-
         }
-
-
-
         // removing multiple in user reserve items
-
         function delselectedinreservation(e) {
-
-
             const checkbox = Array.from(document.querySelectorAll(".selectitemreserve"));
             console.log(checkbox);
             console.log(checkbox.length);
@@ -1005,13 +901,9 @@
                 }
                 return total;
             }, [])
-
             if (newarray.length > 0) {
                 console.log(checkbox.length + "true");
-
                 console.log(newarray);
-
-
                 const params = `delitemfromreserve=${JSON.stringify(newarray)}&userid=${id}`;
                 const xhrs = new XMLHttpRequest();
 
@@ -1021,25 +913,19 @@
 
                 xhrs.onload = function() {
                     if (xhrs.status == 200) {
-
                         const res = xhrs.responseText;
                         alert("System Message:" + newarray.length + "book/s successfully removed");
                         reservecontainer.innerHTML = res;
                         console.log(res);
                         const checkresitems = document.querySelector(".datas");
-
-
-
                     } else {
                         console.log("failed");
                     }
                 }
                 xhrs.send(params);
-
             }
             showlatestreserves()
         }
-
         //hide and show btn
         const showCartBtn = document.querySelector("#showCart");
         // remove the focus on offcanvas cart it a must 
@@ -1051,14 +937,11 @@
         };
         document.addEventListener("DOMContentLoaded", () => {
             showCartBtn.addEventListener("click", getbookFromCartReq);
-
         })
-
         //click outside other events function for closing of modals
         window.addEventListener('click', () => {
             droplistcontainer.style.display = "none";
         })
-
         //links of two facilities manual entry and reservations
         borrowtrans.addEventListener("click", el => {
             console.log(el.target.dataset.link);
@@ -1082,8 +965,6 @@
                     trec.classList.add("activ");
                     el.target.classList.add("active4btn");
                     showlatestreserves();
-
-
                 } else if (el.target.dataset.link == "mbook") {
                     managebook.classList.add("activ");
                     el.target.classList.add("active4btn");

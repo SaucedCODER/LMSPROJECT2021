@@ -30,9 +30,15 @@ if ($isUser) {
     <!-- Date  Picker -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" integrity="sha512-34s5cpvaNG3BknEWSuOncX28vz97bRI59UnVtEEpFX536A7BtZSJHsDyFoCl8S7Dt2TPzcrCEoHBGeM4SUBDBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <?php echo $isUser ? '<link rel="stylesheet" href="./css/cssloader.css"> <link rel="stylesheet" href="./css/tables.css">'  : ''; ?>
+    <!-- dropzone file uploads -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
+    <?php echo $isUser ? '<link rel="stylesheet" href="./css/cssloader.css">
+     <link rel="stylesheet" href="./css/tables.css">'
+
+        : ''; ?>
     <link rel="stylesheet" href="./css/bookshover.css">
     <link rel="stylesheet" href="./css/adjustBootstrap.css">
+
 </head>
 
 <body>
