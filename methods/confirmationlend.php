@@ -1,134 +1,121 @@
-<?php 
-  include "../connection/oopconnection.php";
-  session_start();
+<?php
+include "../connection/oopconnection.php";
+session_start();
 
+$response = array();
 
-  if((!empty($_POST['lendtouserid']) || !empty($_POST['userid']))){
-    //id's
-      $userid = $_POST['lendtouserid'];
-        $adminid = $_POST['userid'];
-    
-        $cont = 0;
+if (!empty($_POST['lendtouserid']) || !empty($_POST['userid'])) {
+  $userid = $_POST['lendtouserid'];
+  $adminid = $_POST['userid'];
+  $cont = 0;
+  $result = $conn->query("SELECT * FROM users where user_id = $userid");
 
+  if ($result) {
+    if ($result->num_rows) {
+      // Your lending logic here
+      $sql2 = "SELECT sum(IsBookReturned) as unreturnedbook FROM borrowtran  where user_id = $userid";
+      $res2 = $conn->query($sql2);
+      $row2 = $res2->fetch_assoc();
+      $canbeborrowed = 3 - $row2['unreturnedbook'];
 
-        $result= $conn->query("SELECT * FROM users where user_id = $userid");
-   
-        if($result){
+      if ($canbeborrowed) {
+        // No of books in cart maximum of 3 -
+        $sql3 = "SELECT count(user_id) as noofbooksincart FROM cart where user_id = $adminid";
+        $res3 = $conn->query($sql3);
+        $row3 = $res3->fetch_assoc();
 
-            if($rows = $result->num_rows){
+        if ($canbeborrowed >= $row3['noofbooksincart']) {
+          while ($rowss = $result->fetch_assoc()) {
+            // Get current time and due time
+            date_default_timezone_set('Asia/Manila');
+            $currdate = date("Y-m-d H:i:s");
+            $currdate1 = new DateTime($currdate);
+            $Adddays = 1;
+            $duedate = $currdate1->modify("+{$Adddays} day");
+            $stamp = $duedate->format('Y-m-d H:i:s');
 
-                if(isset($_POST['confirm'])){
+            // Fetch books in cart
+            $sql = "SELECT * FROM cart WHERE user_id = $adminid";
+            $res = $conn->query($sql);
+            $rowed = $res->num_rows;
+            while ($row = $res->fetch_assoc()) {
+              // Check if the book is available
+              $sql11 = "SELECT * FROM stocks WHERE ISBN = '{$row['ISBN']}'";
+              $res11 = $conn->query($sql11);
+              $row11 = $res11->fetch_assoc();
 
-                    $status = $_POST['confirm'];
-
-                    if (strlen($status) > 0) {
-                    
-                      $sql2 = "SELECT sum(IsBookReturned) as unreturnedbook FROM borrowtran  where user_id = $userid";
-                      $res2 = $conn->query($sql2);
-                      $row2 = $res2->fetch_assoc();
-                      $canbeborrowed = 3 - $row2['unreturnedbook'];
-                      if($canbeborrowed){
-                       
-                          //no of books in cart maximum of 3 - 
-                          $sql3 = " SELECT count(user_id) as noofbooksincart FROM cart where user_id = $adminid";
-                          $res3 = $conn->query($sql3);
-                          $row3 = $res3->fetch_assoc();
-                           $row3['noofbooksincart'];
-                          if($canbeborrowed >= $row3['noofbooksincart'] ){
-
-                  while($rowss = $result->fetch_assoc()){
-                    //get current time and due time
-                    date_default_timezone_set('Asia/Manila');
-                    $currdate = date("Y-m-d H:i:s");
-                    $currdate1 = new DateTime($currdate);
-                    $Adddays = 1;
-                    $duedate = $currdate1->modify("+{$Adddays} day");
-                    $stamp = $duedate->format('Y-m-d H:i:s');
-
-                    $sql= "SELECT * FROM cart WHERE user_id = $adminid";
-                    $res = $conn->query($sql);
-                    $rowed = $res->num_rows;
-                    
-                        while($row = $res->fetch_assoc()){
-                          $sql11 = "SELECT * FROM stocks where ISBN ='".$row['ISBN']."'";
-                          $res11 = $conn->query($sql11);
-                          $row11 = $res11->fetch_assoc();
-                         
-                          if ($row11['available']){
-
-                              $sqlins = "INSERT INTO borrowtran(user_id,ISBN,DateBorrowed,due_date)
-                              VALUES(".$userid.",'".$row['ISBN']."','".$currdate."','".$stamp."')";
-                              $conn->query($sqlins) or die($conn->error);
-                              
-                             $cont++;
-                              //update stocks by borrowing logic haha!
-                              $sqlcheckavail = "SELECT * FROM stocks where ISBN = '".$row['ISBN']."'";
-                              $resforcheck = $conn->query($sqlcheckavail) or die($conn->error);
-                              $checkmate = $resforcheck->fetch_assoc();
-                              $avai =  $checkmate['available'] - 1;
-                             $lends = $checkmate['no_borrowed_books'] + 1;
-                            $sqlupdatestoc= "UPDATE stocks SET available =  $avai , no_borrowed_books=  $lends where ISBN ='".$row['ISBN']."';";
-                              $conn->query($sqlupdatestoc) or die($conn->error);
-
-                             
-                          }else{
-                            
-                            echo "error: OUT OF STOCK! book title: ".$row['book_title']." ISBN: ".$row['ISBN']."";
-                        
-                          }
-                        
-                        }
-                        if ($cont) {
-                          echo "<h3 style='color:yellowgreen;'>You Lend ".$cont." / ".$rowed." book/s to ".$rowss['Fname']." ".$rowss['Lname'].".</h3>";
-                        }
-                      //insert the borrowtransactions in return transaction
-                      $sqlr = "SELECT * FROM borrowtran where DateBorrowed = '".$currdate."' AND user_id = $userid;";
-                        $resu = $conn->query($sqlr);
-                        $rowwww = $resu->num_rows;
-
-                        if($resu->num_rows > 0){
-                          
-                            while($rowed= $resu->fetch_assoc()){    
-                            //unreturn
-                            $cTime = new DateTime($currdate);
-                            $edittime = new DateTime("".$rowed['DateBorrowed']."");
-                                $overdue =$cTime->diff($edittime);
-                                $diffInDays  = $overdue->d;
-                    
-                            $sqlinss="INSERT INTO returntran(user_id,ISBN,BTransactionNo,Overdue,Status)
-                            VALUE(".$rowed['user_id'].",'".$rowed['ISBN']."',".$rowed['TransactionNo'].",'".$diffInDays."','UNRETURNED')";
-                            $conn->query($sqlinss) or die($conn->error);
-                        }
-                    }
-
-                    $conn->query("DELETE FROM cart where user_id = $adminid");
-                   
-                
+              if ($row11['available']) {
+                // Insert the borrow transaction
+                $sqlins = "INSERT INTO borrowtran(user_id, ISBN, DateBorrowed, due_date)
+                                 VALUES($userid, '{$row['ISBN']}', '$currdate', '$stamp')";
+                if ($conn->query($sqlins)) {
+                  // Update stock information
+                  $sqlcheckavail = "SELECT * FROM stocks WHERE ISBN = '{$row['ISBN']}'";
+                  $resforcheck = $conn->query($sqlcheckavail) or die($conn->error);
+                  $checkmate = $resforcheck->fetch_assoc();
+                  $avai =  $checkmate['available'] - 1;
+                  $lends = $checkmate['no_borrowed_books'] + 1;
+                  $sqlupdatestoc = "UPDATE stocks SET available = $avai, no_borrowed_books = $lends WHERE ISBN = '{$row['ISBN']}';";
+                  if ($conn->query($sqlupdatestoc)) {
+                    $cont++;
+                  } else {
+                    // Handle stock update error
+                    $response['error'][] = "Failed to update stock for ISBN: {$row['ISBN']}";
                   }
-            $error = "*";
-          }else{
-            
-            echo "User can only borrow ".$canbeborrowed." books..";
+                } else {
+                  // Handle borrow transaction insertion error
+                  $response['error'][] = "Failed to insert borrow transaction for ISBN: {$row['ISBN']}";
+                }
+              } else {
+                // Handle out-of-stock error
+                $response['error'][] = "OUT OF STOCK! Book title: {$row['book_title']} ISBN: {$row['ISBN']}";
+              }
+            }
+
+            if ($cont) {
+              $response['success'] = true;
+              $response['message'] = "You lent $cont / $rowed book(s) to {$rowss['Fname']} {$rowss['Lname']}.";
+            } else {
+              $response['error'][] = "No books were lent.";
+            }
+
+            // Insert the borrow transactions in return transaction
+            $sqlr = "SELECT * FROM borrowtran WHERE DateBorrowed = '$currdate' AND user_id = $userid;";
+            $resu = $conn->query($sqlr);
+            if ($resu->num_rows > 0) {
+              while ($rowed = $resu->fetch_assoc()) {
+                // Calculate overdue days
+                $cTime = new DateTime($currdate);
+                $edittime = new DateTime("{$rowed['DateBorrowed']}");
+                $overdue = $cTime->diff($edittime);
+                $diffInDays = $overdue->d;
+                // Insert data into return transaction
+                $sqlinss = "INSERT INTO returntran(user_id, ISBN, BTransactionNo, Overdue, Status)
+                                  VALUE({$rowed['user_id']}, '{$rowed['ISBN']}', {$rowed['TransactionNo']}, '$diffInDays', 'UNRETURNED')";
+                $conn->query($sqlinss) or die($conn->error);
+              }
+            }
+
+            // Clear the cart for the current admin user
+            $conn->query("DELETE FROM cart WHERE user_id = $adminid");
           }
-          }else{
-            echo "User exceeds the maximum no. of books to be borrowed";
-          }
-            $conn->close();
-
+        } else {
+          $response['error'][] = "User can only borrow up to $canbeborrowed books.";
         }
+      } else {
+        $response['error'] = "User exceeds the maximum number of books to be borrowed.";
+      }
+    } else {
+      $response['error'] = "Invalid System id";
+    }
+  } else {
+    if (strlen($userid) == 0) {
+      $response['error'] = "No user specified";
+    } else {
+      $response['error'] = "Invalid id";
+    }
+  }
+}
 
-        }
-          }else{
-            $error = "Invalid id";
-          }
-
-        }
-      
-        include 'getbookfromcart.php';
-        }
-     
-      
-
-
-
-?>
+// Return the JSON response
+echo json_encode($response);

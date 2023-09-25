@@ -1,62 +1,51 @@
-<?php 
-  include "../connection/oopconnection.php";
-  session_start();
+<?php
+include "../connection/oopconnection.php";
+session_start();
 
+$response = array(); // Create an empty array to store the response data
+if ((!empty($_POST['lendtouserid']) || !empty($_POST['userid']))) {
+  // Get the user ID and admin ID
+  $userid = $_POST['lendtouserid'];
+  $adminid = $_POST['userid'];
 
-  if((!empty($_POST['lendtouserid']) || !empty($_POST['userid']))){
-    //id's
-      $userid = $_POST['lendtouserid'];
-        $adminid = $_POST['userid'];
-        
-       $result= $conn->query("SELECT *,concat(Fname,' ',Lname) as fn,concat('Student ID: ',username) as stud FROM users a,accounts b where a.user_id = $userid and b.user_id = a.user_id");
-   
-        if($result){
-            if($rows = $result->num_rows){
+  // Validate user ID
+  if (!is_numeric($userid) || $userid <= 0) {
+    $response['error'] = 'Invalid user ID';
+    $response['data'] = null;
+  } else {
+    // Query to fetch user details
+    $result = $conn->query("SELECT *, CONCAT(Fname, ' ', Lname) as fn, CONCAT('Student ID: ', username) as stud FROM users a, accounts b WHERE a.user_id = $userid AND b.user_id = a.user_id");
 
-                while($rowss= $result->fetch_assoc()){
+    if ($result) {
+      if ($result->num_rows > 0) {
+        $userDetails = array(); // Create an array to store user details
 
-                    $sqlrows = "SELECT * FROM cart where user_id = $adminid";
-                   $res = $conn->query($sqlrows);
-                   $rowed=  $res->num_rows;
-                    echo "
-                  
-                <div style='margin:auto;' class='modal-lend-items'>
-                    <h3 style='color:#eee;'>Are you sure?<br>Lend ".$rowed." books to ".$rowss['fn']."<br> ".$rowss['stud']."?</h3>
-                    <div class='btnlendcontainer' >
-                        <a style='width:50%;'' href='#'><button onclick='lendgetidconfirm(event)' style='width:100%'>CONFIRM</button></a>    
-                        
-                            <button onclick='lendcancelmodal()'>Cancel</button>
-                    </div>
-    
-                </div>
-   
-                   " ;
-
-                }
-             
-                $error = "*";
-     
-          }else{
-            $error = "Invalid id";
-          }
-
-        }else{
-            if (strlen($userid) == 0){
-                $error = "please type something!";
-                   }else{
-                    $error = "Invalid id";
-                   }
-             
-           
+        while ($rowss = $result->fetch_assoc()) {
+          $userDetails['full_name'] = $rowss['fn'];
+          $userDetails['student_id'] = $rowss['stud'];
         }
-        
 
-        echo "<p style='visibility:hidden;' data-lenderr='".$error."' class='lenderror'></p>";
-        $conn->close();
-        }
-     
+        // Get the number of books in the cart
+        $cartCountResult = $conn->query("SELECT COUNT(*) as cart_count FROM cart WHERE user_id = $adminid");
+        $cartCount = $cartCountResult->fetch_assoc()['cart_count'];
 
+        $response['error'] = null; // No error
+        $response['data'] = $userDetails; // Set user details as data
+        $response['cart_count'] = $cartCount; //Set the number of books in cart
+        $response['toLendId'] = $userid; // 
+      } else {
+        $response['error'] = 'User not found'; // Set an error message
+        $response['data'] = null; // No data
+      }
+    } else {
+      $response['error'] = 'Database error'; // Set an error message
+      $response['data'] = null; // No data
+    }
+  }
+} else {
+  $response['error'] = 'No user System ID provided'; // Set an error message
+  $response['data'] = null; // No data
+}
 
-
-
-?>
+// Convert the response array to JSON and return it
+echo json_encode($response);

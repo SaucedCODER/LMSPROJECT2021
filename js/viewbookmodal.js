@@ -2,7 +2,7 @@
 
 function viewbookev(e) {
   const modalbook = document.querySelector(".modal-content");
-  console.log("");
+
   if (e.currentTarget.dataset.bookuniq) {
     const abc = e.currentTarget.dataset.bookuniq;
     const xhr = new XMLHttpRequest();
@@ -18,5 +18,4 @@ function viewbookev(e) {
     };
     xhr.send(`isbn=${abc}`);
   }
-  console.log(e);
 }

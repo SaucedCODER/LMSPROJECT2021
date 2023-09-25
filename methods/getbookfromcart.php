@@ -12,7 +12,7 @@ if (isset($_POST['userid'])) {
   if ($row > 0) {
 
     echo "
-    <h3 class='cartno' style='padding:.5em;color:teal;background:transparent;'>'YOU' have listed " . $row . " books waitimg for more..</h3>
+    <h3 class='cartno' style='padding:.5em;color:teal;background:transparent;'>You have listed " . $row . " book/s</h3>
     <div class='tablecart'>
     <table>
     <tr>
@@ -34,32 +34,30 @@ if (isset($_POST['userid'])) {
    
     ";
     }
- 
+
 
     $checktypesql = "SElECT * FROM accounts where user_id = $mem_id";
-    $res= $conn->query($checktypesql);
+    $res = $conn->query($checktypesql);
     $roow = $res->fetch_assoc();
-    if($roow['type'] == "ADMIN"){ 
+    if ($roow['type'] == "ADMIN") {
       $textbtn = "<button  onclick='lendshowmodal()'>Lend listed items</button>
       </div>";
-    }else{
+    } else {
       $textbtn = "<button onclick='reserveitems()'>Reserve listed items</button>
       </div>";
     }
     echo "</table> 
     </div>
     <div class='buttondel'>
-    <button onclick='getallchecks()'>Remove Selected Item</button>".$textbtn."
+    <button onclick='getallchecks()'>Remove Selected Item</button>" . $textbtn . "
     
     ";
   } else {
-    if(isset($reservemess)){
-      echo "You Reserve < ".$reservemess." > books in your account!!";
-
-    }else{
+    if (isset($reservemess)) {
+      echo "You Reserve < " . $reservemess . " > books in your account!!";
+    } else {
       echo "<p style='font-size:15px;'>No data's found<p>";
     }
-   
   }
   $conn->close();
 }
