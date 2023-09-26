@@ -58,10 +58,14 @@
 
         .linksins {
             position: absolute;
-            top: 0;
-            left: 1%;
-
+            top: 1rem;
+            left: 1rem;
             z-index: 500;
+        }
+
+        #showCart {
+            margin-left: auto;
+            display: inline-block;
         }
 
         .active4btn {
@@ -74,25 +78,25 @@
         .reservations-container {
             display: flex;
             justify-content: space-between;
-            margin: 1em;
-            height: 90vh;
             text-align: start;
             background-color: whitesmoke;
+            height: 100%;
+            margin: 0 calc(60px + 1rem);
+            margin-right: 1rem;
 
         }
 
         .filter-reserves-container {
-            width: 40%;
             background-color: #222;
-            padding: 1em;
-            color: grey;
+            padding: 1rem;
+            color: #eee;
 
         }
 
         .reserve-container {
-            padding: 1em;
-            width: 85%;
-            height: 60%;
+            padding: 1rem;
+            width: 100%;
+            height: 100%;
             background: #eee;
 
         }
@@ -122,79 +126,11 @@
         }
 
 
-
-
-        /* navigation styles */
-        nav {
-            /* background-color: #4D0404; */
-            background-color: rgb(41, 41, 41);
-            box-sizing: border-box;
-            width: 100%;
-            padding: 2em 1em;
-            color: white;
-            box-shadow: 0px 1px 4px grey;
-            height: 35px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav i {
-            color: green;
-            margin: 0 1em;
-            cursor: pointer;
-        }
-
-        nav i:hover {
-            color: aqua;
-
-        }
-
-        .links-container {
-            margin-left: auto;
-            margin-right: 1.2em;
-            display: flex;
-
-        }
-
-        .links-container a {
-            text-decoration: none;
-            font-size: 17px;
-            font-weight: normal;
-            color: whitesmoke;
-            margin: 0em .3em;
-            padding: .2em;
-
-            position: relative;
-
-        }
-
-        .links-container a::before {
-            content: '';
-            height: 1px;
-            width: 100%;
-            background-color: white;
-            position: absolute;
-            bottom: 0px;
-            transform: scale(0);
-            transition: all 170ms;
-
-        }
-
-        .links-container a:hover:not(.active)::before {
-            transform: scale(1);
-        }
-
-        .links-container a.active::before {
-            transform: scale(1);
-        }
-
         /* 
         century links */
         .century {
-            width: 75vw;
-            height: auto;
-            margin: 1em auto;
+            margin: 1rem auto;
+            margin-left: calc(60px + 1rem);
             position: relative;
         }
 
@@ -217,29 +153,85 @@
         }
     </style>
 
-
     <div class="userid" data-userid='<?php echo $UID ?>'></div>
+    <header class="position-fixed start-0 top-0" style="z-index: 999;">
+        <div class="d-flex flex-column flex-shrink-0 sidebar-wrap">
+            <a href="/" class="text-decoration-none logo-wrap">
+                <div class="icon-wrap"><i class="bi bi-mortarboard"></i></div>
+                <span class="text-nowrap overflow-x-hidden">Admin Page</span>
+            </a>
+            <hr class="mb-0" />
+            <a href="/" class="text-decoration-none logo-wrap py-4 ">
+                <div class="icon-wrap">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle" />
+                </div>
+                <?php
+                include "connection/oopconnection.php";
+                $sqll = "SELECT * FROM users where user_id = $UID";
+                $res = $conn->query($sqll);
+                $rowww = $res->fetch_assoc();
+                echo " <span class='d-flex flex-column overflow-x-hidden'><span class='opacity-50'>Welcome</span><span class='text-nowrap '>" . strtoupper($rowww['Fname']) . "</span> </span";
+                $conn->close(); ?>
+                >
 
-    <nav>
-        <?php
-        include "connection/oopconnection.php";
-        $sqll = "SELECT * FROM users where user_id = $UID";
-        $res = $conn->query($sqll);
-        $rowww = $res->fetch_assoc();
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto links-container">
 
-        echo "<h1 style='color:whitesmoke;' class='fs-5 '>Welcome " . strtoupper($rowww['Fname']) . "
-            </h1>";
-
-        $conn->close(); ?>
-        <div class="links-container">
-            <a class="linkbtn active" data-nav="btrans">Borrow Transactions</a>
-            <a class="linkbtn" data-nav="rtrans">Return Transactions</a>
-
+                <li>
+                    <a href="#" class="nav-link">
+                        <div class="icon-wrap">
+                            <i class="bi bi-clipboard2-pulse-fill"></i>
+                        </div>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-nav="btrans">
+                    <a class="nav-link active">
+                        <div class="icon-wrap">
+                            <i class="bi bi-cart-plus"></i>
+                        </div>
+                        <span class='text-nowrap'> Borrow Transaction</span>
+                    </a>
+                </li>
+                <li class="nav-item" data-nav="rtrans">
+                    <a class="nav-link">
+                        <div class="icon-wrap">
+                            <i class="bi bi-calendar-fill"></i>
+                        </div>
+                        <span class='text-nowrap'>Return Transanction</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link reg">
+                        <div class="icon-wrap">
+                            <i class="bi bi-person-fill-check"></i>
+                        </div>
+                        <span>Approvals</span>
+                    </a>
+                </li>
+            </ul>
+            <hr />
+            <div class="dropdown">
+                <a href="#" class="text-decoration-none dropdown-toggle dropdown-wrap" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="icon-wrap">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <strong>Your Account </strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')">Create New Book</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="logout.php?userid=<?php echo $UID ?>">Sign out</a></li>
+                </ul>
+            </div>
         </div>
-        <i class="reg">Approvals</i>
-        <a href="logout.php?userid=<?php echo $UID ?>">Logout</a>
+    </header>
 
-    </nav>
+
 
     <div class="century">
         <main class="borrowtrans activ">
@@ -328,9 +320,12 @@
             </section>
             <!-- manage books ui modals -->
             <style>
-                .managebook {
+                .managebook,
+                .reservation,
+                .search-reserve {
                     position: static;
                     padding: 1rem;
+                    padding-top: 5rem;
                     color: #333;
                 }
 
@@ -523,12 +518,8 @@
             <div class="modalregistrationbody">
                 <div class="closebtn">&times</div>
                 <h3>Pending registration list..</h3>
-
                 <div class="tabcon">
-
                 </div>
-
-
             </div>
 
         </div>
@@ -735,6 +726,7 @@
         const formfind = document.querySelector(".findcontainer");
         const editimg = document.querySelector(".editimg");
         const linkscontainer = document.querySelector(".links-container");
+        const navItems = linkscontainer.querySelectorAll(".nav-item");
         const returntrans = document.querySelector(".returntrans");
         const mains = document.querySelectorAll("main");
         console.log(userid);
@@ -754,32 +746,41 @@
             xhr.send();
         }
         updateRecordStatus();
-        document.addEventListener('DOMContentLoaded', function() {
+
+        //navigations btrans and rtrans
+        navItems.forEach(item => {
+            item.addEventListener("click", onwhatlink);
 
         });
 
-        //navigations btrans and rtrans
-        linkscontainer.addEventListener("click", onwhatlink);
-
         function onwhatlink(e) {
-            console.log(e.target.dataset.nav);
-            if (e.target.dataset.nav) {
-                const btnlinks = Array.from(linkscontainer.children);
-
+            e.stopPropagation();
+            console.log(e.currentTarget.dataset.nav);
+            if (e.currentTarget.dataset.nav) {
+                const btnlinks = linkscontainer.querySelectorAll(".nav-link");
+                console.log(btnlinks);
                 btnlinks.forEach(e => {
                     e.classList.remove("active");
                 });
                 mains.forEach(e => {
                     e.classList.remove("activ");
                 })
-                e.target.classList.add("active");
-                if (e.target.dataset.nav == "btrans") {
-                    showallcollection();
-                    showcategories();
-                    borrowtrans.classList.add("activ");
-                } else if (e.target.dataset.nav == "rtrans") {
-                    returntrans.classList.add("activ");
-                    updateRecordStatus();
+                e.currentTarget.firstElementChild.classList.add("active");
+                switch (e.currentTarget.dataset.nav) {
+                    case "btrans":
+                        showallcollection();
+                        showcategories();
+                        borrowtrans.classList.add("activ");
+                        break;
+                    case "rtrans":
+                        returntrans.classList.add("activ");
+                        updateRecordStatus();
+                        break;
+                    default:
+                        showallcollection();
+                        showcategories();
+                        borrowtrans.classList.add("activ");
+                        break;
                 }
             }
         }

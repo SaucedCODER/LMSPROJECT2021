@@ -92,6 +92,7 @@ function showAlert2(isSuccess, message, purpose = "default", callback = null) {
         });
         break;
       case "Delete":
+        console.log("wprled");
         Swal.fire({
           title: "Are you sure?",
           text: "You won't be able to revert this!",
@@ -102,8 +103,8 @@ function showAlert2(isSuccess, message, purpose = "default", callback = null) {
           confirmButtonText: "Yes, delete it!",
         }).then((result) => {
           if (result.isConfirmed) {
-            callback || callback();
-            Swal.fire("Deleted!", message, "success");
+            callback && callback();
+            message && Swal.fire("Deleted!", message, "success");
           }
         });
         break;

@@ -133,16 +133,20 @@ function prepareFormData() {
 
 //deletion of bookdata
 function deleteBook(isbn) {
-  reFetch(
-    `methods2/managebookui.php?isbn=${encodeURIComponent(isbn)}`,
-    "DELETE",
-    deleteBookData
+  console.log("deletion of bookdata");
+  showAlert2(true, false, "Delete", () =>
+    reFetch(
+      `methods2/managebookui.php?isbn=${encodeURIComponent(isbn)}`,
+      "DELETE",
+      deleteBookData
+    )
   );
 }
 
 function deleteBookData(data) {
+  console.log("deletion of bookdata confirm");
   const bookDeletionMessage = data.message;
-  showAlert2(true, `System Message: ${bookDeletionMessage}`);
+  Swal.fire("Deleted!", bookDeletionMessage, "success");
 }
 
 //Function get book data from api

@@ -50,112 +50,116 @@
         background-color: #0056b3;
       }
 
-      .student-list {
-        list-style: none;
-        padding: 0;
+      /* Default styles for larger screens */
+      .list-group.student-list {
+        display: flex;
+        flex-wrap: wrap;
       }
 
-      .student-item {
-        margin: 0 0 20px 0;
-        padding: 0;
-        border: 1px solid #eaeaea;
-        border-radius: 5px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      .list-group-item.student-info {
+        width: calc(33.33% - 20px); /* Three students per row */
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .profile-image {
+        max-width: 100%;
+        border-radius: 50%;
       }
 
       .student-details {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        padding: 1rem;
+        margin-left: 20px;
       }
 
-      .avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-right: 20px;
+      /* Media query for smaller screens */
+      @media (max-width: 768px) {
+        .list-group.student-list {
+          flex-direction: column; /* Stack students in a single column */
+        }
+
+        .list-group-item.student-info {
+          width: 100%; /* Full width for each student on smaller screens */
+          margin: 10px 0;
+        }
+
+        .profile-image {
+          margin-right: 0;
+        }
+
+        .student-details {
+          margin-left: 0;
+          text-align: center;
+        }
       }
 
-      .student-details h3 {
-        font-weight: bold;
-        color: #007bff;
-        margin-bottom: 5px;
-      }
-
-      .student-details .email {
-        color: #888;
-        font-size: 14px;
-      }
-
-      .joined-details {
-        margin-left: auto;
-        text-align: right;
+      /* User details section */
+      .user-details {
+        background-color: #fff;
         padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        display: none; /* Initially hidden */
       }
 
-      .date {
-        font-size: 14px;
+      .user-details h2 {
+        font-size: 24px;
+        text-transform: uppercase;
+        font-weight: bold;
         color: #333;
-      }
-
-      /* Pagination styles */
-      .pagination {
-        margin-top: 20px;
-        text-align: center;
-      }
-
-      .pagination li {
-        display: inline;
-        margin-right: 5px;
-      }
-
-      .pagination li a {
-        border: 1px solid #eaeaea;
-        border-radius: 5px;
-        padding: 5px 12px;
-        text-decoration: none;
-        color: #007bff;
-        cursor: pointer;
-      }
-
-      .pagination li a.active,
-      .pagination li a:hover {
-        background-color: #007bff;
-        color: #fff;
-      }
-      .user-container {
-        max-width: 300px;
       }
     </style>
   </head>
   <body>
     <div class="container mt-5 user-container">
       <div class="row">
-        <div class="col-12">
+        <div class="col-md-6">
           <div class="page">
             <div class="page-header d-flex flex-column gap-1 mb-4">
               <h2 class="m-0 ms-2">Students</h2>
-              <div class="student-search d-flex gap-2 flex-column">
-                <input
-                  id="inputSearch"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search by name..."
-                />
-                <button id="search-button" class="btn btn-primary">
-                  Search
-                </button>
-              </div>
             </div>
             <ul class="list-group student-list pagination" id="userPagination">
               <!-- Student list items will be added dynamically -->
+              <li class="list-group-item student-info">
+                <img class="profile-image" src="student1.jpg" alt="Student 1" />
+                <div class="student-details">
+                  <h4>ID: 1</h4>
+                  <p>Name: Student 1</p>
+                </div>
+              </li>
+              <li class="list-group-item student-info">
+                <img class="profile-image" src="student2.jpg" alt="Student 2" />
+                <div class="student-details">
+                  <h4>ID: 2</h4>
+                  <p>Name: Student 2</p>
+                </div>
+              </li>
+              <li class="list-group-item student-info">
+                <img class="profile-image" src="student3.jpg" alt="Student 3" />
+                <div class="student-details">
+                  <h4>ID: 3</h4>
+                  <p>Name: Student 3</p>
+                </div>
+              </li>
+              <li class="list-group-item student-info">
+                <img class="profile-image" src="student4.jpg" alt="Student 4" />
+                <div class="student-details">
+                  <h4>ID: 4</h4>
+                  <p>Name: Student 4</p>
+                </div>
+              </li>
+              <!-- Add more students as needed -->
             </ul>
           </div>
-
           <div class="pagination mt-4">
             <ul id="pagelist" class="pagination"></ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="user-details">
+            <!-- User details content will be displayed here -->
           </div>
         </div>
       </div>
@@ -165,168 +169,60 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- DataTables jQuery -->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <!-- Add an event listener to each student list item to populate user details -->
     <script>
- // Get all the main elements on the page
-var page = document.querySelector(".page");
-var pageHeader = document.querySelector(".page-header");
-var studentList = document.querySelector(".student-list");
-var eachStudent = document.querySelectorAll(".student-item");
-var inputString = document.getElementById('inputSearch');
+      // Function to handle user clicks on student items
+      document
+        .querySelectorAll(".list-group-item.student-info")
+        .forEach((item) => {
+          item.addEventListener("click", () => {
+            // Reset styles for all items
+            document
+              .querySelectorAll(".list-group-item.student-info")
+              .forEach((item) => {
+                item.style.transform = "scale(1)";
+                item.style.zIndex = "0";
+              });
 
-// Set the pages variable
-var currentPage = 1;
-var numPages = 0;
-var studentsPerPage = 10;
-var index;
+            // Get the clicked item
+            const clickedItem = item;
+            clickedItem.style.transform = "scale(1.1)"; // Enlarge the clicked item
+            clickedItem.style.zIndex = "1";
 
-// Create the search bar element
-var searchBar = createBar();
+            // Get the user details based on the clicked item (you can customize this part)
+            const userId = parseInt(
+              clickedItem
+                .querySelector(".student-details h4")
+                .textContent.match(/\d+/)[0]
+            );
+            const userDetails = getUserDetails(userId); // Replace with your logic to get user details
 
-// Create the pagination container element
-var pagination = paginationFilter();
+            // Display user details in the user-details panel
+            const userDetailsPanel = document.querySelector(".user-details");
+            userDetailsPanel.style.display = "block";
+            userDetailsPanel.innerHTML = `
+                  <h2>User Details</h2>
+                  <p>ID: ${userId}</p>
+                  <p>Name: ${userDetails.name}</p>
+                  <!-- Add more user details here -->
+              `;
+          });
+        });
 
-// Append the search bar and pagination to the respective containers
-pageHeader.appendChild(searchBar);
-page.appendChild(pagination);
+      // Function to get user details (replace with your data retrieval logic)
+      function getUserDetails(userId) {
+        // Sample user data (replace with your data retrieval logic)
+        const users = [
+          { id: 1, name: "Student 1", details: "Details for Student 1" },
+          { id: 2, name: "Student 2", details: "Details for Student 2" },
+          { id: 3, name: "Student 3", details: "Details for Student 3" },
+          { id: 4, name: "Student 4", details: "Details for Student 4" },
+        ];
 
-// Event listener for the search button
-var searchButton = document.getElementById("search-button");
-searchButton.addEventListener("click", searchFunction);
-
-// Initialize the page
-hideAll();
-createPages();
-showStudents(1);
-searchFunction();
-
-// Function to create the search bar
-function createBar() {
-    // Creating the three elements that make up the search bar
-    var studentSearch = document.createElement("div");
-    var input = document.createElement("input");
-    var searchButton = document.createElement("button");
-    var txtNode = document.createTextNode("Search");
-
-    // Define the type of the input
-    input.type = "text";
-
-    // Set the attributes for the different elements to make it easier to select them
-    studentSearch.setAttribute("class", "student-search");
-    input.setAttribute("id", "inputSearch");
-    searchButton.setAttribute("id", "search-button");
-
-    // Append all these elements to the page
-    searchButton.appendChild(txtNode);
-    studentSearch.appendChild(input);
-    studentSearch.appendChild(searchButton);
-
-    // Setting the placeholder for the search input
-    input.placeholder = "Type name here..";
-
-    return studentSearch;
-}
-
-// Function to create the pagination container
-function paginationFilter(nbOfEntries) {
-    // Create the static elements for the pagination
-    var pagination = document.createElement('div');
-    var ulList = document.createElement('ul');
-
-    // Giving them attributes to select them easily
-    pagination.setAttribute("class", "pagination");
-    ulList.setAttribute("id", "pagelist");
-
-    // Append the ulList to the main pagination div
-    pagination.appendChild(ulList);
-
-    return pagination;
-}
-
-// Function to create the pagination links dynamically
-function createPages() {
-    for (var i = 0; i <= numberOfPages(); i++) {
-        // Create the dynamic elements in the pagination
-        var liList = document.createElement('li');
-        var pageLink = document.createElement('a');
-
-        // Set attributes to the pagination links & the li list
-        pageLink.setAttribute("href", "#");
-        pageLink.setAttribute("class", "link");
-        liList.setAttribute("class", "pageLi");
-
-        // Append the different elements to the static ulList
-        var pagelist = document.getElementById("pagelist");
-        pagelist.appendChild(liList);
-        liList.appendChild(pageLink);
-
-        // Create and append the page numbers for the pagination
-        var pageNumbers = document.createTextNode(i + 1);
-        pageLink.appendChild(pageNumbers);
-
-        pageLink.addEventListener("click", function () {
-            var pageNumClicked = this.innerHTML || this.innerText;
-            changePage(pageNumClicked);
-        }, false);
-    }
-}
-
-// Function to hide all the students
-function hideAll() {
-    for (var i = 0; i < numberOfStudents(); i++) {
-        eachStudent[i].style.display = "none";
-    }
-}
-
-// Function to display students for a given page
-function showStudents(number) {
-    for (var i = 0; i < studentsPerPage; i++) {
-        index = number * studentsPerPage - studentsPerPage + i;
-        if (eachStudent[index]) {
-            eachStudent[index].style.display = "block";
-        }
-    }
-}
-
-// Function to create the search feature
-function searchFunction(searchString) {
-    console.log("Is my search feature working?");
-    var filter = inputString.value.toUpperCase();
-    for (var i = 0; i < eachStudent.length; i++) {
-        var studentName = document.getElementsByTagName("h3");
-        var studentInfo = studentName[i].innerText;
-
-        if (studentInfo.toUpperCase().indexOf(filter) != -1) {
-            eachStudent[i].style.display = 'list-item';
-        } else {
-            eachStudent[i].style.display = 'none';
-        }
-    }
-}
-
-// Function to find the number of students
-function numberOfStudents() {
-    var numberOfStudents = eachStudent.length;
-    return numberOfStudents;
-}
-
-// Function to find the number of pages
-function numberOfPages() {
-    var numberOfPages = parseInt(numberOfStudents() / studentsPerPage);
-    if (numberOfStudents() % studentsPerPage > 0) {
-        numPages += 1;
-    }
-    return numberOfPages;
-}
-
-// Function to change the current page
-function changePage(pageNumClicked) {
-    currentPage = pageNumClicked;
-    hideAll();
-    showStudents(currentPage);
-}
-
-</script>
-
+        return (
+          users.find((user) => user.id === userId) || { name: "User not found" }
+        );
+      }
     </script>
   </body>
 </html>
