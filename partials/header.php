@@ -33,7 +33,8 @@ if ($isUser) {
     <!-- dropzone file uploads -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
     <?php echo $isUser ? '<link rel="stylesheet" href="./css/cssloader.css">
-     <link rel="stylesheet" href="./css/tables.css">'
+     <link rel="stylesheet" href="./css/tables.css">
+     <link rel="stylesheet" href="./css/sidenav.css">'
 
         : ''; ?>
     <link rel="stylesheet" href="./css/bookshover.css">

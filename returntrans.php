@@ -2,23 +2,9 @@
     .returntrans {
         height: auto;
         color: #eee;
-        position: absolute;
+        position: static;
         color: black;
-
-    }
- 
-    .bordermalupet {
-        padding: 1rem;
-        position: relative;
-        background: linear-gradient(to right, rgb(245, 32, 35));
-        padding: 3px;
-        z-index: 3;
-
-    }
-
-    .return-container {
-        border: none;
-        margin: 0.15em;
+        inset: 0;
     }
 
     #option {
@@ -33,9 +19,11 @@
         align-items: center;
 
     }
-    .returntrans{
+
+    .returntrans {
         margin-top: 0;
     }
+
     /* //receipt return transc */
     .recieptreturn {
         border: 2px solid #222;
@@ -43,117 +31,163 @@
         height: 90vh;
         display: flex;
         flex-direction: column;
-        padding:5em;
+        padding: 5em;
         box-sizing: border-box;
 
 
     }
-    .recieptreturn table{
+
+    .recieptreturn table {
         margin-top: .5em;
         border-collapse: collapse;
     }
-    .recieptreturn td,th{
+
+    .recieptreturn td,
+    th {
         padding: 1em;
         font-size: 15px;
 
     }
 
-    .modalasi{
+    .modalasi {
         box-sizing: border-box;
-        padding:1em;
+        padding: 1em;
         width: 100%;
         height: 100%;
         overflow: auto;
     }
-    .modalasi table{
+
+    .modalasi table {
         margin-bottom: 3em;
     }
-    .recieptreturn th,.modalasi th{
+
+    .recieptreturn th,
+    .modalasi th {
         background-color: #222;
         color: #eee;
     }
-    .modalasi td{
+
+    .modalasi td {
         font-size: 14px;
+    }
+
+    .user-item {
+        padding: 10px;
+        /* Add padding for spacing */
+        margin-bottom: 10px;
+        /* Add margin between user items */
+        background-color: #f8f9fa;
+        /* Add a background color if needed */
+        border: 1px solid #dee2e6;
+        /* Add a border for separation */
+    }
+
+    .user-image {
+        max-width: 100px;
+        /* Limit the maximum width of the circular image */
     }
 </style>
 
 <main class="returntrans">
 
     <div class="umay"></div>
-    <div class="bordermalupet">
-        <div class="reservations-container return-container">
-            <div class="filter-reserves-container">
-                <h4 style="color:white;">Filter for user who borrowed book and have unsettle penalties</h4>
-                <form class='findcontainer findretcontainer'>
-                    <input type="search" class="filterusers filterusersret" id="filterdata" autocomplete="off" placeholder="search by id...">
-                </form>
-                <hr>
-                <p>member list ..</p>
-                <div class="list-items-reservuser listwhoborrow"></div>
-            </div>
-            <div class="resultcontainer return-container">
-                <div class="userdesc">
-                    <img class="editimgr" style="margin:2em;height:100px;width:130px;border-radius:10px;" src='usersprofileimg/profiledefault.jpg'>
-                    <h1 class="profiler">Profile</h1>
-
+    <div class="container reservations-container">
+        <div class="row">
+            <div class="col-md-6 filter-reserves-container">
+                <div class="alert alert-info">
+                    <h4>Filter for users who borrowed books and have unsettled penalties</h4>
+                    <p>Use the search box below to find users based on their System ID.</p>
                 </div>
-                <div class="reserve-container transreport">NO data Found YEt...</div>
-                
-            </div>
+                <form class="findcontainer findretcontainer">
+                    <label for="filterdata" class="form-label">Search by System ID:</label>
+                    <input type="search" class="filterusers filterusersret form-control" id="filterdata" autocomplete="off" placeholder="Enter System ID">
+                </form>
+                <!-- Rest of your content -->
+                <hr>
+                <p>Member List:</p>
+                <div class="list-items-reservuser listwhoborrow d-flex flex-row flex-nowrap overflow-auto">
+                    <!-- User Item 1 -->
+                    <div onclick="uniquserbtran(event)" data-userid="190001" class="container user-item me-3">
+                        <img data-imgsrc="usersprofileimg/profile190001.jpg" src="usersprofileimg/profile190001.jpg" class="img-fluid rounded-circle user-image-small">
+                        <p class="text-center mb-0">ORILLA<br><strong>ID:</strong> 190001</p>
+                    </div>
+                    <!-- Add more user items as needed -->
+                </div>
 
+            </div>
+            <div class="col-md-6">
+                <div class="userdesc">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img class="editimgr rounded-circle" style="height: 100px; width: 100px;" src="usersprofileimg/profiledefault.jpg" alt="User Profile Image">
+                    </div>
+                    <h1 class="profiler text-center mt-3">User Profile</h1>
+                </div>
+                <div class="reserve-container transreport text-center">
+                    <p>No data found yet...</p>
+                </div>
+            </div>
         </div>
     </div>
+
 </main>
+
+
+
 <!-- modal for addselecteditem RETURN TRANSACTION  -->
 <style>
-    .addselectedmodalcontainer{
-    position: fixed;
-    background: rgba(0,0,0,0.4);
-    top: 0;
-    left: 0;
-    right:0;
-    bottom:0;
-    z-index:100;
-    display:grid;
-    place-items: center;
-    transform: scale(0);
+    .addselectedmodalcontainer {
+        position: fixed;
+        background: rgba(0, 0, 0, 0.4);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        display: grid;
+        place-items: center;
+        transform: scale(0);
         transition: transform 200ms;
     }
-    .transactionitems{
+
+    .transactionitems {
         width: 50%;
         height: 70%;
         background: white;
     }
-    
-    .tabledataoutput{
+
+    .tabledataoutput {
         position: fixed;
-    background:whitesmoke;
-    top: 0;
-    left: 0;
-    right:0;
-    bottom:0;
-    z-index:100;
-    display:grid;
-    place-items: center;
-    transform: scale(0);
+        background: whitesmoke;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        display: grid;
+        place-items: center;
+        transform: scale(0);
         transition: transform 200ms;
     }
-    .addselectshow{
+
+    .addselectshow {
         transform: scale(1);
     }
-    #rectable ,#rectable td,#rectable th{
+
+    #rectable,
+    #rectable td,
+    #rectable th {
         border: 1px solid black;
-  border-collapse: collapse;
+        border-collapse: collapse;
     }
 </style>
 <div class="addselectedmodalcontainer">
     <div class="transactionitems">
-       
+
     </div>
 </div>
-    <div class="tabledataoutput">
-        
-    </div>
+<div class="tabledataoutput">
+
+</div>
 
 <script>
     //variable declarations 
@@ -175,9 +209,9 @@
         tabledataoutput.innerHTML = "";
 
         //refresh the transaction record
-       let id = e.currentTarget.dataset.useridtransNo;
-  
-                 console.log(id);
+        let id = e.currentTarget.dataset.useridtransNo;
+
+        console.log(id);
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "methods/filterusertransreport.php", true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -186,12 +220,11 @@
                 const res = xhr.responseText;
                 userreportscontainer.innerHTML = res;
                 const stat = document.querySelector(".datasr");
-                if (stat.dataset.statusr = "off") 
-                {
-              
-                profiler.innerHTML = "Profile";
-                editimgr.src = "usersprofileimg/profiledefault.jpg";
-                    
+                if (stat.dataset.statusr = "off") {
+
+                    profiler.innerHTML = "Profile";
+                    editimgr.src = "usersprofileimg/profiledefault.jpg";
+
                 }
 
             } else {
@@ -205,123 +238,123 @@
     //processing Transaction 
     function selectproccesstransacs(e) {
 
-     const typeotrans = document.querySelector("#option");
-    console.log(typeotrans.value);
-    const checkbox = Array.from(document.querySelectorAll(".selectitemtransnoADRT"));
-    console.log(checkbox);
-    console.log(checkbox.length);
- let id = parseInt(e.currentTarget.dataset.useridtrans);
- console.log(id);
-    //get all checked items put it in array
-    let newarray = checkbox.reduce((total, item) => {
+        const typeotrans = document.querySelector("#option");
+        console.log(typeotrans.value);
+        const checkbox = Array.from(document.querySelectorAll(".selectitemtransnoADRT"));
+        console.log(checkbox);
+        console.log(checkbox.length);
+        let id = parseInt(e.currentTarget.dataset.useridtrans);
+        console.log(id);
+        //get all checked items put it in array
+        let newarray = checkbox.reduce((total, item) => {
             total.push((item.value));
-        return total;
-    }, [])
+            return total;
+        }, [])
 
-    if (newarray.length > 0) {
-        console.log(checkbox.length + "true");
-        console.log(newarray ,"process");  
-        const params = `selecteditemstobeprocess=${JSON.stringify(newarray)}&userid=${id}&typeoftrans=${typeotrans.value}&adminid=${adminsid}`;
-        const xhrs = new XMLHttpRequest();
-        xhrs.open("POST", "methods/typeoftransaction.php", true);
+        if (newarray.length > 0) {
+            console.log(checkbox.length + "true");
+            console.log(newarray, "process");
+            const params = `selecteditemstobeprocess=${JSON.stringify(newarray)}&userid=${id}&typeoftrans=${typeotrans.value}&adminid=${adminsid}`;
+            const xhrs = new XMLHttpRequest();
+            xhrs.open("POST", "methods/typeoftransaction.php", true);
 
-        xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-        xhrs.onload = function() {
-            if (xhrs.status == 200) {
+            xhrs.onload = function() {
+                if (xhrs.status == 200) {
 
-                const res = xhrs.responseText;
-           
-             
-                tabledataoutput.innerHTML = res;
-                tabledataoutput.classList.add("addselectshow");
-            } else {
-                console.log("failed");
+                    const res = xhrs.responseText;
+
+
+                    tabledataoutput.innerHTML = res;
+                    tabledataoutput.classList.add("addselectshow");
+                } else {
+                    console.log("failed");
+                }
+                showuserborrow();
             }
-            showuserborrow();
-        }
-        xhrs.send(params);
+            xhrs.send(params);
 
-}
+        }
 
     }
     //removing selected in modal RT 
     function removelistRTMODAL() {
 
-                    const checkbox = Array.from(document.querySelectorAll(".selectitemtransnoADRT"));
-                    console.log(checkbox);
-                    console.log(checkbox.length);
-                    //get all checked items put it in array
-                    checkbox.forEach( item => {
-                        if (item.checked) {
-                            item.parentElement.parentElement.remove();
-                        }
-                     
-                    })
+        const checkbox = Array.from(document.querySelectorAll(".selectitemtransnoADRT"));
+        console.log(checkbox);
+        console.log(checkbox.length);
+        //get all checked items put it in array
+        checkbox.forEach(item => {
+            if (item.checked) {
+                item.parentElement.parentElement.remove();
             }
-// close modal selected items for transaction modal
+
+        })
+    }
+    // close modal selected items for transaction modal
     function canceladdselected() {
         addselectedmodalcontainer.classList.remove("addselectshow");
         transactionitems.innerHTML = "";
     }
     //selected items for transaction modal
 
-                function selectaddshow(e) {
-                    const typeotrans = document.querySelector("#option");
-    
-                    console.log(typeotrans.value);
-                    const checkbox = Array.from(document.querySelectorAll(".selectitemtransno"));
-                    console.log(checkbox);
-                    console.log(checkbox.length);
-                 let id = parseInt(e.currentTarget.dataset.useridtrans);
-                 console.log(id);
-                    //get all checked items put it in array
-                    let newarray = checkbox.reduce((total, item) => {
-                        if (item.checked) {
-                            total.push((item.value));
-                        }
-                        return total;
-                    }, [])
+    function selectaddshow(e) {
+        const typeotrans = document.querySelector("#option");
 
-                    if (newarray.length > 0) {
-                        console.log(checkbox.length + "true");
-                        console.log(newarray ,"adddselected");
-                        const params = `selecteditemstobeprocess=${JSON.stringify(newarray)}&userid=${id}&typeoftrans=${typeotrans.value}`;
-                        const xhrs = new XMLHttpRequest();
-
-                        xhrs.open("POST", "methods/addselectedRT.php", true);
-
-                        xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                        xhrs.onload = function() {
-                            if (xhrs.status == 200) {
-
-                                const res = xhrs.responseText;
-                                transactionitems.innerHTML = res;
-                                const trigger = document.querySelector("#triger");
-                                console.log(res);
-                                console.log(trigger.dataset.trigger);
-                                if(trigger.dataset.trigger > 0){
-                                    alert(trigger.textContent);
-                                    trigger.remove();
-                                    
-                                   
-                                }else{
-                                    addselectedmodalcontainer.classList.add("addselectshow");
-                                }
-                               
-
-                            } else {
-                                console.log("failed");
-                            }
-                        }
-                        xhrs.send(params);
-
-                }else{
-                    alert("Please Select an Item!")
-                }
-
+        console.log(typeotrans.value);
+        const checkbox = Array.from(document.querySelectorAll(".selectitemtransno"));
+        console.log(checkbox);
+        console.log(checkbox.length);
+        let id = parseInt(e.currentTarget.dataset.useridtrans);
+        console.log(id);
+        //get all checked items put it in array
+        let newarray = checkbox.reduce((total, item) => {
+            if (item.checked) {
+                total.push((item.value));
             }
+            return total;
+        }, [])
+
+        if (newarray.length > 0) {
+            console.log(checkbox.length + "true");
+            console.log(newarray, "adddselected");
+            const params = `selecteditemstobeprocess=${JSON.stringify(newarray)}&userid=${id}&typeoftrans=${typeotrans.value}`;
+            const xhrs = new XMLHttpRequest();
+
+            xhrs.open("POST", "methods/addselectedRT.php", true);
+
+            xhrs.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            xhrs.onload = function() {
+                if (xhrs.status == 200) {
+
+                    const res = xhrs.responseText;
+                    transactionitems.innerHTML = res;
+                    const trigger = document.querySelector("#triger");
+                    console.log(res);
+                    console.log(trigger.dataset.trigger);
+                    if (trigger.dataset.trigger > 0) {
+                        alert(trigger.textContent);
+                        trigger.remove();
+
+
+                    } else {
+                        addselectedmodalcontainer.classList.add("addselectshow");
+                    }
+
+
+                } else {
+                    console.log("failed");
+                }
+            }
+            xhrs.send(params);
+
+        } else {
+            alert("Please Select an Item!")
+        }
+
+    }
     //show the users with borrowed books and unpaid penalties updating every 500ms hahahaha!
     function showuserborrow() {
         const xhr = new XMLHttpRequest();
@@ -330,7 +363,7 @@
         xhr.onload = function() {
             if (xhr.status == 200) {
                 const res = xhr.responseText;
-                    userbucket.innerHTML = res;
+                userbucket.innerHTML = res;
 
             } else {
                 console.log("failed");
@@ -339,19 +372,19 @@
         xhr.send(`table=borrowtran&getfield=DateBorrowed`);
     }
 
-  
-        showuserborrow();
-  
+
+    showuserborrow();
+
 
 
     //click function for list of users found in borrowed books and unpaid penalties
     function uniquserbtran(e) {
-       
+
         const targetedid = e.currentTarget.dataset.userid;
         const targetname = e.currentTarget.innerText;
         const imgtarget = e.currentTarget.children[0].dataset.imgsrc;
-        
-       
+
+
         console.log(targetedid);
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "methods/filterusertransreport.php", true);
@@ -359,7 +392,7 @@
         xhr.onload = function() {
             if (xhr.status == 200) {
                 const res = xhr.responseText;
-                    userreportscontainer.innerHTML = res;
+                userreportscontainer.innerHTML = res;
                 profiler.innerHTML = targetname;
                 editimgr.src = imgtarget;
 
@@ -378,12 +411,12 @@
     function searchretkey(eve) {
         if (filterusersret.value.length == '') {
 
-         
-                showuserborrow();
-         
 
-        }else{
-            srchretsumbit(e)            
+            showuserborrow();
+
+
+        } else {
+            srchretsumbit(e)
         }
     }
     //submit event function for search in ret transaction
@@ -393,22 +426,22 @@
         seachval = filterusersret.value;
 
         if (seachval.length > 0) {
-           
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "methods/searchuserforResandtrans.php", true);
-                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-                xhr.onload = function() {
-                    if (xhr.status == 200) {
-                        const res = xhr.responseText;
-                        userbucket.innerHTML = res;
-                    } else {
-                        console.log("failed");
-                    }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "methods/searchuserforResandtrans.php", true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    const res = xhr.responseText;
+                    userbucket.innerHTML = res;
+                } else {
+                    console.log("failed");
                 }
-                xhr.send(`searchthisuser=${seachval}&table=borrowtran`);
-          
+            }
+            xhr.send(`searchthisuser=${seachval}&table=borrowtran`);
+
         } else {
-       
+
         }
 
 
