@@ -10,9 +10,6 @@ function show_data($fetchData)
   $pathParts = explode('/', trim($urlParts['path'], '/'));
   $projectFolderName = isset($pathParts[0]) ? $pathParts[0] : 'default_project_folder_name';
 
-
-
-
   include($_SERVER['DOCUMENT_ROOT'] . "/$projectFolderName/connection/oopconnection.php");
 
 

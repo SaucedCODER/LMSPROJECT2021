@@ -6,6 +6,8 @@ include '../connection/oopconnection.php';
 $title = null;
 $ISBN = null;
 
+$response = array(); // Initialize the response array
+
 if (isset($_POST['bookid'])) {
   $memid = $_POST['userid'];
   $bid = $_POST['bookid'];
@@ -50,25 +52,28 @@ if (isset($_POST['bookid'])) {
               $sql24 = "INSERT INTO cart(user_id, ISBN, book_title)
                                       VALUES ('$memid', '$ISBN', '$title')";
               $conn->query($sql24);
-              echo "<span class='currtitle' style='display:none;'>" . $row['title'] . "</span>";
-
-              include 'getbookfromcart.php';
+              $response['message'] = "Book successfully added to the cart"; // Success message
+              $response['error'] = null;
+              // include 'getbookfromcart.php';
             } else {
-              echo "<span class='currerror' style='display:none;'>You exceed the maximum number of books to be reserved</span>";
+              $response['error'] = "You exceed the maximum number of books to be reserved";
             }
           } else {
-            echo "<span class='currerror' style='display:none;'>You exceed the maximum number of books to be reserved</span>";
+            $response['error'] = "You exceed the maximum number of books to be reserved";
           }
         } else {
-          echo "<span class='currerror' style='display:none;'>You exceed the maximum number of books to be borrowed</span>";
+          $response['error'] = "You exceed the maximum number of books to be borrowed";
         }
       } else {
-        echo "<span class='currerror' style='display:none;'>You exceed the maximum number of books to be borrowed</span>";
+        $response['error'] = "You exceed the maximum number of books to be borrowed";
       }
     } else {
-      echo "<span class='currerror' style='display:none;'>The book is not available!</span>";
+      $response['error'] = "The book is not available!";
     }
   }
 } else {
-  echo "wala laman";
+  $response['error'] = "no book id";
 }
+
+// Convert the response array to JSON
+echo json_encode($response);

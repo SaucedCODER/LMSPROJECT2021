@@ -19,16 +19,19 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
         if ($row['status'] == 0) {
             $sqlupdatestatus = "UPDATE accounts SET status = 0 WHERE user_id = $userid";
             $conn->query($sqlupdatestatus) or die("Fatal error");
-            $_SESSION['userRole'] = $redirectfile = ($row["type"] == "ADMIN") ? "admins.php" : "members.php";
+            $redirectfile = ($row["type"] == "ADMIN") ? "admins.php" : "members.php";
+            $_SESSION['userRole'] = $redirectfile;
             $redirectPath = "$redirectfile?userid=$userid&username=$username";
-            $response = array("success" => true, "message" => "Authentication successful", "redirect" => $redirectPath);
+            $response = array("userRole" => $_SESSION['userRole'], "success" => true, "message" => "Authentication successful", "redirect" => $redirectPath);
         } else {
-            $response = array("success" => false, "message" => "Your account is not yet approved.");
+            $response = array("userRole" => $_SESSION['userRole'], "success" => false, "message" => "Your account is not yet approved.");
+            $_SESSION['userRole'] = 'index.php';
         }
     } else {
         $response = array("success" => false, "message" => "Don't have an account? Just click the link below!");
+        $_SESSION['userRole'] = 'index.php';
     }
-    $_SESSION['userRole'] == 'index.php';
+
     header("Content-Type: application/json");
     echo json_encode($response);
     exit;

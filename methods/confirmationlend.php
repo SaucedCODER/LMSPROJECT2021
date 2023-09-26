@@ -60,23 +60,23 @@ if (!empty($_POST['lendtouserid']) || !empty($_POST['userid'])) {
                     $cont++;
                   } else {
                     // Handle stock update error
-                    $response['error'][] = "Failed to update stock for ISBN: {$row['ISBN']}";
+                    $response['error'] = "Failed to update stock for ISBN: {$row['ISBN']}";
                   }
                 } else {
                   // Handle borrow transaction insertion error
-                  $response['error'][] = "Failed to insert borrow transaction for ISBN: {$row['ISBN']}";
+                  $response['error'] = "Failed to insert borrow transaction for ISBN: {$row['ISBN']}";
                 }
               } else {
                 // Handle out-of-stock error
-                $response['error'][] = "OUT OF STOCK! Book title: {$row['book_title']} ISBN: {$row['ISBN']}";
+                $response['error'] = "OUT OF STOCK! Book title: {$row['book_title']} ISBN: {$row['ISBN']}";
               }
             }
 
             if ($cont) {
-              $response['success'] = true;
-              $response['message'] = "You lent $cont / $rowed book(s) to {$rowss['Fname']} {$rowss['Lname']}.";
+              $response['error'] = null;
+              $response['message'] = "You successfully lent $rowed book(s) to {$rowss['Fname']} {$rowss['Lname']}.";
             } else {
-              $response['error'][] = "No books were lent.";
+              $response['error'] = "No books were lent.";
             }
 
             // Insert the borrow transactions in return transaction
@@ -100,10 +100,10 @@ if (!empty($_POST['lendtouserid']) || !empty($_POST['userid'])) {
             $conn->query("DELETE FROM cart WHERE user_id = $adminid");
           }
         } else {
-          $response['error'][] = "User can only borrow up to $canbeborrowed books.";
+          $response['error'] = "The user can only borrow up to $canbeborrowed book(s) at this time.";
         }
       } else {
-        $response['error'] = "User exceeds the maximum number of books to be borrowed.";
+        $response['error'] = "The user has already borrowed the maximum allowed of 3 book(s).`";
       }
     } else {
       $response['error'] = "Invalid System id";
