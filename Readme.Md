@@ -1,6 +1,6 @@
 # Library Management System
 
-![Library Management System](Guest.png)
+![Library Management System](screenshots/Guest.png)
 
 ## Overview
 
