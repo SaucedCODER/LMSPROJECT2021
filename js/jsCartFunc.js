@@ -214,7 +214,6 @@ function updateCounterCart() {
 
   const cartUl = document.getElementById("cartItems").children;
   if (cartUl[0].id == "emptyCartMessage")
-    return (cartCounter.innerHTML =
-      '<i class="bi bi-cart-x-fill"></i> Cart is Empty');
-  cartCounter.innerHTML = cartUl.length + " Book(s)";
+    return (cartCounter.textContent = "0");
+  cartCounter.textContent = cartUl.length;
 }

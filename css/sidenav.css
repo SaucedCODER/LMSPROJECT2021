@@ -2,8 +2,8 @@
 .sidebar-wrap {
     width: 60px;
     height: 100vh;
-    background-color: #000;
-    color: #fff;
+    background-color: #000b16;
+    color: #f5f3f3;
     padding: 10px;
     transition: 0.8s;
   }
@@ -87,7 +87,7 @@
     font-size: 16px;
   }
   .sidebar-wrap .nav li .nav-link.active {
-    background-color: #00aaff;
+    background-color: var(--primary-color);
   }
   .sidebar-wrap .nav li .nav-link:not(.active):hover {
     background-color: #026ca1;

@@ -6,28 +6,26 @@
         background: transparent;
         border: 1px solid grey;
         border-radius: 10px;
-        color: grey;
+        color: #fff;
     }
 
-    .filter-search {
-        display: flex;
-        flex-wrap: wrap;
-        /* Stack elements vertically on smaller screens */
-        color: white;
-        gap: 1rem;
-        padding: 1rem;
-        width: 100%;
-        /* Add some padding for spacing */
-        background-color: black;
+    .filtercontainer {
+        background: transparent;
     }
+
+
 
 
     .lowbox,
     .filter-search .upbox {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-items: center;
         gap: .5rem;
+    }
+
+    .title-container label {
+        color: white;
     }
 
     .lowbox {
@@ -56,35 +54,59 @@
     }
 
 
-    #select {
-        font-weight: bold;
-    }
-
     .itemsearch:hover {
         background-color: whitesmoke;
         color: black;
         cursor: pointer;
     }
+
+    /* Style for the title container */
+    .title-container {
+        background-image: url('./systemImg/5-dots.webp');
+        /* Background color (Coral) */
+        text-align: center;
+        /* Center-align text */
+        padding: 2rem 4rem;
+    }
+
+    /* Style for the title text */
+    .title-text {
+        font-family: 'Pacifico', cursive;
+        /* Custom font (Pacifico) */
+        font-size: 2.5em;
+        /* Font size */
+        color: white;
+        /* Text color (white) */
+        text-transform: uppercase;
+        /* Uppercase text */
+        letter-spacing: 5px;
+        /* Letter spacing */
+        margin: 0;
+    }
 </style>
 
+<div class="title-container">
+    <h1 class="title-text p-5">BOOK COLLECTION 📚</h1>
+    <div class="filtercontainer">
+        <form class="filter-search row ">
 
-<form class="filter-search">
+            <div class="upbox col-5">
+                <label class="text-nowrap" for='select'>search Book by </label>
 
-    <div class="upbox">
-        <label>search Book by </label>
+                <select id="select" class="form-select">
+                    <option selected value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="ISBN">Isbn</option>
+                </select>
 
-        <select id="select" class='texts'>
-            <option value="title">title</option>
-            <option value="author">author</option>
-            <option value="ISBN">ISBN</option>
-        </select>
+            </div>
+            <div class='lowbox col-7'>
+                <label for='search'>for</label>
 
+                <input type="search" class='texts' name="search" id="search" placeholder="anything...." autocomplete="off">
+                <div class='searchdroplist'></div>
+            </div>
+
+        </form>
     </div>
-    <div class='lowbox'>
-        <label>for</label>
-
-        <input type="search" class='texts' name="search" id="search" placeholder="anything...." autocomplete="off">
-        <div class='searchdroplist'></div>
-    </div>
-
-</form>
+</div>

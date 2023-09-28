@@ -1,10 +1,7 @@
 <style>
     .returntrans {
-        height: auto;
-        color: #eee;
-        position: static;
-        color: black;
-        inset: 0;
+        background-color: green;
+        height: 100%;
     }
 
     #option {
@@ -21,7 +18,8 @@
     }
 
     .returntrans {
-        margin-top: 0;
+        min-height: 100vh;
+        margin: 0;
     }
 
     /* //receipt return transc */
@@ -90,10 +88,9 @@
 
 <main class="returntrans">
 
-    <div class="umay"></div>
-    <div class="container reservations-container">
-        <div class="row">
-            <div class="col-md-6 filter-reserves-container">
+    <div class="container ">
+        <div class="row h-100">
+            <div class="col-sm-2 col-md-3 ">
                 <div class="alert alert-info">
                     <h4>Filter for users who borrowed books and have unsettled penalties</h4>
                     <p>Use the search box below to find users based on their System ID.</p>
@@ -115,7 +112,7 @@
                 </div>
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-9 ">
                 <div class="userdesc">
                     <div class="d-flex justify-content-center align-items-center">
                         <img class="editimgr rounded-circle" style="height: 100px; width: 100px;" src="usersprofileimg/profiledefault.jpg" alt="User Profile Image">

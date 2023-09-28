@@ -69,7 +69,9 @@ if ($isUser) {
 
         body {
             margin: 0;
-            background: #eee;
+            background-color: #fff;
+            /* Replace with the actual path to your image */
+
         }
 
         .swal2-popup {

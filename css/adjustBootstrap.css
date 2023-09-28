@@ -1,9 +1,9 @@
 /* Define CSS variables for colors */
 :root {
-    --primary-color:  #00ADB5; 
-    --secondary-color: #364255; 
+    --primary-color:  #000f7e; 
+    --secondary-color: #405577; 
     --accent-color: #19396e; 
-    --background-color: #EEEEEE; 
+    --background-color: #cff7f72c; 
     --text-color: #333333; 
     --button-text-color: #ffffff; 
 }
@@ -77,5 +77,5 @@
 
 /* Close button */
 .btn-close {
-    color: var(--button-text-color); /* White */
+    color: var(--button-text-color); 
 }
