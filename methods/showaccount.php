@@ -1,4 +1,5 @@
 <?php
+
 include "../connection/procconnection.php";
 //show profile image and username only
 
@@ -13,7 +14,6 @@ if (isset($_POST['userid'])) {
         while ($row = mysqli_fetch_assoc($result)) {
             $sqlImg = "SELECT * FROM profile_images where user_id = $id;";
             $resultImg = mysqli_query($conn, $sqlImg) or die("mali");
-
 
             if (mysqli_num_rows($resultImg) > 0) {
 

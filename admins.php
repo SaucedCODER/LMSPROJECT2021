@@ -14,11 +14,11 @@
 
         section {
             position: absolute;
-            background: whitesmoke;
             color: white;
             display: none;
             inset: 0;
             top: 3rem;
+            color: #eee;
         }
 
         .btncatactive {
@@ -28,7 +28,6 @@
         }
 
         .reservation {
-            background-color: whitesmoke;
             color: #333;
             text-align: center;
             font-size: 1rem;
@@ -40,10 +39,7 @@
         }
 
 
-        .filtercontainer {
-            display: flex;
-            justify-content: center;
-        }
+
 
         .reservetable {
             width: 100%;
@@ -63,13 +59,9 @@
             z-index: 500;
         }
 
-        #showCart {
-            margin-left: auto;
-            display: inline-block;
-        }
 
         .active4btn {
-            background-color: #555555;
+            background-color: black;
             color: white;
 
         }
@@ -97,7 +89,6 @@
             padding: 1rem;
             width: 100%;
             height: 100%;
-            background: #eee;
 
         }
 
@@ -161,8 +152,8 @@
                 <span class="text-nowrap overflow-x-hidden">Admin Page</span>
             </a>
             <hr class="mb-0" />
-            <a href="/" class="text-decoration-none logo-wrap py-4 ">
-                <div class="icon-wrap">
+            <span href="/" class="text-decoration-none logo-wrap py-4 ">
+                <div class="icon-wrap" id="profile-container">
                     <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle" />
                 </div>
                 <?php
@@ -174,7 +165,7 @@
                 $conn->close(); ?>
                 >
 
-            </a>
+            </span>
             <ul class="nav nav-pills flex-column mb-auto links-container">
 
                 <li>
@@ -188,7 +179,7 @@
                 <li class="nav-item" data-nav="btrans">
                     <a class="nav-link active">
                         <div class="icon-wrap">
-                            <i class="bi bi-cart-plus"></i>
+                            <i class="bi bi-rocket-takeoff-fill"></i>
                         </div>
                         <span class='text-nowrap'> Borrow Transaction</span>
                     </a>
@@ -196,25 +187,39 @@
                 <li class="nav-item" data-nav="rtrans">
                     <a class="nav-link">
                         <div class="icon-wrap">
-                            <i class="bi bi-calendar-fill"></i>
+                            <i class="bi bi-box-fill"></i>
                         </div>
                         <span class='text-nowrap'>Return Transanction</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link reg">
+                    <a class="nav-link" onclick="showPendingAprovalModal()">
                         <div class="icon-wrap">
                             <i class="bi bi-person-fill-check"></i>
                         </div>
                         <span>Approvals</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link " id='showCart' data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
+                        <div class="icon-wrap position-relative ">
+                            <i class="bi bi-cart-fill fs-4" style='color:red;'></i>
+                            <span id="cartItemCount" style="font-size: 11px !important;color:white;font-weight:bold; top:47%;" class="position-absolute start-50 translate-middle ">
+                            </span>
+                        </div>
+                        <span class="text-nowrap">Your Cart
+                        </span>
+
+                    </a>
+
+                </li>
+
             </ul>
             <hr />
             <div class="dropdown">
                 <a href="#" class="text-decoration-none dropdown-toggle dropdown-wrap" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="icon-wrap">
-                        <i class="bi bi-person-circle"></i>
+                        <i class="bi bi-person-circle" style='font-size:20px;'></i>
                     </div>
                     <strong>Your Account </strong>
                 </a>
@@ -236,28 +241,16 @@
     <div class="century">
         <main class="borrowtrans activ">
             <div class="links linksins">
-                <button class="btnbt active4btn" data-link="sandr">Manual Entry</button>
-                <button class="btnbt" data-link="trec">Reservations</button>
-                <button class="btnbt" data-link="mbook">Manage Book</button>
+                <button class="btnbt active4btn btn btn-outline-dark" data-link="sandr">Manual Entry</button>
+                <button class="btnbt btn btn-outline-dark" data-link="trec">Reservations</button>
+                <button class="btnbt btn btn-outline-dark" data-link="mbook">Manage Book</button>
             </div>
             <!-- manual Entry AREA -->
             <section class="search-reserve activ">
 
-                <!-- Shopping cart icon to open the off-canvas cart -->
-                <button type="button" id='showCart' class="btn btn-primary position-relative" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
-                    <i class="bi bi-cart-fill"></i> View Cart
-                    <span id="cartItemCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
-                </button>
 
-                <div class="offcanvas offcanvas-end e-cart" id="cartCanvas" aria-labelledby="cartCanvasLabel">
-                </div>
-                <h1 style="padding:1em 0em;padding-left:2em; margin:0;color:black;">BOOK COLLECTION</h1>
-                <div class="filtercontainer">
-                    <?php include './partials/Filterform.php'; ?>
-                    <!-- search field -->
-                </div>
+                <?php include './partials/Filterform.php'; ?>
+                <!-- search field -->
                 <div class="btn-group container position-relative md-outline my-3 container-4categories overflow-hidden overflow-x-auto" role="group" aria-label="Basic radio toggle button group">
                 </div>
                 <div id="books-collection"></div>
@@ -292,7 +285,7 @@
             <!-- ENd of REASERVATION AREa -->
             <!-- manage books -->
             <section class="managebook">
-                <button type="button" class="btn btn-primary" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')"><i class="bi bi-plus-circle"></i> Create Book</button>
+                <button type="button" class="btn btn-primary my-3" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')"><i class="bi bi-plus-circle"></i> Create Book</button>
                 <table id='tableManageBooks' class="table table-striped" style="width: 100%">
                     <thead>
                         <tr>
@@ -326,7 +319,8 @@
                     position: static;
                     padding: 1rem;
                     padding-top: 5rem;
-                    color: #333;
+                    color: black;
+                    background-color: #f5f5f5;
                 }
 
                 #addnewbook {
@@ -357,7 +351,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="addBookModalLabel">Create BOOK</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
                         </div>
                         <div class="modal-body">
                             <form id="addnewbk" class="needs-validation" novalidate>
@@ -476,45 +470,39 @@
         </main>
         <!-- modal for new registrations!! -->
         <style>
-            .modalacccontainer {
-                position: fixed;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.8);
-                display: grid;
-                place-items: center;
-                transform: scale(0);
-                transition: transform 100ms;
-                z-index: 1000;
+            /* Custom styles for a modern design */
+            #approvalsModal .modal-content {
+                border-radius: 0;
             }
 
-            .modalregistrationbody {
-                position: relative;
-                width: 85%;
-                height: 75%;
-
-                background-color: #eee;
-                color: grey;
-                padding: 1em;
-                border-radius: 10px;
+            #approvalsModal .modal-header {
+                color: #fff;
+                border-bottom: none;
             }
 
-            .showmodalreg {
-                transform: scale(1);
-
+            #approvalsModal .modal-title {
+                font-weight: bold;
             }
 
-            .tabcon {
-                width: 100%;
-                height: 80%;
-                overflow: auto;
+            #approvalsModal .table {
+                margin-bottom: 0;
+            }
 
+            #approvalsModal .table thead th {
+                border-top: none;
+            }
+
+            #approvalsModal .table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+            #approvalsModal .btn-success,
+            #approvalsModal .btn-danger {
+                border-radius: 0;
             }
         </style>
 
-        <div class="modalacccontainer">
+        <!-- <div class="modalacccontainer">
             <div class="modalregistrationbody">
                 <div class="closebtn">&times</div>
                 <h3>Pending registration list..</h3>
@@ -522,8 +510,49 @@
                 </div>
             </div>
 
-        </div>
+        </div> -->
 
+        <div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="approvalsModalLabel">
+                            Admin Approvals
+                        </h5>
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Check if the list is empty and display a message -->
+                        <div class="approvalMessage"></div>
+
+
+
+                        <!-- Display a table of new user registrations if not empty -->
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Address</th>
+                                    <th>Phone Number</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Example data, replace with actual user registration data -->
+                                <!-- Add user rows here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Close button -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- end of modal for registrations -->
         <?php include 'returntrans.php'; ?>
 
@@ -664,7 +693,7 @@
                     }
 
                     if (output == "alert") {
-                        alert(res);
+                        showAlert2(true, res)
                     }
 
                 } else {
@@ -676,40 +705,57 @@
 
         }
         //membership approval
-        const tabcon = document.querySelector(".tabcon");
+        const approvaltBody = document.querySelector("#approvalsModal tbody");
+        const approvalAlert = document.querySelector("#approvalsModal .approvalMessage");
 
         function approve(e) {
             const id = e.currentTarget.dataset.userid;
             let userid = `useridapprove=${id}`;
             xttpreq("methods2/approverejectreg.php", userid, "alert");
-
-            setTimeout(() => {
-                xttpreq("methods2/shownewregs.php", "", tabcon);
-            }, 200);
+            showPendingAprovalModal()
         }
 
         function deny(e) {
             const id = e.currentTarget.dataset.userid;
             let userid = `useriddeny=${id}`;
             xttpreq("methods2/approverejectreg.php", userid, "alert");
-            setTimeout(() => {
-                xttpreq("methods2/shownewregs.php", "", tabcon);
-            }, 200);
-
+            showPendingAprovalModal()
         }
         //show and close modal events
-        const reg = document.querySelector(".reg");
-        const closebtn = document.querySelector(".closebtn");
+        function showPendingAprovalModal() {
+            // approvalBody
+            reFetch("methods2/shownewregs.php", "GET", ({
+                data,
+                message
+            }) => {
+                console.log(data);
+                if (data == undefined) {
+                    approvalAlert.innerHTML = `  
+                    <div class="alert alert-info">
+                    <strong>${message}</strong>
+                        </div>
+                           
+                        `;
+                } else {
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${user.Fname} ${user.Lname}</td>
+                    <td>${user.OfcAdrs}</td>
+                    <td>${user.Email}</td>
+                    <td>${user.MobileNo}</td>
+                    <td><button class="approvebtn btn btn-success" data-userid="${user.user_id}" onclick="approve(event)">Approve</button>
+                      <button class="denybtn btn btn-danger"  data-userid="${user.user_id}" onclick="deny(event)">Deny</button></td>
 
-        const modalacccontainer = document.querySelector(".modalacccontainer");
+                `;
+                        approvaltBody.append(row);
+                    })
+                }
+                $("#approvalsModal").modal("show");
+            });
+        }
 
-        reg.addEventListener("click", () => {
-            modalacccontainer.classList.add("showmodalreg");
-            xttpreq("methods2/shownewregs.php", "", tabcon);
-        })
-        closebtn.addEventListener("click", () => {
-            modalacccontainer.classList.remove("showmodalreg");
-        })
+
         //variable declarations
         const links = document.querySelector(".links");
         const borrowtrans = document.querySelector(".borrowtrans");
@@ -775,6 +821,7 @@
                     case "rtrans":
                         returntrans.classList.add("activ");
                         updateRecordStatus();
+
                         break;
                     default:
                         showallcollection();

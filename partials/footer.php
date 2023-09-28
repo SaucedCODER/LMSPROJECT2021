@@ -2,7 +2,8 @@
 // Access the stored username
 $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] == 'members.php');;
 ?>
-
+<div class="offcanvas offcanvas-end e-cart" style='z-index:3000' id="cartCanvas" aria-labelledby="cartCanvasLabel">
+</div>
 
 <!-- jquery cdn Link -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -31,7 +32,7 @@ $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] ==
         <script src="./js/jsDataTables.js" defer></script>
         <script src="./js/jsUtils.js" defer></script>
         <script src="./js/jsCRUDBooks.js" defer></script>
-
+        <script src="./js/jsCRUDUsers.js" defer></script>
         ';
 } else {
     echo '  <script src="./js/showalertlogin.js" defer></script>';

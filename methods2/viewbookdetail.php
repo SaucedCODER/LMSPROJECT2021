@@ -20,7 +20,7 @@ if (isset($_POST['isbn'])) {
   echo "  
   <div class='modal-header'>
         <h1 class='modal-title fs-5' id='staticBackdropLabel'>View Details</h1>
-        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+        <button type='button' class='btn btn-outline-danger' data-bs-dismiss='modal' aria-label='Close'><i class='bi bi-x-lg'></i></button>
       </div>
      <div class='modal-body text-center gap-1' >   
     ";

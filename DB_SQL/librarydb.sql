@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 14, 2023 at 05:05 PM
+-- Generation Time: Sep 28, 2023 at 02:15 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -75,8 +75,7 @@ INSERT INTO `book_collection` (`ISBN`, `title`, `author`, `abstract`, `category`
 ('0-0706461-5-5', 'A Practical Guide to Logical (Mobile legends)', 'Bertino, Elisa', '45', 'Business/economics', 120, 1993, 'MCGRAW HILL TEXT'),
 ('0-0770762-5-7', 'A Practical Course in Functional Programming ', 'Coombs, Jason', '25.01', 'History', 220, 1995, 'McGraw-Hill'),
 ('0-0770791-3-2', 'A First Course in Computer Programming Using ', 'Vickers, Paul', '25.01', 'Business/economics', 250, 1995, 'MCGRAW HILL TEXT'),
-('0-0783104-8-2', 'A Computerized Audit Practice Case (Micro, In', 'Porter, Hayden', '24.15', 'Biography', 220, 1986, 'MCGRAW HILL'),
-('18823', 'guoko', 'df', 'sd', 'mag bubukoa', 0, 0000, 'asdf');
+('0-0783104-8-2', 'A Computerized Audit Practice Case (Micro, In', 'Porter, Hayden', '24.15', 'Biography', 220, 1986, 'MCGRAW HILL');
 
 -- --------------------------------------------------------
 
@@ -94,6 +93,7 @@ CREATE TABLE `book_image` (
 --
 
 INSERT INTO `book_image` (`ISBN`, `status`) VALUES
+('', 1),
 ('0-0231424-7-2', 0),
 ('0-0240774-1-0', 0),
 ('0-0240800-1-2', 0),
@@ -105,7 +105,20 @@ INSERT INTO `book_image` (`ISBN`, `status`) VALUES
 ('0-0770762-5-7', 0),
 ('0-0770791-3-2', 0),
 ('0-0783104-8-2', 0),
-('18823', 0);
+('123123123124333', 1),
+('12312314314', 1),
+('12344213541341324', 0),
+('190347', 0),
+('22220000222', 1),
+('90284', 1),
+('902841233', 1),
+('902841233default', 1),
+('902841233defaultasddd', 0),
+('90284aawews', 1),
+('90284asasd', 1),
+('90284asd', 1),
+('90284safdaf', 1),
+('asdasdfsadf2131', 1);
 
 -- --------------------------------------------------------
 
@@ -122,6 +135,14 @@ CREATE TABLE `borrowtran` (
   `DateBorrowed` datetime DEFAULT NULL,
   `due_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `borrowtran`
+--
+
+INSERT INTO `borrowtran` (`TransactionNo`, `user_id`, `ISBN`, `IsBookReturned`, `Notes`, `DateBorrowed`, `due_date`) VALUES
+(62, 190001, '0-0231424-7-2', 1, NULL, '2023-09-27 13:40:28', '2023-09-28 13:40:28'),
+(63, 190001, '0-0231424-7-2', 1, NULL, '2023-09-27 13:40:28', '2023-09-28 13:40:28');
 
 -- --------------------------------------------------------
 
@@ -145,11 +166,8 @@ INSERT INTO `cart` (`cart_id`, `user_id`, `ISBN`, `book_title`, `reserve_date`) 
 (52, 1, '0-0240774-1-0', 'A Brief Course in Qbasic With an Introduction', NULL),
 (53, 1, '0-0231424-7-2', '8086/8088, 80286, 80386, And 80486 Assembly L', NULL),
 (54, 1, '0-0301301-8-2', 'A Beginner', NULL),
-(55, 190000, '0-0240774-1-0', 'A Brief Course in Qbasic With an Introduction', NULL),
 (58, 190001, '0-0240774-1-0', 'A Brief Course in Qbasic With an Introduction', NULL),
-(59, 190001, '0-0307445-1-2', 'A Beginner', NULL),
-(60, 190000, '0-0240774-1-0', 'A Brief Course in Qbasic With an Introduction', NULL),
-(61, 190000, '0-0231424-7-2', '8086/8088, 80286, 80386, And 80486 Assembly L', NULL);
+(130, 190000, '0-0231424-7-2', '8086/8088, 80286, 80386, And 80486 Assembly L', NULL);
 
 -- --------------------------------------------------------
 
@@ -187,7 +205,7 @@ CREATE TABLE `profile_images` (
 --
 
 INSERT INTO `profile_images` (`user_id`, `status`) VALUES
-(1, 1),
+(190000, 1),
 (190001, 0);
 
 -- --------------------------------------------------------
@@ -221,6 +239,14 @@ CREATE TABLE `returntran` (
   `paidpenalties` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `returntran`
+--
+
+INSERT INTO `returntran` (`user_id`, `TransactionNo`, `DateReturned`, `ISBN`, `BTransactionNo`, `Overdue`, `Status`, `paidpenalties`) VALUES
+(190001, 62, NULL, '0-0231424-7-2', 62, 0, 'UNRETURNED', 0),
+(190001, 63, NULL, '0-0231424-7-2', 63, 0, 'UNRETURNED', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -237,6 +263,24 @@ CREATE TABLE `settledtrans` (
   `Status` varchar(45) DEFAULT NULL,
   `paidpenalties` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `settledtrans`
+--
+
+INSERT INTO `settledtrans` (`user_id`, `TransactionNo`, `DateReturned`, `ISBN`, `BTransactionNo`, `Overdue`, `Status`, `paidpenalties`) VALUES
+(190001, 47, '2023-09-18 21:28:21', '0-0231424-7-2', 47, 1, 'OK', 1),
+(190001, 48, '2023-09-20 09:18:59', '0-0280074-8-4', 48, 0, 'OK', 0),
+(190001, 49, '2023-09-20 09:22:46', '0-0231424-7-2', 49, 0, 'OK', 0),
+(190001, 50, '2023-09-20 09:33:25', '0-0231424-7-2', 50, 0, 'OK', 0),
+(190001, 51, '2023-09-20 09:37:17', '0-0231424-7-2', 51, 0, 'OK', 0),
+(190001, 52, '2023-09-20 09:38:01', '0-0231424-7-2', 52, 0, 'OK', 0),
+(190001, 54, '2023-09-20 10:00:39', '0-0240774-1-0', 54, 0, 'OK', 0),
+(190001, 55, '2023-09-20 10:00:39', '0-0231424-7-2', 55, 0, 'OK', 0),
+(190001, 57, '2023-09-20 10:10:00', '0-0231424-7-2', 57, 0, 'OK', 0),
+(190001, 53, '2023-09-20 10:30:28', '0-0231424-7-2', 53, 0, 'OK', 0),
+(190001, 56, '2023-09-20 10:30:28', '0-0231424-7-2', 56, 0, 'OK', 0),
+(190001, 58, '2023-09-20 10:30:28', '0-0231424-7-2', 58, 0, 'OK', 0);
 
 -- --------------------------------------------------------
 
@@ -256,7 +300,7 @@ CREATE TABLE `stocks` (
 --
 
 INSERT INTO `stocks` (`ISBN`, `quantity`, `available`, `no_borrowed_books`) VALUES
-('0-0231424-7-2', 20, 18, 2),
+('0-0231424-7-2', 20, 16, 4),
 ('0-0240774-1-0', 20, 19, 1),
 ('0-0240800-1-2', 30, 27, 3),
 ('0-0280074-8-4', 30, 30, 0),
@@ -267,7 +311,11 @@ INSERT INTO `stocks` (`ISBN`, `quantity`, `available`, `no_borrowed_books`) VALU
 ('0-0770762-5-7', 30, 30, 0),
 ('0-0770791-3-2', 20, 20, 0),
 ('0-0783104-8-2', 30, 30, 0),
-('18823', 20, 20, 0);
+('123123123335655', 23, 23, 0),
+('1234421321344', 23, 23, 0),
+('1235442223', 4, 4, 0),
+('90284123', 23, 23, 0),
+('90284ad23', 23, 23, 0);
 
 -- --------------------------------------------------------
 
@@ -286,6 +334,30 @@ CREATE TABLE `transaction_history` (
   `status` varchar(45) DEFAULT NULL,
   `admin_fullname` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `transaction_history`
+--
+
+INSERT INTO `transaction_history` (`user_id`, `TransactionNo`, `transactionDate`, `ISBN`, `BTransactionNo`, `TransactionType`, `admin_id`, `status`, `admin_fullname`) VALUES
+(190001, 1, '2023-09-18 21:28:21', '0-0231424-7-2', 47, 'Return Only', 190000, 'RETURN ONLY', 'admin 01'),
+(190001, 2, '2023-09-18 21:29:13', '0-0231424-7-2', 47, 'Pay Only', 190000, 'OK', 'admin 01'),
+(190001, 3, '2023-09-20 09:18:59', '0-0280074-8-4', 48, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 4, '2023-09-20 09:22:46', '0-0231424-7-2', 49, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 5, '2023-09-20 09:33:25', '0-0231424-7-2', 50, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 6, '2023-09-20 09:37:17', '0-0231424-7-2', 51, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 7, '2023-09-20 09:38:01', '0-0231424-7-2', 52, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 8, '2023-09-20 09:38:11', '-231433', 46, 'Return and Pay', 190000, 'OK', 'admin 01'),
+(190001, 9, '2023-09-20 09:38:25', '-231433', 45, 'Return and Pay', 190000, 'OK', 'admin 01'),
+(190001, 10, '2023-09-20 10:00:39', '0-0240774-1-0', 54, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 11, '2023-09-20 10:00:39', '0-0231424-7-2', 55, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 12, '2023-09-20 10:10:00', '0-0231424-7-2', 57, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 13, '2023-09-20 10:30:28', '0-0231424-7-2', 53, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 14, '2023-09-20 10:30:28', '0-0231424-7-2', 56, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 15, '2023-09-20 10:30:28', '0-0231424-7-2', 58, 'Return Only', 190000, 'OK', 'admin 01'),
+(190001, 16, '2023-09-26 15:16:02', '-231433', 59, 'Return and Pay', 190000, 'OK', 'admin 01'),
+(190001, 17, '2023-09-26 15:16:02', '-231433', 60, 'Return and Pay', 190000, 'OK', 'admin 01'),
+(190001, 18, '2023-09-26 15:16:02', '-231433', 61, 'Return and Pay', 190000, 'OK', 'admin 01');
 
 -- --------------------------------------------------------
 
@@ -397,13 +469,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `borrowtran`
 --
 ALTER TABLE `borrowtran`
-  MODIFY `TransactionNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `TransactionNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `reserve_record`
@@ -415,13 +487,13 @@ ALTER TABLE `reserve_record`
 -- AUTO_INCREMENT for table `returntran`
 --
 ALTER TABLE `returntran`
-  MODIFY `TransactionNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `TransactionNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `transaction_history`
 --
 ALTER TABLE `transaction_history`
-  MODIFY `TransactionNo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `TransactionNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`

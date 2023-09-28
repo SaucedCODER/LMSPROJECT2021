@@ -14,7 +14,7 @@ if (isset($_POST['userid'])) {
   echo "
     <div class='offcanvas-header' >
     <h5 class='offcanvas-title' id='cartCanvasLabel'>Book Cart</h5>
-    <button type='button' class='btn-close' data-bs-dismiss='offcanvas' aria-label='Close'></button>
+    <button type='button' class='btn btn-outline-danger' data-bs-dismiss='offcanvas' aria-label='Close'><i class='bi bi-x-lg'></i></button>
     </div>
     <div class='offcanvas-body'>
     <ul id='cartItems' class='list-group'>
