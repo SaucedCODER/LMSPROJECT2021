@@ -1,6 +1,6 @@
 # Library Management System
 
-![Library Management System](screenshots/Screenshot 2023-09-28 174252.png)
+![Library Management System](./screenshots/Screenshot 2023-09-28 174252.png)
 
 ## Overview
 
@@ -32,7 +32,7 @@ Here are some screenshots of the Library Management System:
 
 ![Authentication](screenshots/auth.png)
 
-![Borrowing Transaction](screenshots/Screenshot 2023-09-28 174629.png)
+![Borrowing Transaction](./screenshots/Screenshot 2023-09-28 174629.png)
 
 ![Transaction History](screenshots/history.png)
 
