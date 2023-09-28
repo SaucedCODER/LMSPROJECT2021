@@ -12,7 +12,7 @@ The Library Management System is a web-based application designed to streamline 
 
 - **User Registration:** New users can create accounts with their personal details.
 - **Login:** Registered users can log in securely with their credentials.
-- **Role-Based Access Control:** Different user roles, such as admin, staff, and patrons, with varying levels of access.
+- **Role-Based Access Control:** Different user roles, such as admin, and members, with varying levels of access.
 
 ### Book Management
 
