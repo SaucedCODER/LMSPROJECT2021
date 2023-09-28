@@ -5,6 +5,118 @@ $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] ==
 <div class="offcanvas offcanvas-end e-cart" style='z-index:3000' id="cartCanvas" aria-labelledby="cartCanvasLabel">
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg bg-body-secondary">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row row-cols-md-2">
+                    <div class="col-md-12 col-lg-5 p-5 d-flex justify-content-start align-items-center flex-column">
+                        <img src="usersprofileimg/profile190001.jpg?1427093655" class="profile-image mb-5" alt="Profile Image" />
+                        <div class="input-group btn-outline-info">
+                            <label class="input-group-btn">
+                                <span class="btn btn-success rounded-0">
+                                    Change
+                                    <input type="file" id="filePInput" style="display: none" />
+                                </span>
+                            </label>
+                            <input type="text" class="form-control text-secondary" id="selectedFileName" readonly />
+                        </div>
+                    </div>
+
+                    <form class="col-md-12 col-lg-7 row row-sm-1 row-cols-md-2">
+                        <h5 class="modal-title col-md-12 fs-2 my-3" id="profileModalLabel">
+                            My Profile
+                        </h5>
+                        <div class="form-group">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" class="form-control" id="firstName" value="ZEUS MIGUEL" />
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name:</label>
+                            <input type="text" class="form-control" id="lastName" value="ORILLA" />
+                        </div>
+                        <div class="form-group">
+                            <label for="idNumber">ID No:</label>
+                            <input type="text" class="form-control" id="idNumber" value="190001" />
+                        </div>
+                        <div class="form-group">
+                            <label for="residenceAddress">Residence Address:</label>
+                            <input type="text" class="form-control" id="residenceAddress" value="asdfsa" />
+                        </div>
+                        <div class="form-group">
+                            <label for="officialAddress">Official Address:</label>
+                            <input type="text" class="form-control" id="officialAddress" value="adsf" />
+                        </div>
+                        <div class="form-group">
+                            <label for="landlineNumber">Land Line No:</label>
+                            <input type="text" class="form-control" id="landlineNumber" value="0" />
+                        </div>
+                        <div class="form-group">
+                            <label for="mobileNumber">Mobile No:</label>
+                            <input type="text" class="form-control" id="mobileNumber" value="2147483647" />
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <input type="text" class="form-control" id="gender" value="male" />
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button class="btn btn-primary" data-userid="190001" onclick="editmyacc(event)">
+                    Update
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approvalsModalLabel">
+                    Admin Approvals
+                </h5>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div class="modal-body">
+                <!-- Check if the list is empty and display a message -->
+                <div class="approvalMessage"></div>
+                <!-- Display a table of new user registrations if not empty -->
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Address</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example data, replace with actual user registration data -->
+                        <!-- Add user rows here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!-- Close button -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- jquery cdn Link -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- bootstrap js cdn Link -->

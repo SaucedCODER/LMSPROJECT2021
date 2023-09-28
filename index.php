@@ -17,12 +17,8 @@ include './partials/header.php'
 
 
 <section class="container px-2" style="margin:0 auto">
-
-    <h1 class="fs-3">BOOK COLLECTION</h1>
-    <div class="filtercontainer">
-        <?php include './partials/Filterform.php'; ?>
-        <!-- search field -->
-    </div>
+    <?php include './partials/Filterform.php'; ?>
+    <!-- search field -->
     <div class="btn-group container position-relative md-outline my-3 container-4categories overflow-hidden overflow-x-auto" role="group" aria-label="Basic radio toggle button group">
     </div>
     <div id="books-collection" class="my-3"></div>

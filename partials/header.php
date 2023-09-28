@@ -34,7 +34,11 @@ if ($isUser) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css">
     <?php echo $isUser ? '<link rel="stylesheet" href="./css/cssloader.css">
      <link rel="stylesheet" href="./css/tables.css">
-     <link rel="stylesheet" href="./css/sidenav.css">'
+     <link rel="stylesheet" href="./css/sidenav.css">
+     <link rel="stylesheet" href="./css/profile.css">
+     <link rel="stylesheet" href="./css/approval.css">
+
+     '
 
         : ''; ?>
     <link rel="stylesheet" href="./css/bookshover.css">
@@ -71,7 +75,7 @@ if ($isUser) {
             margin: 0;
             background-color: #fff;
             /* Replace with the actual path to your image */
-
+            background-image: url("./systemImg/ps_neutral.webp");
         }
 
         .swal2-popup {

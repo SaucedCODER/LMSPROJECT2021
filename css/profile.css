@@ -1,0 +1,32 @@
+    /* Custom CSS for the modal */
+
+      #profileModal .profile-image {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        outline: 10px solid #ccc;
+        object-fit: cover;
+        margin: 0 auto 20px;
+      }
+      #profileModal label {
+        text-transform: uppercase;
+      }
+      #profileModal .modal-header,
+      #profileModal .modal-footer {
+        border: none;
+      }
+      #profileModal .form-group {
+        display: grid;
+        grid-template-columns: 1fr;
+        /* gap: 10px; */
+        align-items: flex-start;
+        /* margin-bottom: 10px; */
+      }
+      #profileModal .form-group input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        background-color: #e8e8e8;
+        border-radius: 0;
+        margin-top: 4px;
+        margin-bottom: 4px;
+      }

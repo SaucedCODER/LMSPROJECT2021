@@ -14,7 +14,6 @@
 
         section {
             position: absolute;
-            color: white;
             display: none;
             inset: 0;
             top: 3rem;
@@ -192,6 +191,14 @@
                         <span class='text-nowrap'>Return Transanction</span>
                     </a>
                 </li>
+                <li class="nav-item" data-nav="manageMember">
+                    <a class="nav-link">
+                        <div class="icon-wrap">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <span class='text-nowrap'>Manage Members</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" onclick="showPendingAprovalModal()">
                         <div class="icon-wrap">
@@ -226,7 +233,7 @@
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')">Create New Book</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
@@ -239,6 +246,59 @@
 
 
     <div class="century">
+        <style>
+            .manageMemberPage {
+                position: relative;
+                box-shadow: 0 3px 10px rgb(0 0 0 / 20%);
+                min-height: 100vh;
+                width: 100vw;
+            }
+
+            .manageMemberContents {
+                padding: 1rem;
+                padding-top: 1rem;
+                color: black;
+                background-color: #f5f5f5;
+                min-height: calc(100vh - 2rem);
+            }
+        </style>
+        <main class="manageMemberPage">
+            <!-- manage books -->
+            <div class="manageMemberContents">
+                <h1 class="f1 m-3 mt-3 fw-bold">Manage Members</h1>
+
+                <button type="button" class="btn btn-primary my-1" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')"><i class="bi bi-plus-circle"></i> Create Book</button>
+                <table id='tableManageMembers' class="table table-striped" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>User ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Type</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Image</th>
+                            <th>User ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+        </main>
         <main class="borrowtrans activ">
             <div class="links linksins">
                 <button class="btnbt active4btn btn btn-outline-dark" data-link="sandr">Manual Entry</button>
@@ -321,6 +381,7 @@
                     padding-top: 5rem;
                     color: black;
                     background-color: #f5f5f5;
+                    min-height: calc(100vh - 2rem);
                 }
 
                 #addnewbook {
@@ -467,92 +528,10 @@
             </div>
 
 
+
         </main>
         <!-- modal for new registrations!! -->
-        <style>
-            /* Custom styles for a modern design */
-            #approvalsModal .modal-content {
-                border-radius: 0;
-            }
 
-            #approvalsModal .modal-header {
-                color: #fff;
-                border-bottom: none;
-            }
-
-            #approvalsModal .modal-title {
-                font-weight: bold;
-            }
-
-            #approvalsModal .table {
-                margin-bottom: 0;
-            }
-
-            #approvalsModal .table thead th {
-                border-top: none;
-            }
-
-            #approvalsModal .table tbody tr:hover {
-                background-color: #f8f9fa;
-            }
-
-            #approvalsModal .btn-success,
-            #approvalsModal .btn-danger {
-                border-radius: 0;
-            }
-        </style>
-
-        <!-- <div class="modalacccontainer">
-            <div class="modalregistrationbody">
-                <div class="closebtn">&times</div>
-                <h3>Pending registration list..</h3>
-                <div class="tabcon">
-                </div>
-            </div>
-
-        </div> -->
-
-        <div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="approvalsModalLabel">
-                            Admin Approvals
-                        </h5>
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Check if the list is empty and display a message -->
-                        <div class="approvalMessage"></div>
-
-
-
-                        <!-- Display a table of new user registrations if not empty -->
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Full Name</th>
-                                    <th>Address</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Example data, replace with actual user registration data -->
-                                <!-- Add user rows here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- Close button -->
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- end of modal for registrations -->
         <?php include 'returntrans.php'; ?>
 
@@ -676,6 +655,67 @@
 
         }
 
+        function displayManageMember(data) {
+            // Destroy any existing DataTable (if applicable)
+            if ($.fn.dataTable.isDataTable('#tableManageMembers')) {
+                const table = $('#tableManageMembers').DataTable();
+                table.clear()
+                table.destroy()
+                console.log(table.table);
+
+
+                console.log('destroyed');
+            }
+            // Initialize DataTable
+            const table = $('#tableManageMembers').DataTable({
+                // DataTable options here
+                order: [],
+                columnDefs: [{
+                    orderable: false,
+                    targets: [0, -1] // Disables sorting for the first and last columns
+                }],
+                language: {
+                    paginate: {
+                        previous: '<i class="bi bi-chevron-left"></i>',
+                        next: '<i class="bi bi-chevron-right"></i>',
+                    },
+                    //customize number of elements to be displayed
+                    lengthMenu: 'Show <select class="form-control input-sm">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">All</option>' +
+                        "</select> Entries",
+                },
+            });
+            // Format data (assuming data is an array of objects)
+            const formattedData = data.map(item => [
+                `<img class='img-fluid img-thumbnail' style='height:100px;width:100px;' src='./${item.profileImage}' alt='imgurl:${item.profileImage}'>`,
+                item.user_id,
+                item.Fname + ' ' + item.Lname,
+                item.Email,
+                item.Gender,
+                item.type,
+
+                // ... other columns as needed
+                `<div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="manageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="editMember('${item.user_id}')">Edit</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="deleteMember('${item.user_id}')">Delete</a></li>
+                    </ul>
+                </div>`
+            ]);
+
+            // Populate the DataTable with formatted data
+            table.rows.add(formattedData).draw();
+
+
+        }
 
         //function xttprequest 
         function xttpreq(phpfilename, send, output) {
@@ -774,6 +814,8 @@
         const linkscontainer = document.querySelector(".links-container");
         const navItems = linkscontainer.querySelectorAll(".nav-item");
         const returntrans = document.querySelector(".returntrans");
+        const manageMemberPage = document.querySelector(".manageMemberPage");
+
         const mains = document.querySelectorAll("main");
         console.log(userid);
 
@@ -821,6 +863,11 @@
                     case "rtrans":
                         returntrans.classList.add("activ");
                         updateRecordStatus();
+
+                        break;
+                    case "manageMember":
+                        manageMemberPage.classList.add("activ");
+                        reFetch("ajax.php?action=GET_ALL_USER", "GET", displayManageMember)
 
                         break;
                     default:
@@ -926,7 +973,6 @@
                 if (xhr.status == 200) {
                     const res = xhr.responseText;
                     reservecontainer.innerHTML = res;
-
                     profilen.innerHTML = targetname;
                     editimg.src = imgtarget + `?${Math.floor(Math.random() * 1000)}`;
                 } else {
@@ -1006,7 +1052,6 @@
                     console.log(el.target.dataset.link);
                     showallcollection();
                     showcategories();
-
                     searchandreserve.classList.add("activ");
                     el.target.classList.add("active4btn");
                 } else if (el.target.dataset.link == "trec") {

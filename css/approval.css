@@ -1,0 +1,30 @@
+/* Custom styles for a modern design */
+#approvalsModal .modal-content {
+    border-radius: 0;
+}
+
+#approvalsModal .modal-header {
+    color: #fff;
+    border-bottom: none;
+}
+
+#approvalsModal .modal-title {
+    font-weight: bold;
+}
+
+#approvalsModal .table {
+    margin-bottom: 0;
+}
+
+#approvalsModal .table thead th {
+    border-top: none;
+}
+
+#approvalsModal .table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+#approvalsModal .btn-success,
+#approvalsModal .btn-danger {
+    border-radius: 0;
+}

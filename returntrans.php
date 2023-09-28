@@ -1,6 +1,5 @@
 <style>
     .returntrans {
-        background-color: green;
         height: 100%;
     }
 
@@ -88,7 +87,7 @@
 
 <main class="returntrans">
 
-    <div class="container ">
+    <div class="container">
         <div class="row h-100">
             <div class="col-sm-2 col-md-3 ">
                 <div class="alert alert-info">
