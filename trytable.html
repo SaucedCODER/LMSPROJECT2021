@@ -3,38 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Profile Update Modal</title>
-    <!-- Include Bootstrap 5 CSS (you may need to adjust the path) -->
+    <title>Profile Modal</title>
+    <!-- Include Bootstrap CSS -->
     <link
-      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
     />
   </head>
+  <!-- Button to trigger the modal -->
+
   <body>
-    <!-- Button to trigger the modal -->
     <button
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
-      data-bs-target="#updateProfileModal"
+      data-bs-target="#profileModal"
     >
-      Update Profile
+      Open Profile Modal
     </button>
 
-    <!-- Update Profile Modal -->
+    <!-- Modal -->
+    <!-- Modal -->
     <div
       class="modal fade"
-      id="updateProfileModal"
+      id="profileModal"
       tabindex="-1"
-      aria-labelledby="updateProfileModalLabel"
+      aria-labelledby="profileModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-xl bg-body-secondary">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="updateProfileModalLabel">
-              Update Profile
-            </h5>
             <button
               type="button"
               class="btn-close"
@@ -43,39 +42,284 @@
             ></button>
           </div>
           <div class="modal-body">
-            <!-- Profile update form goes here -->
-            <form id="profileUpdateForm">
-              <div class="mb-3">
-                <label for="fullName" class="form-label">Full Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fullName"
-                  name="fullName"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="profileImage" class="form-label"
-                  >Profile Image</label
+            <form id="addNewUser" class="needs-validation" novalidate>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-4">
+                    <img
+                      width="150"
+                      height="150"
+                      src="usersprofileimg/profile190001.jpg?1427093655"
+                      class="profile-image mb-5 rounded"
+                      alt="Profile Image"
+                    />
+                    <div class="input-group btn-outline-info">
+                      <label class="input-group-btn">
+                        <span class="btn btn-success rounded-0">
+                          Change
+                          <input
+                            type="file"
+                            id="filePInput"
+                            style="display: none"
+                          />
+                        </span>
+                      </label>
+                      <input
+                        type="text"
+                        class="form-control text-secondary"
+                        id="selectedFileName"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="mb-3 position-relative">
+                      <label for="firstName" class="form-label"
+                        >First Name</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="Enter First Name"
+                        required
+                      />
+                      <div class="valid-tooltip">Looks good!</div>
+                      <div class="invalid-tooltip">
+                        Please provide a valid first name.
+                      </div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="lastName" class="form-label">Last Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Enter Last Name"
+                        required
+                      />
+                      <div class="valid-tooltip">Looks good!</div>
+                      <div class="invalid-tooltip">
+                        Please provide a valid last name.
+                      </div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="email" class="form-label">Email</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="Enter Email"
+                        required
+                      />
+                      <div class="valid-tooltip">Looks good!</div>
+                      <div class="invalid-tooltip">
+                        Please provide a valid email.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="mb-3 position-relative">
+                      <label for="username" class="form-label">Username</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        placeholder="Enter Username"
+                        required
+                      />
+                      <div class="valid-tooltip">Looks good!</div>
+                      <div class="invalid-tooltip">
+                        Please provide a valid username.
+                      </div>
+                    </div>
+                    <!-- Add validation for other input fields -->
+                    <div class="mb-3 position-relative">
+                      <label for="password" class="form-label">Password</label>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        placeholder="Enter Password"
+                        required
+                      />
+                      <div class="valid-tooltip">Looks good!</div>
+                      <div class="invalid-tooltip">
+                        Please provide a valid password.
+                      </div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label for="gender" class="form-label">Gender</label>
+                      <select
+                        class="form-select"
+                        id="gender"
+                        name="gender"
+                        required
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                      <div class="valid-tooltip">Looks good!</div>
+                      <div class="invalid-tooltip">
+                        Please select a valid gender.
+                      </div>
+                    </div>
+                    <!-- Add more input fields as needed -->
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="userSaveBtn"
+                  class="btn btn-primary"
+                  data-route="methods2/manageuserui.php?action=update"
                 >
-                <input
-                  type="file"
-                  class="form-control"
-                  id="profileImage"
-                  name="profileImage"
-                />
+                  SAVE
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  CLOSE
+                </button>
               </div>
-              <!-- Add more form fields for profile update here -->
             </form>
+
+            <div class="row">
+              <div
+                class="col-md-12 col-lg-5 p-5 d-flex justify-content-start align-items-center flex-column"
+              >
+                <img
+                  width="150"
+                  height="150"
+                  src="usersprofileimg/profile190001.jpg?1427093655"
+                  class="profile-image mb-5 rounded"
+                  alt="Profile Image"
+                />
+
+                <div class="input-group btn-outline-info">
+                  <label class="input-group-btn">
+                    <span class="btn btn-success rounded-0">
+                      Change
+                      <input
+                        type="file"
+                        id="filePInput"
+                        style="display: none"
+                      />
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control text-secondary"
+                    id="selectedFileName"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <form class="col-md-12 col-lg-7">
+                <h5
+                  class="modal-title col-md-12 fs-2 my-3"
+                  id="profileModalLabel"
+                >
+                  My Profile
+                </h5>
+                <div class="form-group">
+                  <label for="firstName">First Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    value="ZEUS MIGUEL"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    value="ORILLA"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="idNumber">Username:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="idNumber"
+                    value="190001"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="password">Password:</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="Leave it blank to keep the current password"
+                  />
+                  <small class="form-text text-muted">
+                    <i
+                      >Leave the input blank if you don't want to update the
+                      password.</i
+                    >
+                  </small>
+                </div>
+
+                <div class="form-group">
+                  <label for="residenceAddress">Residence Address:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="residenceAddress"
+                    value="asdfsa"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="officialAddress">Official Address:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="officialAddress"
+                    value="adsf"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="landlineNumber">Land Line No:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="landlineNumber"
+                    value="0"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="mobileNumber">Mobile No:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="mobileNumber"
+                    value="2147483647"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="gender">Gender:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="gender"
+                    value="male"
+                  />
+                </div>
+              </form>
+            </div>
           </div>
           <div class="modal-footer">
             <button
@@ -86,35 +330,104 @@
               Close
             </button>
             <button
-              type="button"
               class="btn btn-primary"
-              onclick="updateProfile()"
+              data-userid="190001"
+              onclick="editmyacc(event)"
             >
-              Save Changes
+              Update
             </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Include Bootstrap 5 JS (you may need to adjust the path) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
     <script>
-      function updateProfile() {
-        // Get form data
-        const fullName = document.getElementById("fullName").value;
-        const email = document.getElementById("email").value;
-        const profileImage = document.getElementById("profileImage").files[0]; // Get the selected image file
+      // Populate the modal with data
+      document.addEventListener("DOMContentLoaded", () => {
+        const profileData = {
+          user_id: 190000,
+          Fname: "admin",
+          Lname: "01",
+          ResAdrs: "[value-4]",
+          OfcAdrs: "[value-5]",
+          LandlineNo: 0,
+          MobileNo: 0,
+          Email: "[value-8]",
+          Gender: "[value-9]",
+          username: "190000",
+          password: "123",
+          type: "ADMIN",
+          status: 0,
+          profileImage: "usersprofileimg/profiledefault.jpg",
+        };
 
-        // Update the user's profile (you can send the data to your server here, including the image)
+        document.getElementById("userId").value = profileData.user_id;
+        document.getElementById("firstName").value = profileData.Fname;
+        document.getElementById("lastName").value = profileData.Lname;
+        document.getElementById("residenceAddress").value = profileData.ResAdrs;
+        document.getElementById("officialAddress").value = profileData.OfcAdrs;
+        document.getElementById("landlineNumber").value =
+          profileData.LandlineNo;
+        document.getElementById("mobileNumber").value = profileData.MobileNo;
+        document.getElementById("email").value = profileData.Email;
+        document.getElementById("gender").value = profileData.Gender;
+        document.getElementById("username").value = profileData.username;
+        document.getElementById("password").value = profileData.password;
+        document.getElementById("type").value = profileData.type;
+        document.getElementById("status").value = profileData.status;
+        document.getElementById("profileImage").value =
+          profileData.profileImage;
 
-        // Close the modal
-        var myModal = new bootstrap.Modal(
-          document.getElementById("updateProfileModal")
-        );
-        myModal.hide();
-      }
+        // Handle the "Change Image" button click event
+        document
+          .getElementById("changeImage")
+          .addEventListener("click", function () {
+            // Implement logic to change the profile image
+            alert("Change image logic goes here");
+          });
+
+        // Handle the form submission
+        document
+          .getElementById("saveProfile")
+          .addEventListener("click", function () {
+            // Implement logic to submit the form data
+            const formData = new FormData(
+              document.getElementById("profileForm")
+            );
+
+            // Send the form data using fetch or another method
+            // Example: Using fetch to send the data to a PHP script
+            fetch("update_profile.php", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => {
+                if (response.ok) {
+                  // Handle successful submission (e.g., show a success message)
+                  alert("Profile updated successfully");
+                  // Close the modal if needed
+                  $("#profileModal").modal("hide");
+                } else {
+                  // Handle errors (e.g., show an error message)
+                  alert("Error updating profile");
+                }
+              })
+              .catch((error) => {
+                // Handle network or other errors
+                console.error("Error:", error);
+              });
+          });
+      });
     </script>
   </body>
 </html>

@@ -3,21 +3,19 @@
     --primary-color:  #000f7e; 
     --secondary-color: #405577; 
     --accent-color: #19396e; 
-    --background-color: #cff7f72c; 
+    --background-color: #f4f4f4; 
     --text-color: #333333; 
     --button-text-color: #ffffff; 
 }
 
-/* Modal header */
-.modal-header {
-    background-color: var(--primary-color);
-    color: var(--button-text-color);
-}
 
 /* Modal body */
+.modal-content{
+    background-image: url("../systemImg/ps_neutral.webp");
+}
 .modal-body {
-    background-color: var(--background-color);
     color: var(--text-color);
+ 
 }
 
 /* Buttons */
@@ -54,14 +52,15 @@
 }
 
 /* Offcanvas header */
-.offcanvas-header {
-    background-color: var(--primary-color); /* Teal */
-    color: var(--button-text-color); /* White */
+/* Modal header */
+
+.offcanvas-header,.modal-header {
+border: none;
 }
 
 /* Offcanvas body */
 .offcanvas-body {
-    background-color: var(--background-color); /* Light Gray */
+    background-image: url("../systemImg/ps_neutral.webp");
     color: var(--text-color); /* Dark Gray */
 }
 
