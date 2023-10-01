@@ -18,6 +18,10 @@ function deleteBook($conn, $isbn)
 
     // Delete the book from the database
     $deleteBookQuery = "DELETE FROM book_collection WHERE ISBN = ?";
+    $deleteStockQuery = "DELETE FROM stocks WHERE ISBN = ?";
+    $deleteBookImgQuery = "DELETE FROM book_image WHERE ISBN = ?";
+
+    //Reuse the same statement Delete the book data
     $stmt = $conn->prepare($deleteBookQuery);
     $stmt->bind_param("s", $isbn);
     if (!$stmt->execute()) {
@@ -25,14 +29,19 @@ function deleteBook($conn, $isbn)
     }
     $stmt->close();
 
-    // Delete the book stock
-    $deleteStockQuery = "DELETE FROM stocks WHERE ISBN = ?";
+    //Reuse the same statement Delete the book stock
     $stmt = $conn->prepare($deleteStockQuery);
     $stmt->bind_param("s", $isbn);
     if (!$stmt->execute()) {
         $result = false;
     }
     $stmt->close();
+    // Reuse the same statement for Book Image data in db deletion
+    $stmt = $conn->prepare($deleteBookImgQuery);
+    $stmt->bind_param("s", $isbn);
+    if (!$stmt->execute()) {
+        $result = false;
+    }
     // Delete the book image file (multiple extensions)
     $allowedExtensions = ['jpg', 'jpeg', 'png'];
     foreach ($allowedExtensions as $extension) {
@@ -213,13 +222,13 @@ if (isset($_GET['action'])) {
             if ($updateResult === 3 && $fileUploadResult['success'] === 3 && $insertStocksResult === 3) {
                 $response['message'] = array(
                     'title' => 'No Changes Detected',
-                    'text' => "Book Title: " . $updateData['title']
+                    'text' => $message = "Book titled: " . $updateData['title']
                 );
             }
         } else {
             // Error occurred during update
             $response['success'] = false;
-            $response['message'] = 'Error updating book.';
+            $response['message'] = "Failed to update Book. Please try again later or contact support for assistance.";;
         }
 
 
@@ -251,7 +260,6 @@ function handleFileUpload($file, $isbn, $conn)
                 $sql = "INSERT INTO book_image(ISBN, status) VALUES ('$isbn', 0)";
                 $result = mysqli_query($conn, $sql);
             } else {
-                // Assuming you have already retrieved $isbn and $status from somewhere
                 $sql = "UPDATE book_image SET status = 0 WHERE ISBN = '$isbn'";
                 $result = mysqli_query($conn, $sql);
             }
@@ -268,9 +276,8 @@ function handleFileUpload($file, $isbn, $conn)
             $response['message'] = 'Error moving the uploaded file to the destination directory.';
         }
     } else {
-        //setting book image to default in the database
+        //setting book image to default in the database if doesnt have file uploaded
 
-        // SQL query to select the image record
         $sqlImg = "SELECT * FROM book_image WHERE ISBN = '$isbn'";
         // Execute the SQL query
         $resultImg = mysqli_query($conn, $sqlImg);
@@ -302,13 +309,13 @@ function bookExists($conn, $isbn)
 
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+        $stmt->close();
 
         if ($row['count'] > 0) {
             return true;
         } else {
             return false;
         }
-        $stmt->close();
     }
 }
 // Function to insert book data

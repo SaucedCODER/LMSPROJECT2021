@@ -34,7 +34,7 @@ $result = mysqli_query($conn, $sql);
 								echo "<p>".$row['Lname']."<strong>| ID:</strong> ".$row['user']."</p>";
 							}
 							else {
-								echo "<img data-imgsrc='usersprofileimg/profiledefault.jpg' src='usersprofileimg/profiledefault.jpg'>";
+								echo "<img data-imgsrc='usersprofileimg/profiledefault.png' src='usersprofileimg/profiledefault.png'>";
 								echo "<p>".$row['Lname']." <strong>| ID:</strong>".$row['user']."</p>";
 							}
 					
@@ -55,7 +55,7 @@ $result = mysqli_query($conn, $sql);
 								echo "<p>".$row['Lname']."<strong>| ID:</strong> ".$row['user']."</p>";
 							}
 							else {
-								echo "<img data-imgsrc='usersprofileimg/profiledefault.jpg' src='usersprofileimg/profiledefault.jpg'>";
+								echo "<img data-imgsrc='usersprofileimg/profiledefault.png' src='usersprofileimg/profiledefault.png'>";
 								echo "<p>".$row['Lname']."<strong>| ID:</strong> ".$row['user']."</p>";
 							}
 							if ($row['notif'] > 0 ) {
@@ -82,5 +82,3 @@ $result = mysqli_query($conn, $sql);
 
 }
 mysqli_close($conn);
-
-?>

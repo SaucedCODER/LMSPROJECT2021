@@ -21,7 +21,9 @@ if (isset($_POST["username"]) && isset($_POST["password"])) {
             $conn->query($sqlupdatestatus) or die("Fatal error");
             $redirectfile = ($row["type"] == "ADMIN") ? "admins.php" : "members.php";
             $_SESSION['userRole'] = $redirectfile;
-            $redirectPath = "$redirectfile?userid=$userid&username=$username";
+            $redirectPath = "$redirectfile";
+            $_SESSION['userid'] = $userid;
+            $_SESSION['username'] = $username;
             $response = array("userRole" => $_SESSION['userRole'], "success" => true, "message" => "Authentication successful", "redirect" => $redirectPath);
         } else {
             $response = array("userRole" => $_SESSION['userRole'], "success" => false, "message" => "Your account is not yet approved.");

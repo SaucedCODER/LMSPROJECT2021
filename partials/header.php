@@ -2,12 +2,26 @@
 session_start();
 if (!isset($_SESSION['userRole'])) {
     $_SESSION['userRole'] = 'index.php';
+    exit;
 }
-
 $isUser = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] == 'members.php');
 if ($isUser) {
-    $UID = $_SESSION['userid'] = $_GET["userid"];
-    $username = $_SESSION['username'] = $_GET["username"];
+    if (!isset($_SESSION['userid']) || !isset($_SESSION['username'])) {
+        // Destroy the session
+        session_unset();
+        session_destroy();
+        header("Location: index.php");
+
+        exit;
+    } else if ($_SESSION['userid'] == 'undefined' || $_SESSION['username'] == 'undefined') {
+        header("Location: nonusers.php");
+        exit;
+    }
+    $UID = $_SESSION['userid'];
+    $username = $_SESSION['username'];
+} else if ($_SESSION['userRole'] != 'index.php') {
+    header("Location: nonusers.php");
+    exit;
 }
 
 ?>

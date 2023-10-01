@@ -103,7 +103,7 @@
             <div class='lowbox col-7'>
                 <label for='search'>for</label>
 
-                <input type="search" class='texts' name="search" id="search" placeholder="anything...." autocomplete="off">
+                <input type="search" class='texts' name="search" id="searchBooks" placeholder="anything...." autocomplete="off">
                 <div class='searchdroplist'></div>
             </div>
 

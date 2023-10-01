@@ -2,7 +2,7 @@ const tracat = document.querySelector(".trackcat");
 const select = document.querySelector("#select");
 const searchform = document.querySelector(".filter-search");
 
-const input = document.querySelector("#search");
+const input = document.querySelector("#searchBooks");
 const droplistcontainer = document.querySelector(".searchdroplist");
 
 input.addEventListener("keyup", search);

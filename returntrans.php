@@ -95,8 +95,8 @@
                     <p>Use the search box below to find users based on their System ID.</p>
                 </div>
                 <form class="findcontainer findretcontainer">
-                    <label for="filterdata" class="form-label">Search by System ID:</label>
-                    <input type="search" class="filterusers filterusersret form-control" id="filterdata" autocomplete="off" placeholder="Enter System ID">
+                    <label for="filterId" class="form-label">Search by System ID:</label>
+                    <input type="search" class="filterusers filterusersret form-control" id="filterId" autocomplete="off" placeholder="Enter System ID">
                 </form>
                 <!-- Rest of your content -->
                 <hr>
@@ -114,7 +114,7 @@
             <div class="col-md-9 ">
                 <div class="userdesc">
                     <div class="d-flex justify-content-center align-items-center">
-                        <img class="editimgr rounded-circle" style="height: 100px; width: 100px;" src="usersprofileimg/profiledefault.jpg" alt="User Profile Image">
+                        <img class="editimgr rounded-circle" style="height: 100px; width: 100px;" src="usersprofileimg/profiledefault.png" alt="User Profile Image">
                     </div>
                     <h1 class="profiler text-center mt-3">User Profile</h1>
                 </div>
@@ -219,7 +219,7 @@
                 if (stat.dataset.statusr = "off") {
 
                     profiler.innerHTML = "Profile";
-                    editimgr.src = "usersprofileimg/profiledefault.jpg";
+                    editimgr.src = "usersprofileimg/profiledefault.png";
 
                 }
 

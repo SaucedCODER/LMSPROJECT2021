@@ -103,3 +103,104 @@
     }
   }
   
+
+
+
+
+/* Responsive Table Styles for members */
+
+/* Large Screens (min-width: 768px) */
+@media only screen and (min-width: 768px) {
+  #tableManageMembers {
+    table-layout: auto;
+    max-width: 100% !important;
+  }
+}
+
+/* Table Header Styles */
+thead {
+  background: #ddd;
+}
+
+/* Truncate Text in Table Cell */
+#tableManageMembers td:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive Table Styles for Small Screens (max-width: 767px) */
+@media only screen and (max-width: 767px) {
+  /* Make the table responsive */
+  #tableManageMembers,
+  #tableManageMembers thead,
+  #tableManageMembers tbody,
+  #tableManageMembers th,
+  #tableManageMembers td,
+  #tableManageMembers tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  #tableManageMembers thead tr,
+  #tableManageMembers tfoot tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  /* Style table cells */
+  #tableManageMembers td {
+    border: none;
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+    padding-left: 50% !important;
+  }
+
+  /* Style table cell content */
+  #tableManageMembers td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /* Background and styles for the first column (assumed to be for labels) */
+  .table td:nth-child(1) {
+    background: #e4e4e4;
+    height: 100%;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+  }
+
+  /* Label the data in the first column */
+  #tableManageMembers td:nth-of-type(1):before {
+    content: "Image";
+  }
+
+  #tableManageMembers td:nth-of-type(2):before {
+    content: "User ID";
+  }
+
+  #tableManageMembers td:nth-of-type(3):before {
+    content: "Full Name";
+  }
+
+  #tableManageMembers td:nth-of-type(4):before {
+    content: "Email";
+  }
+
+  #tableManageMembers td:nth-of-type(5):before {
+    content: "Type";
+  }
+  #tableManageMembers td:nth-of-type(5):before {
+    content: "Action";
+  }
+
+  /* Hide DataTables length control */
+  .dataTables_length {
+    display: none;
+  }
+}
