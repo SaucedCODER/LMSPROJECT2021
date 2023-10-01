@@ -29,7 +29,7 @@ if (isset($_POST['userid'])) {
                         echo "<img src='usersprofileimg/profile" . $id . ".$fileActualExt1?" . mt_rand() . "'>";
                     } else {
 
-                        echo "<img src='usersprofileimg/profiledefault.jpg'>";
+                        echo "<img src='usersprofileimg/profiledefault.png'>";
                     }
                     echo "<p>" . $row['Fname'] . " SystemId:" . $id . "</p>";
                     echo "</div>";
@@ -62,7 +62,7 @@ if (isset($_POST['useridshowdetails'])) {
                     $fileActualExt1 = strtolower(end($fileext));
                     echo "<img src='usersprofileimg/profile" . $id . ".$fileActualExt1?" . mt_rand() . "'>";
                 } else {
-                    echo "<img src='usersprofileimg/profiledefault.jpg'>";
+                    echo "<img src='usersprofileimg/profiledefault.png'>";
                 }
                 echo "<div class='containerdet'>";
                 echo "<p style='grid-column:1 / -1'>DATE JOINED:" . $row['DateJoined'] . "</p>";
@@ -110,7 +110,7 @@ if (isset($_POST['useriduserupdate'])) {
                     $fileActualExt1 = strtolower(end($fileext));
                     echo "<img id='chimg' src='usersprofileimg/profile" . $id . ".$fileActualExt1?" . mt_rand() . "'>";
                 } else {
-                    echo "<img id='chimg' src='usersprofileimg/profiledefault.jpg'>";
+                    echo "<img id='chimg' src='usersprofileimg/profiledefault.png'>";
                 }
                 echo "
                     <input id='filedata' type='file' onchange='readURL(this)' name='file'>

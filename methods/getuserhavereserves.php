@@ -47,7 +47,7 @@ if ((isset($_POST['table']) and isset($_POST['getfield']))) {
 						echo "<img data-imgsrc='usersprofileimg/profile" . $id . ".$fileActualExt1' src='usersprofileimg/profile" . $id . ".$fileActualExt1' >";
 						echo "<p>" . $row['Lname'] . " <strong>| ID:</strong> " . $row['user'] . "</p>";
 					} else {
-						echo "<img data-imgsrc='usersprofileimg/profiledefault.jpg' src='usersprofileimg/profiledefault.jpg'>";
+						echo "<img data-imgsrc='usersprofileimg/profiledefault.png' src='usersprofileimg/profiledefault.png'>";
 						echo "<p>" . $row['Lname'] . " <strong>| ID:</strong> " . $row['user'] . "</p>";
 					}
 
@@ -63,7 +63,7 @@ if ((isset($_POST['table']) and isset($_POST['getfield']))) {
 
 						echo "<img data-imgsrc='usersprofileimg/profile" . $id . ".$fileActualExt1' src='usersprofileimg/profile" . $id . ".$fileActualExt1' class='img-fluid rounded-circle user-image'>";
 					} else {
-						echo "<img data-imgsrc='usersprofileimg/profiledefault.jpg' src='usersprofileimg/profiledefault.jpg' class='img-fluid rounded-circle user-image'>";
+						echo "<img data-imgsrc='usersprofileimg/profiledefault.png' src='usersprofileimg/profiledefault.png' class='img-fluid rounded-circle user-image'>";
 					}
 
 					echo "<p class='text-center'>" . $row['Lname'] . " <strong>| ID:</strong> " . $row['user'] . "</p>";

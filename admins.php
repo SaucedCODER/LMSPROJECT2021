@@ -153,7 +153,7 @@
             <hr class="mb-0" />
             <span href="/" class="text-decoration-none logo-wrap py-4 ">
                 <div class="icon-wrap" id="profile-container">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle" />
+                    <img src="usersprofileimg/profiledefault.png" alt="" width="32" height="32" class="rounded-circle" />
                 </div>
                 <?php
                 include "connection/oopconnection.php";
@@ -233,7 +233,7 @@
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                     <li><a class="dropdown-item" href="#" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')">Create New Book</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">Profile</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="editMember('<?php echo $UID ?>')">Profile</a></li>
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
@@ -267,7 +267,7 @@
             <div class="manageMemberContents">
                 <h1 class="f1 m-3 mt-3 fw-bold">Manage Members</h1>
 
-                <button type="button" class="btn btn-primary my-1" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')"><i class="bi bi-plus-circle"></i> Create Book</button>
+                <button type="button" class="btn btn-primary my-1" onclick="openMemberModal('Create New Member','ajax.php?action=INSERT_USER')"><i class="bi bi-plus-circle"></i> Create New Member</button>
                 <table id='tableManageMembers' class="table table-striped" style="width: 100%">
                     <thead>
                         <tr>
@@ -331,7 +331,7 @@
                     </div>
                     <div class="resultcontainer">
                         <div class="userdesc">
-                            <img class="editimg" style="margin:2em;height:100px;width:130px;border-radius:10px;" src='usersprofileimg/profiledefault.jpg'>
+                            <img class="editimg" style="margin:2em;height:100px;width:130px;border-radius:10px;" src='usersprofileimg/profiledefault.png'>
                             <h1 class="profilen">Profile</h1>
 
                         </div>
@@ -404,128 +404,6 @@
                     height: auto;
                 }
             </style>
-            <!-- add book modal -->
-
-            <!-- Modal Create/update Book-->
-            <div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addBookModalLabel">Create BOOK</h5>
-                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="addnewbk" class="needs-validation" novalidate>
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="imgbbookcontainer">
-                                                <div class="img-container">
-                                                    <img id="chimg" src="booksimg/bookdefault.png" alt="book">
-                                                </div>
-                                                <input id="filebdata" type="file" name="file" accept="image/*">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="mb-3 position-relative">
-                                                <label for="isbn" class="form-label">ISBN</label>
-                                                <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Enter ISBN" required>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid ISBN.
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 position-relative">
-                                                <label for="title" class="form-label">Title</label>
-                                                <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid title.
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 position-relative">
-                                                <label for="author" class="form-label">Author</label>
-                                                <input type="text" class="form-control" id="author" name="author" placeholder="Enter Author" required>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid author name.
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 position-relative">
-                                                <label for="category" class="form-label">Category</label>
-                                                <input type="text" class="form-control" id="category" name="category" placeholder="Enter Category" required>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid category.
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 ">
-                                                <label for="bookprice" class="form-label">Book Price (in Pesos)</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text">₱</span>
-                                                    <input type="text" class="form-control" id="bookprice" name="bookprice" placeholder="Enter Book Price" required>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <!-- Add validation for other input fields -->
-                                            <div class="mb-3 ">
-                                                <label for="yearpublished" class="form-label">Year Published</label>
-                                                <div class="input-group">
-                                                    <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-                                                    <input type="text" class="form-control" id="yearpublished" name="yearpublished" data-toggle="datepicker" placeholder="Select Year Published" required>
-                                                </div>
-
-                                            </div>
-                                            <div class="mb-3 position-relative">
-                                                <label for="publisher" class="form-label">Publisher</label>
-                                                <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Enter Publisher" required>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid publisher.
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 position-relative">
-                                                <label for="quantity" class="form-label">Quantity</label>
-                                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Enter Quantity" required>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid quantity.
-                                                </div>
-                                            </div>
-                                            <div class="mb-3 position-relative">
-                                                <label for="abstract" class="form-label">Abstract</label>
-                                                <textarea class="form-control" id="abstract" name="abstract" placeholder="Enter Abstract" required></textarea>
-                                                <div class="valid-tooltip">
-                                                    Looks good!
-                                                </div>
-                                                <div class="invalid-tooltip">
-                                                    Please provide a valid abstract.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" id="bookSaveBtn" class="btn btn-primary">SAVE</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
 
@@ -536,7 +414,9 @@
         <?php include 'returntrans.php'; ?>
 
     </div>
+    <?php include './rendersviaphp/adminModals.php'; ?>
 
+    </div>
     <p class="trackcat" style="visibility:hidden;">All</p>
     <?php
     include './partials/footer.php'
@@ -544,11 +424,12 @@
 
     <script>
         //image upload show once choose  
-        function readURL(input) {
+        function readURL(input, imgELId) {
             if (input.files && input.files[0]) {
                 let reader = new FileReader();
                 reader.onload = function(er) {
-                    document.querySelector("#chimg").src = er.target.result;
+                    console.log(imgELId);
+                    document.querySelector(`#${imgELId}`).src = er.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
                 console.log('workk');
@@ -590,7 +471,7 @@
                     callback(data);
                 })
                 .catch((error) => {
-                    console.error("Error:", error.message);
+                    console.error("Error:", error);
                 });
         }
 
@@ -692,7 +573,7 @@
             });
             // Format data (assuming data is an array of objects)
             const formattedData = data.map(item => [
-                `<img class='img-fluid img-thumbnail' style='height:100px;width:100px;' src='./${item.profileImage}' alt='imgurl:${item.profileImage}'>`,
+                `<img class='img-fluid img-thumbnail' style='height:100px;width:100px;' src='${item.profileImage}' alt='imgurl:${item.profileImage}'>`,
                 item.user_id,
                 item.Fname + ' ' + item.Lname,
                 item.Email,
@@ -764,6 +645,8 @@
         //show and close modal events
         function showPendingAprovalModal() {
             // approvalBody
+            console.log('asdfsdaf');
+            approvaltBody.innerHTML = '';
             reFetch("methods2/shownewregs.php", "GET", ({
                 data,
                 message
@@ -847,6 +730,8 @@
             if (e.currentTarget.dataset.nav) {
                 const btnlinks = linkscontainer.querySelectorAll(".nav-link");
                 console.log(btnlinks);
+                if (e.currentTarget.firstElementChild.classList.contains("active")) return
+
                 btnlinks.forEach(e => {
                     e.classList.remove("active");
                 });
@@ -861,6 +746,7 @@
                         borrowtrans.classList.add("activ");
                         break;
                     case "rtrans":
+
                         returntrans.classList.add("activ");
                         updateRecordStatus();
 
