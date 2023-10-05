@@ -37,15 +37,12 @@ require_once "includes/session.php";
                     <form action="includes/signup.php" method="POST">
                         <!-- Input fields with skyblue border on focus -->
                         <?php signup_input() ?>
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
                     </form>
                 </div>
 
                 <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Sign Up</button>
-                </div>
-
             </div>
         </div>
     </div>

@@ -56,19 +56,27 @@ function empty_landlineno(string $landlineno)
     }
 }
 
-function empty_gender(string $male, string $female)
+function empty_gender(string $gender)
 {
-    if (empty($male) || $female) {
+    if (empty($gender)) {
         return true;
     } else {
         return false;
     }
 }
 
-
 function empty_pwd(string $pwd, string $confirmpwd)
 {
     if (empty($pwd) || empty($confirmpwd)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function username_taken(object $pdo, string $username)
+{
+    if (get_username($pdo, $username)) {
         return true;
     } else {
         return false;
@@ -84,16 +92,16 @@ function email_invalid(string $email)
     }
 }
 
-function email_registered(object $conn, string $email)
+function email_registered(object $pdo, string $email)
 {
-    if (get_email($conn, $email)) {
+    if (get_email($pdo, $email)) {
         return true;
     } else {
         return false;
     }
 }
 
-function create_user(object $conn, string $firstname, string $lastname, string $username, string $email, string $password)
+function create_user(object $pdo, string $firstname, string $lastname, string $username, string $email, string $resaddr, string $offaddr, string $mobileno, string $landlineno, string $pwd)
 {
-    set_user($conn, $firstname, $lastname, $username, $email, $password);
+    set_user($pdo, $firstname, $lastname, $username, $email, $resaddr, $offaddr, $mobileno, $landlineno, $pwd);
 }
