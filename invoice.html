@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Transaction Receipt</title>
+    <!-- Include Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <style>
+        #invoice-POS {
+           border:1px dotted #858585;
+            padding: 2rem;
+            margin: 0 auto;
+            width: 500px;
+            background: #FFF;
+        }
+
+        #invoice-POS::selection {
+            background: #f31544;
+            color: #FFF;
+        }
+
+        #invoice-POS::moz-selection {
+            background: #f31544;
+            color: #FFF;
+        }
+
+        #invoice-POS h1 {
+            font-size: 1em;
+            color: #222;
+        }
+
+        #invoice-POS h2 {
+            font-size: 0.8em;
+        }
+        #invoice-POS h3 {
+            font-size: 0.5em;
+        }
+        #invoice-POS p {
+            font-size: 0.6em;
+            color: #666;
+            line-height: 1.2em;
+            margin: 0;
+            padding: 0;
+        }
+
+        #invoice-POS #mid, #invoice-POS #bot {
+            border-bottom: 1px solid #EEE;
+        }
+
+        #invoice-POS #top {
+            min-height: 80px;
+            margin-bottom: 4px;
+        }
+
+        #invoice-POS #mid {
+            min-height: 70px;
+        }
+
+        #invoice-POS #bot {
+            min-height: 50px;
+        }
+
+        #invoice-POS #top .logo {
+            height: 50px;
+            width: 50px;
+            background: url('http://michaeltruong.ca/images/logo1.png') no-repeat;
+            background-size: 50px 50px;
+            margin-bottom: 4px;
+        }
+
+        #invoice-POS .info {
+            display: block;
+            float: left;
+            margin-left: 0;
+        }
+
+        #invoice-POS table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #invoice-POS td {
+            padding: 3px;
+            border: 1px solid #EEE;
+          
+        }
+
+        #invoice-POS .tabletitle {
+            padding: 5px;
+            font-size: 0.6em;
+            background: #EEE;
+        }
+
+        #invoice-POS .service {
+            border-bottom: 1px solid #EEE;
+        }
+
+        #invoice-POS .item {
+            width: 24mm;
+        }
+
+        #invoice-POS .itemtext {
+            font-size: 0.5em;
+        }
+
+        #legalcopy {
+            margin-top: 5mm;
+            font-size: 0.75em;
+
+        }
+    </style>
+</head>
+<body>
+
+<div id="invoice-POS">
+
+    <center id="top">
+        <div class="logo"></div>
+        <h2 class="text-center">Karlib Library</h2>
+    </center><!--End InvoiceTop-->
+   
+  <div id="mid">
+    <div class="text-left d-flex align-items-center flex-column">
+        <p>Address: Street City, State 0000 </p>
+        <p>Email: library@karlib.com</p> 
+        <p>Phone: 555-555-5555</p>
+    </div>
+</div>
+    <div id="mid" class="pb-4">
+        <div class="info">
+            <h2>Reciept: #Rec.1002</h2>
+            <p>
+                Date: October 10, 2023 6:19 AM<br>
+                Borrower: John Doe<br>
+                Processed by: Jane Smith<br>
+            </p>
+        </div>
+    </div><!--End Invoice Mid-->
+
+    <div id="bot">
+        <div>
+            <table >
+                <tr class="tabletitle">
+                    <td class="item" ><h2>Item</h2></td>
+                    <td ><h2>Type</h2></td>
+                    <td c><h2>Sub Total</h2></td>
+                </tr>
+
+                <tr class="service">
+                    <td class="tableitem" colspan="2"><p class="itemtext">Book: Harry Potter</p></td>
+                    <td class="tableitem"><p class="itemtext">R</p></td>
+                    <td class="tableitem"><p class="itemtext">$10.00</p></td>
+                </tr>
+
+                <tr class="service">
+                    <td class="tableitem" colspan="2"><p class="itemtext">Book: One Punch</p></td>
+                    <td class="tableitem"><p class="itemtext">P&R</p></td>
+                    <td class="tableitem"><p class="itemtext">$5.00</p></td>
+                </tr
+              <tr class="tabletitle">
+                <td class="tableitem"><h3 class="itemtext">Fine Payment</h3></td>
+                  <td class="Rate"><h3>Total</h3></td>
+                  <td class="payment"><h3>$5.00</h3></td>
+              </tr>
+          </table>
+      </div><!--End Table-->
+
+      <div id="legalcopy">
+          <p class="legal">
+            <strong>Thank you for your payment/returns!</strong> We appreciate your prompt payment for the transactions listed in this receipt. Payment is expected within 31 days; please complete any remaining transactions within that time. Please note that a 5% monthly interest charge will be applied to overdue invoices
+
+          </p>
+      </div>
+  </div><!--End InvoiceBot-->
+</div><!--End Invoice-->
+
+<!-- Bootstrap JS and jQuery (required for Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

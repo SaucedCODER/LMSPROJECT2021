@@ -33,13 +33,12 @@ if (isset($_POST['userid'])) {
 
 
 
-
       echo " 
-      <li class='list-group-item'  onclick=\"toggleCheckboxCart('reserveid{$rows['cart_id']}')\">
+      <li class='list-group-item cartItemShadow mb-2'  onclick=\"toggleCheckboxCart('reserveid{$rows['cart_id']}')\">
      
       <div class='row'>
           <div class='col-1'>
-          <input type='checkbox'style='border-radius:50%; cursor:pointer;outline:1px solid blue;' class='form-check-input selectcheck' id='reserveid" . $rows['cart_id'] . "' value='" . $rows['cart_id'] . "' style='cursor:pointer;'>
+          <input type='checkbox'style='border-radius:50%; cursor:pointer;outline:1px solid black;' class='form-check-input selectcheck' id='reserveid" . $rows['cart_id'] . "' value='" . $rows['cart_id'] . "' style='cursor:pointer;'>
           </div>
           <div class='col-2'>
           ";
@@ -59,9 +58,9 @@ if (isset($_POST['userid'])) {
       echo "
               </div>
               <div class='col-9'>
-                  <h6><b>ISBN:</b> " . $rows['ISBN'] . "</h6>
-                  <p><b>Title:</b> " . $rows['book_title'] . "<br>
-                  <b>Author:</b> " . $rowImg['author'] . "</p>
+                  <p><b>ISBN:</b> " . $rows['ISBN'] . "</p>
+                  <small><b>Title:</b> " . $rows['book_title'] . "<br>
+                  <b>Author:</b> " . $rowImg['author'] . "</small>
               </div>
           </div>
       </li>
@@ -84,6 +83,7 @@ if (isset($_POST['userid'])) {
   }
   echo "
     </div>
+
     <div class='offcanvas-footer p-3 d-flex justify-content-end gap-3'>";
   $checktypesql = "SElECT * FROM accounts where user_id = $mem_id";
   $res = $conn->query($checktypesql);

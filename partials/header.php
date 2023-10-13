@@ -2,7 +2,6 @@
 session_start();
 if (!isset($_SESSION['userRole'])) {
     $_SESSION['userRole'] = 'index.php';
-    exit;
 }
 $isUser = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] == 'members.php');
 if ($isUser) {
@@ -38,7 +37,8 @@ if ($isUser) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
     <!-- Data Table CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
     <!-- Date  Picker -->
@@ -87,9 +87,10 @@ if ($isUser) {
 
         body {
             margin: 0;
-            background-color: #fff;
+            /* background-color: #e2e8f0; */
             /* Replace with the actual path to your image */
             background-image: url("./systemImg/ps_neutral.webp");
+
         }
 
         .swal2-popup {

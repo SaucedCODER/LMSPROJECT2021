@@ -1,0 +1,104 @@
+#invoice-POS {
+    border:1px dotted #858585;
+     padding: 2mm;
+     margin: 0 auto;
+     width: 300px;
+     background: #FFF;
+     font-size: 20px;
+ }
+
+ #invoice-POS::selection {
+     background: #f31544;
+     color: #FFF;
+ }
+
+ #invoice-POS::moz-selection {
+     background: #f31544;
+     color: #FFF;
+ }
+
+ #invoice-POS h1 {
+     font-size: 1em;
+     color: #222;
+ }
+
+ #invoice-POS h2 {
+     font-size: 0.8em;
+ }
+ #invoice-POS h3 {
+     font-size: 0.8em;
+ }
+ #invoice-POS p {
+     font-size: 0.6em;
+     color: #666;
+     line-height: 1.2em;
+     margin: 0;
+     padding: 0;
+ }
+
+ #invoice-POS #mid, #invoice-POS #bot {
+     border-bottom: 1px solid #EEE;
+ }
+
+ #invoice-POS #top {
+     min-height: 80px;
+ }
+
+ #invoice-POS #mid {
+     min-height: 100px;
+     margin-bottom: 4px;
+ }
+
+ #invoice-POS #bot {
+     min-height: 70px;
+     padding-bottom: 1rem;
+ }
+
+ #invoice-POS #top .logo {
+     height: 50px;
+     width: 50px;
+     background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
+     background-size: 50px 50px;
+     margin-bottom: 4px;
+ }
+
+ #invoice-POS .info {
+     display: block;
+     float: left;
+     margin-left: 0;
+ }
+
+ #invoice-POS table {
+     width: 100%;
+     border-collapse: collapse;
+ }
+
+ #invoice-POS td {
+     padding: 3px;
+     border: 1px solid #EEE;
+   
+ }
+
+ #invoice-POS .tabletitle {
+     padding: 5px;
+     font-size: 0.6em;
+     background: #EEE;
+ }
+
+ #invoice-POS .service {
+     border-bottom: 1px solid #EEE;
+ }
+
+ #invoice-POS .item {
+     width: 24mm;
+ }
+
+ #invoice-POS .itemtext {
+     font-size: 0.5em;
+ }
+
+ #legalcopy {
+     margin-top: 10mm;
+     font-size: 1em;
+
+ }
