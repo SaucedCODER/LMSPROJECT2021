@@ -141,13 +141,13 @@ function prepareFormDataUser(route) {
   console.log(formData, "formData");
   return formData;
 }
-
-function getUserProfile(id, callback) {
-  console.log(callback);
-  const formData = new FormData();
-  formData.append("userid", id);
-  reFetch(`ajax.php?action=GET_USER`, "POST", callback, formData);
-}
+// function getUsers() {
+//   //displayManageMember
+//   reFetch(`ajax.php?action=GET_ALL_USER`, "GET", (data) => {
+//     console.log(data);
+//   });
+// }
+// getUsers();
 document.addEventListener("DOMContentLoaded", () => {
   const userid = document.querySelector(".userid").dataset.userid;
   getUserProfile(userid, renderProfile);
@@ -156,13 +156,6 @@ function renderProfile(data) {
   document.querySelector("#profile-container").firstElementChild.src =
     "./" + data.profileImage;
 }
-// function getUsers() {
-//   //displayManageMember
-//   reFetch(`ajax.php?action=GET_ALL_USER`, "GET", (data) => {
-//     console.log(data);
-//   });
-// }
-// getUsers();
 
 //Function get Member data from api
 function editMember(id) {
@@ -176,23 +169,10 @@ function editMember(id) {
     );
   });
 }
-
-//deletion of Member
-function deleteMember(id) {
-  console.log("deletion of userData From DB");
-  showAlert2(true, false, "Delete", () =>
-    reFetch(
-      `ajax.php?action=DELETE_USER&user_id=${encodeURIComponent(id)}`,
-      "DELETE",
-      deleteUserData
-    )
-  );
-}
-
-function deleteUserData(data) {
-  const UserDeletionMessage = data.message;
-  Swal.fire("Deleted!", UserDeletionMessage, "success");
-  reFetch("ajax.php?action=GET_ALL_USER", "GET", displayManageMember); //render all the member
+function getUserProfile(id, callback) {
+  const formData = new FormData();
+  formData.append("userid", id);
+  reFetch(`ajax.php?action=GET_USER`, "POST", callback, formData);
 }
 
 //image upload logics

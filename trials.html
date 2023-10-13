@@ -3,226 +3,117 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student List</title>
-    <!-- Include Bootstrap CSS -->
+    <title>Transaction Records</title>
+    <!-- Include Bootstrap 5 CSS -->
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css"
-    />
-    <style>
-      /* Custom styles */
-      .page {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .page-header h2 {
-        font-size: 24px;
-        text-transform: uppercase;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .student-search input[type="text"] {
-        border: 1px solid #eaeaea;
-        border-radius: 5px;
-        padding: 10px 15px;
-        font-size: 16px;
-      }
-
-      .student-search button {
-        border-radius: 5px;
-        padding: 10px 15px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: #fff;
-        cursor: pointer;
-      }
-
-      .student-search button:hover {
-        background-color: #0056b3;
-      }
-
-      /* Default styles for larger screens */
-      .list-group.student-list {
-        display: flex;
-        flex-wrap: wrap;
-      }
-
-      .list-group-item.student-info {
-        width: calc(33.33% - 20px); /* Three students per row */
-        margin: 10px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        transition: transform 0.2s;
-      }
-
-      .profile-image {
-        max-width: 100%;
-        border-radius: 50%;
-      }
-
-      .student-details {
-        margin-left: 20px;
-      }
-
-      /* Media query for smaller screens */
-      @media (max-width: 768px) {
-        .list-group.student-list {
-          flex-direction: column; /* Stack students in a single column */
-        }
-
-        .list-group-item.student-info {
-          width: 100%; /* Full width for each student on smaller screens */
-          margin: 10px 0;
-        }
-
-        .profile-image {
-          margin-right: 0;
-        }
-
-        .student-details {
-          margin-left: 0;
-          text-align: center;
-        }
-      }
-
-      /* User details section */
-      .user-details {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        display: none; /* Initially hidden */
-      }
-
-      .user-details h2 {
-        font-size: 24px;
-        text-transform: uppercase;
-        font-weight: bold;
-        color: #333;
-      }
-    </style>
   </head>
   <body>
-    <div class="container mt-5 user-container">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="page">
-            <div class="page-header d-flex flex-column gap-1 mb-4">
-              <h2 class="m-0 ms-2">Students</h2>
-            </div>
-            <ul class="list-group student-list pagination" id="userPagination">
-              <!-- Student list items will be added dynamically -->
-              <li class="list-group-item student-info">
-                <img class="profile-image" src="student1.jpg" alt="Student 1" />
-                <div class="student-details">
-                  <h4>ID: 1</h4>
-                  <p>Name: Student 1</p>
-                </div>
-              </li>
-              <li class="list-group-item student-info">
-                <img class="profile-image" src="student2.jpg" alt="Student 2" />
-                <div class="student-details">
-                  <h4>ID: 2</h4>
-                  <p>Name: Student 2</p>
-                </div>
-              </li>
-              <li class="list-group-item student-info">
-                <img class="profile-image" src="student3.jpg" alt="Student 3" />
-                <div class="student-details">
-                  <h4>ID: 3</h4>
-                  <p>Name: Student 3</p>
-                </div>
-              </li>
-              <li class="list-group-item student-info">
-                <img class="profile-image" src="student4.jpg" alt="Student 4" />
-                <div class="student-details">
-                  <h4>ID: 4</h4>
-                  <p>Name: Student 4</p>
-                </div>
-              </li>
-              <!-- Add more students as needed -->
-            </ul>
-          </div>
-          <div class="pagination mt-4">
-            <ul id="pagelist" class="pagination"></ul>
-          </div>
+    <div class="container mt-4">
+      <ul class="nav nav-tabs" id="transactionTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link active"
+            id="history-tab"
+            data-bs-toggle="tab"
+            href="#history"
+            role="tab"
+            aria-controls="history"
+            aria-selected="true"
+            >Transaction History</a
+          >
+        </li>
+        <li class="nav-item" role="presentation">
+          <a
+            class="nav-link"
+            id="unsettled-tab"
+            data-bs-toggle="tab"
+            href="#unsettled"
+            role="tab"
+            aria-controls="unsettled"
+            aria-selected="false"
+            >Unsettled Transactions</a
+          >
+        </li>
+      </ul>
+      <div class="tab-content" id="transactionTabsContent">
+        <!-- Transaction History Tab -->
+        <div
+          class="tab-pane fade show active"
+          id="history"
+          role="tabpanel"
+          aria-labelledby="history-tab"
+        >
+     <!-- Transaction History Tab -->
+<div class="tab-pane fade show active" id="history" role="tabpanel" aria-labelledby="history-tab">
+  <table class="table table-bordered table-responsive">
+      <thead>
+          <tr>
+              <th>ISBN</th>
+              <th>Borrowed Date</th>
+              <th>Status</th>
+              <th>View Book</th>
+              <th>Overdue Penalty</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Populate with data -->
+          <tr>
+              <td>0-0240774-1-0</td>
+              <td>2023-10-12 15:15:17</td>
+              <td>UNRETURNED</td>
+              <td><a href="#" class="btn btn-primary">View</a></td>
+              <td>₱ 0</td>
+          </tr>
+          <!-- Add more rows as needed -->
+      </tbody>
+      <tfoot>
+          <tr>
+              <td colspan="4" class="text-end"><strong>Total Penalty:</strong></td>
+              <td><strong>₱ 40</strong></td>
+          </tr>
+      </tfoot>
+  </table>
+</div>
+
+          </table>
         </div>
-        <div class="col-md-6">
-          <div class="user-details">
-            <!-- User details content will be displayed here -->
-          </div>
+        <!-- Unsettled Transactions Tab -->
+        <div
+          class="tab-pane fade"
+          id="unsettled"
+          role="tabpanel"
+          aria-labelledby="unsettled-tab"
+        >
+          <table class="table table-bordered table-responsive">
+            <thead>
+              <tr>
+                <th>ISBN</th>
+                <th>Admin Name</th>
+                <th>Transaction Date</th>
+                <th>Transaction Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Populate with data -->
+              <tr>
+                <td>0-0231424-7-2</td>
+                <td>admin1 01</td>
+                <td>2023-10-12 10:05:25</td>
+                <td>Return Only</td>
+                <td>OK</td>
+              </tr>
+              <!-- Add more rows as needed -->
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    <!-- Include Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- DataTables jQuery -->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <!-- Add an event listener to each student list item to populate user details -->
-    <script>
-      // Function to handle user clicks on student items
-      document
-        .querySelectorAll(".list-group-item.student-info")
-        .forEach((item) => {
-          item.addEventListener("click", () => {
-            // Reset styles for all items
-            document
-              .querySelectorAll(".list-group-item.student-info")
-              .forEach((item) => {
-                item.style.transform = "scale(1)";
-                item.style.zIndex = "0";
-              });
 
-            // Get the clicked item
-            const clickedItem = item;
-            clickedItem.style.transform = "scale(1.1)"; // Enlarge the clicked item
-            clickedItem.style.zIndex = "1";
-
-            // Get the user details based on the clicked item (you can customize this part)
-            const userId = parseInt(
-              clickedItem
-                .querySelector(".student-details h4")
-                .textContent.match(/\d+/)[0]
-            );
-            const userDetails = getUserDetails(userId); // Replace with your logic to get user details
-
-            // Display user details in the user-details panel
-            const userDetailsPanel = document.querySelector(".user-details");
-            userDetailsPanel.style.display = "block";
-            userDetailsPanel.innerHTML = `
-                  <h2>User Details</h2>
-                  <p>ID: ${userId}</p>
-                  <p>Name: ${userDetails.name}</p>
-                  <!-- Add more user details here -->
-              `;
-          });
-        });
-
-      // Function to get user details (replace with your data retrieval logic)
-      function getUserDetails(userId) {
-        // Sample user data (replace with your data retrieval logic)
-        const users = [
-          { id: 1, name: "Student 1", details: "Details for Student 1" },
-          { id: 2, name: "Student 2", details: "Details for Student 2" },
-          { id: 3, name: "Student 3", details: "Details for Student 3" },
-          { id: 4, name: "Student 4", details: "Details for Student 4" },
-        ];
-
-        return (
-          users.find((user) => user.id === userId) || { name: "User not found" }
-        );
-      }
-    </script>
+    <!-- Include Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

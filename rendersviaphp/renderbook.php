@@ -27,9 +27,10 @@ function show_data($fetchData)
       $sqlImg = "SELECT * FROM book_image where ISBN = '$isbnn'";
       $resultImg = $conn->query($sqlImg);
       $rowImg = $resultImg->fetch_assoc();
-      echo "<div class='col'> ";
+      echo "<div class='col'>";
+      $isAvail = $avail == 'Not Availble' ? 'opacity-50' : '';
       echo "
-        <div class='book-item card mb-3 h-100 w-100' onclick='viewbookev(event)' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bookuniq='" . $isbnn . "'>
+        <div class='book-item $isAvail card mb-3 h-100 w-100' onclick='viewbookev(event)' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bookuniq='" . $isbnn . "'>
       <div class='row row-cols-1 g-0 h-100 w-100'>
         <div class='col-md-12 col-lg-4'  >
         ";

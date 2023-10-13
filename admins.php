@@ -144,6 +144,7 @@
     </style>
 
     <div class="userid" data-userid='<?php echo $UID ?>'></div>
+
     <header class="position-fixed start-0 top-0" style="z-index: 999;">
         <div class="d-flex flex-column flex-shrink-0 sidebar-wrap">
             <a href="/" class="text-decoration-none logo-wrap">
@@ -243,8 +244,6 @@
         </div>
     </header>
 
-
-
     <div class="century">
         <style>
             .manageMemberPage {
@@ -336,16 +335,14 @@
 
                         </div>
                         <div class="reserve-container">NO data Found YEt...</div>
-
-
                     </div>
-
                 </div>
             </section>
             <!-- ENd of REASERVATION AREa -->
             <!-- manage books -->
             <section class="managebook">
                 <button type="button" class="btn btn-primary my-3" onclick="openBookModal('New Book','methods2/managebookui.php?action=insert')"><i class="bi bi-plus-circle"></i> Create Book</button>
+
                 <table id='tableManageBooks' class="table table-striped" style="width: 100%">
                     <thead>
                         <tr>
@@ -406,17 +403,57 @@
             </style>
 
 
-
         </main>
-        <!-- modal for new registrations!! -->
 
-        <!-- end of modal for registrations -->
-        <?php include 'returntrans.php'; ?>
+        <?php include './rendersviaphp/userCreateUpdateModal.php'; ?>
 
+        <?php include_once 'returntrans.php'; ?>
     </div>
     <?php include './rendersviaphp/adminModals.php'; ?>
 
+
     </div>
+
+    <!-- Admin Approval Modal -->
+    <div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="approvalsModalLabel">
+                        Admin Approvals
+                    </h5>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Check if the list is empty and display a message -->
+                    <div class="approvalMessage"></div>
+                    <!-- Display a table of new user registrations if not empty -->
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Address</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Example data, replace with actual user registration data -->
+                            <!-- Add user rows here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <!-- Close button -->
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <p class="trackcat" style="visibility:hidden;">All</p>
     <?php
     include './partials/footer.php'
@@ -746,10 +783,9 @@
                         borrowtrans.classList.add("activ");
                         break;
                     case "rtrans":
-
                         returntrans.classList.add("activ");
                         updateRecordStatus();
-
+                        showuserborrow();
                         break;
                     case "manageMember":
                         manageMemberPage.classList.add("activ");
@@ -915,6 +951,7 @@
                 deactivate: function() {}
             }
         };
+
         document.addEventListener("DOMContentLoaded", () => {
             showCartBtn.addEventListener("click", getbookFromCartReq);
         })

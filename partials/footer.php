@@ -1,6 +1,6 @@
 <?php
 // Access the stored username
-$isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] == 'members.php');
+$isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] == 'members.php') ? $_SESSION['userRole'] : false;
 ?>
 <div class="offcanvas offcanvas-end e-cart" style='z-index:3000' id="cartCanvas" aria-labelledby="cartCanvasLabel">
 </div>
@@ -79,45 +79,6 @@ $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] ==
     </div>
 </div> -->
 
-<!-- Admin Approval Modal -->
-<div class="modal fade" id="approvalsModal" tabindex="-1" aria-labelledby="approvalsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="approvalsModalLabel">
-                    Admin Approvals
-                </h5>
-                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
-            </div>
-            <div class="modal-body">
-                <!-- Check if the list is empty and display a message -->
-                <div class="approvalMessage"></div>
-                <!-- Display a table of new user registrations if not empty -->
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Address</th>
-                            <th>Phone Number</th>
-                            <th>Email</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Example data, replace with actual user registration data -->
-                        <!-- Add user rows here -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <!-- Close button -->
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- jquery cdn Link -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -138,6 +99,9 @@ $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] ==
 <!-- dropzone file upload JS -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+<!-- printPlugin -->
+<script type="text/javascript" src="./plugins/printThis.js"></script>
+
 
 <?php if ($isAdminMem) {
     echo '
@@ -145,9 +109,12 @@ $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] ==
         <script src="./js/jsCartFunc.js" defer></script>
         <script src="./js/jsDataTables.js" defer></script>
         <script src="./js/jsUtils.js" defer></script>
-        <script src="./js/jsCRUDBooks.js" defer></script>
-        <script src="./js/jsCRUDUsers.js" defer></script>
+        <script src="./js/jsCRUUsers.js" defer></script>
         ';
+    if ($isAdminMem == 'admins.php') {
+        echo '   <script src="./js/jsAdmin/jsCRUDBooks.js" defer></script>
+            <script src="./js/jsAdmin/jsDeleteUser.js" defer></script>';
+    }
 } else {
     echo '  <script src="./js/showalertlogin.js" defer></script>';
 } ?>
@@ -157,3 +124,37 @@ $isAdminMem = ($_SESSION['userRole'] == 'admins.php' || $_SESSION['userRole'] ==
 <script src="./js/search.js" defer></script>
 <script src="./js/showcollection.js" defer></script>
 <script src="./js/jsaddtocart.js" defer></script>
+
+
+
+<!-- Messenger Chat Plugin Code -->
+<div id="fb-root"></div>
+
+<!-- Your Chat Plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "161202520399248");
+    chatbox.setAttribute("attribution", "biz_inbox");
+</script>
+
+<!-- Your SDK code -->
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml: true,
+            version: 'v18.0'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>

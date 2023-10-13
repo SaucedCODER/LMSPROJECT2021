@@ -1,7 +1,7 @@
 
 <?php
 include "../connection/procconnection.php";
-if ((isset($_POST['table']) and isset($_POST['getfield']))) {
+if ((isset($_POST['table']) && isset($_POST['getfield']))) {
 	# code...
 
 	$table = $_POST['table'];
@@ -18,7 +18,7 @@ if ((isset($_POST['table']) and isset($_POST['getfield']))) {
 	} else {
 		$sql = "SELECT *,a.user_id as user, count(c.user_id) as notif
 			FROM users a JOIN accounts b ON b.type = 'STUDENT' 
-            AND a.user_id = b.user_id left JOIN borrowtran c ON c.user_id = a.user_id group by c.user_id;";
+            AND a.user_id = b.user_id left JOIN returntran c ON c.user_id = a.user_id where c.Status != 'OK' group by c.user_id;";
 
 		// $sql = "SELECT *,a.user_id as user
 		// FROM users a,accounts b where b.type = 'STUDENT' AND a.user_id = b.user_id
@@ -52,31 +52,46 @@ if ((isset($_POST['table']) and isset($_POST['getfield']))) {
 					}
 
 					echo " </div>";
-				} else {
+				} else if ($row['notif'] > 0) {
 
-					echo "<div class='container user-item' onclick='uniquserbtran(event)' data-userid='" . $row['user_id'] . "'>";
+					echo "
+					<li class='list-group-item list-group-item-action d-flex justify-content-end gap-2 align-items-center' data-userid='" . $row['user_id'] . "'  onclick='uniquserbtran(event)'>
+
+					<div class='user-avatar'>
+					";
 					if ($rowImg['status'] == 0) {
 						$filename = "../usersprofileimg/profile" . $id . "*";
 						$fileInfo = glob($filename);
 						$fileext = explode(".", $fileInfo[0]);
 						$fileActualExt1 = strtolower(end($fileext));
 
-						echo "<img data-imgsrc='usersprofileimg/profile" . $id . ".$fileActualExt1' src='usersprofileimg/profile" . $id . ".$fileActualExt1' class='img-fluid rounded-circle user-image'>";
+						echo "
+							<img height='30' width='30'data-imgsrc='usersprofileimg/profile" . $id . ".$fileActualExt1' src='usersprofileimg/profile" . $id . ".$fileActualExt1' alt='User Profile' class='user-profile-img img-fluid rounded-circle border-1 border-primary-subtle' />
+							";
 					} else {
-						echo "<img data-imgsrc='usersprofileimg/profiledefault.png' src='usersprofileimg/profiledefault.png' class='img-fluid rounded-circle user-image'>";
+						echo "
+							<img height='30' width='30'data-imgsrc='usersprofileimg/profiledefault.png' src='usersprofileimg/profiledefault.png' alt='User Profile' class='user-profile-img img-fluid rounded-circle border-1 border-primary-subtle' />
+							";
 					}
+					echo "</div>";
 
-					echo "<p class='text-center'>" . $row['Lname'] . " <strong>| ID:</strong> " . $row['user'] . "</p>";
+					echo "
+					<div class='user-details d-flex flex-fill flex-column'>
+						<span class='user-id'>#$row[user]</span>
+						<span class='user-name d-flex flex-row align-items-center'><small>$row[Fname] $row[Lname]</small> <span class='dots'></span><small></small>
+						</span>
+					</div>
+					";
 
 					if ($row['notif'] > 0) {
-						echo "<span style='color:white;margin-left:auto;margin-right:.4em;background:red;border-radius:50px;width:26px;text-align:center;'>" . $row['notif'] . "+</span>";
+						echo "
+						<span class='badge bg-secondary rounded-pill'>$row[notif]<i class='bi bi-hourglass'></i></span>";
 					}
 
-					echo "</div>";
+					echo "</li>";
 				}
 			}
 		}
-		echo "</div>";
 	} else {
 
 		if ($table == "reserve_record") {
@@ -86,7 +101,7 @@ if ((isset($_POST['table']) and isset($_POST['getfield']))) {
 			# code...
 		} else {
 
-			echo "There's no unsettled transactions yet! ;";
+			echo "No Users with Unsettled Transactions Found!";
 		}
 	}
 	mysqli_close($conn);
