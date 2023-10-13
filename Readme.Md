@@ -48,5 +48,5 @@ Here are some screenshots of the Library Management System:
 1. Clone this repository to your local environment.
 
 ```bash
-git clone [https://github.com/Callmesauce/LMSPROJECT2021.git)https://github.com/Callmesauce/LMSPROJECT2021.git]
+git clone [https://github.com/Callmesauce/LMSPROJECT2021.git]
 ```
