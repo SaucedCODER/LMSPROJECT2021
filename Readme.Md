@@ -16,10 +16,10 @@ The Library Management System is a web-based application designed to streamline 
 
 ### Book Management
 
-- **Add to Cart:** Users can browse and add books to their cart for later checkout.
+- **Add to Cart:** Users have the option to browse and add books to their reservation cart for quicker borrowing, allowing them to select their preferred pickup time.
 - **Borrowing Transaction:** Users can borrow books by completing a transaction with due dates and return conditions.
 - **Return Transaction:** Users can return borrowed books, with automatic updating of due dates.
-- **Reservation:** Users can reserve books that are currently unavailable.
+- **Reservation:** This feature is not currently implemented; however, it is planned for future development. Users will receive notifications to stay informed."
 
 ### Transaction History
 
